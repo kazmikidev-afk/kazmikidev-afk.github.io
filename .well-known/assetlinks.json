@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "il.co.kazmiki.guitarcoach",
+    "sha256_cert_fingerprints": ["1E:5C:1B:EF:95:6C:5C:48:53:98:A2:2F:93:7C:7B:5D:B6:86:4F:02:64:F8:AC:D5:02:91:6E:89:AD:F8:FE:39"]
+  }
+}]
