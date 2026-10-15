@@ -1,15 +1,30 @@
 {
   "updatedAt": "2026-10-15",
-  "note": "מעודכן ידנית/ע\"י סוכן התקציר של משוב. נושאים לפי מזהי הנושאים בכל אפליקציה.",
+  "note": "מעודכן ע\"י סוכן התקציר של משוב דרך מיקי. topics = נושאי מיקוד רשמיים מהמורה בלבד; suggestedTopics = נגזר (שיעורי בית+חולשות), לא מוצג כחומר מבחן רשמי.",
   "algebrika": {
-    "homeworkTopics": ["ratio"],
+    "homeworkTopics": [
+      "ratio"
+    ],
     "test": {
       "date": "2026-10-25",
-      "topics": ["xeqdist", "xeqminus", "xeqword", "xratio", "xangles", "xtriangle", "xpythag"]
+      "topics": [
+        "xeqdist",
+        "xeqminus",
+        "xeqword",
+        "xratio",
+        "xangles",
+        "xtriangle",
+        "xpythag"
+      ],
+      "suggestedTopics": []
     }
   },
   "geometrika": {
     "homeworkTopics": [],
-    "test": { "date": "2026-10-25", "topics": [] }
+    "test": {
+      "date": "2026-10-25",
+      "topics": [],
+      "suggestedTopics": []
+    }
   }
 }
