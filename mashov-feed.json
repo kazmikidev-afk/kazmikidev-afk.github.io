@@ -1,0 +1,15 @@
+{
+  "updatedAt": "2026-10-15",
+  "note": "מעודכן ידנית/ע\"י סוכן התקציר של משוב. נושאים לפי מזהי הנושאים בכל אפליקציה.",
+  "algebrika": {
+    "homeworkTopics": ["ratio"],
+    "test": {
+      "date": "2026-10-25",
+      "topics": ["xeqdist", "xeqminus", "xeqword", "xratio", "xangles", "xtriangle", "xpythag"]
+    }
+  },
+  "geometrika": {
+    "homeworkTopics": [],
+    "test": { "date": "2026-10-25", "topics": [] }
+  }
+}
