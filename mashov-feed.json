@@ -2,11 +2,22 @@
   "updatedAt": "2026-10-15",
   "note": "מעודכן ע\"י סוכן התקציר של משוב דרך מיקי. topics = נושאי מיקוד רשמיים מהמורה בלבד; suggestedTopics = נגזר (שיעורי בית+חולשות+מידע מיקוד לא רשמי), לא מוצג כחומר מבחן רשמי.",
   "algebrika": {
-    "homeworkTopics": ["ratio"],
+    "homeworkTopics": [
+      "ratio"
+    ],
     "test": {
       "date": "2026-10-25",
       "topics": [],
-      "suggestedTopics": ["ratio", "powers", "xeqdist", "xeqminus", "xeqword", "xratio", "xangles", "xtriangle", "xpythag"]
+      "suggestedTopics": [
+        "ratio",
+        "xeqdist",
+        "xeqminus",
+        "xeqword",
+        "xratio",
+        "xangles",
+        "xtriangle",
+        "xpythag"
+      ]
     }
   },
   "geometrika": {
@@ -14,7 +25,10 @@
     "test": {
       "date": "2026-10-25",
       "topics": [],
-      "suggestedTopics": ["lines", "similarity"]
+      "suggestedTopics": [
+        "lines",
+        "similarity"
+      ]
     }
   }
 }
