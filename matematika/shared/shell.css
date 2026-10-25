@@ -1,0 +1,7 @@
+.uni-bar{position:relative;z-index:20;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid #e6efec;padding:8px 14px;direction:rtl;font-family:'Heebo',sans-serif}
+.uni-logo{width:30px;height:30px;border-radius:9px;background:#087f78;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Secular One';font-size:13px;flex-shrink:0;text-decoration:none}
+.uni-brand{font-family:'Secular One';font-size:15px;color:#17302e;text-decoration:none;white-space:nowrap}
+.uni-tabs{display:flex;background:#e3ece9;border-radius:11px;padding:3px;margin-right:auto}
+.uni-tab{padding:6px 12px;border-radius:9px;font-weight:600;font-size:13px;color:#617371;text-decoration:none;white-space:nowrap}
+.uni-tab.on{background:#fff;color:#087f78;box-shadow:0 1px 3px rgba(23,48,46,.15)}
+@media(max-width:420px){.uni-brand{display:none}}

@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מבחן מעורב | מתמטיקה בקצב שלך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Secular+One&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#087f78"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="shared/shell.css"><link rel="stylesheet" href="shared/pages.css">
+<style>
+.opt{display:block;width:100%;text-align:right;background:#fff;border:1.5px solid #d7e4e0;border-radius:12px;padding:12px 14px;font-size:15px;margin:8px 0;cursor:pointer;font-family:'Heebo';line-height:1.4}
+.opt:hover{border-color:#087f78}
+.opt.ok{background:#e7f6ee;border-color:#1f7a5c;color:#14532d;font-weight:700}
+.opt.no{background:#fdeaea;border-color:#d1495b;color:#8c2f3b}
+.opt:disabled{cursor:default;opacity:.75}
+.opt.ok:disabled,.opt.no:disabled{opacity:1}
+.fb{border-radius:12px;padding:10px 14px;font-size:13.5px;line-height:1.6;margin-top:10px;display:none}
+.fb.show{display:block}
+.fb.good{background:#e7f6ee;color:#14532d}
+.fb.hint{background:#fdf6ec;color:#7a5b12}
+.qtext{font-size:17px;font-weight:600;line-height:1.65;margin:10px 0 4px}
+.qmeta{display:flex;gap:8px;align-items:center;font-size:12px;color:#617371;margin-bottom:2px;flex-wrap:wrap}
+.sumrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eef3f1;font-size:13.5px}
+.sumrow:last-child{border-bottom:none}
+.sumrow .nm{flex:1}
+</style></head><body class="pad">
+<div class="wrap" id="app"></div>
+<script src="shared/alg-qmap.js"></script>
+<script src="shared/mixed-bank.js"></script>
+<script src="shared/mixed.js"></script>
+<script src="shared/shell.js" data-subject="home" data-prefix=""></script>
+<script>
+(function(){
+MIXED.startGameClock();
+var B=window.MIXED_BANK;
+var topicTitle={};B.algTopics.forEach(function(t){topicTitle['alg:'+t.id]=t.title});B.geoTopics.forEach(function(t){topicTitle['geo:'+t.id]=t.title});
+var subjName={alg:'אלגברה',geo:'גאומטריה'},subjColor={alg:'#087f78',geo:'#278c63'};
+var params=new URLSearchParams(location.search),mode=params.get('mode')||'exam';
+var MODES={
+ exam:{n:12,per:6,title:'מבחן מעורב',sub:'12 שאלות משני התחומים — 6 אלגברה ו־6 גאומטריה. עונים, מקבלים משוב מיד, ובסוף סיכום מלא.'},
+ daily:{n:4,per:2,title:'המשימה היומית',sub:'4 שאלות קצרות משני התחומים. משלימים וממשיכים עם היום.'},
+ boost:{n:8,per:4,title:'חיזוק אישי מעורב',sub:'8 שאלות מנקודות החולשה שלך בשני התחומים.'}};
+var M=MODES[mode]||MODES.exam;
+var app=document.getElementById('app');
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+/* בידוד רצפי מתמטיקה LTR בתוך טקסט RTL */
+function Mx(s){return esc(s).replace(/([0-9A-Za-z∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠-]+\s*)+/g,function(m){return '<bdi dir="ltr">'+m+'</bdi>'})}
+function seenSet(sid){
+ if(sid==='alg'){var st=MIXED.rd('algebrika-v3',null)||{};return new Set(Object.keys(st.first||{}))}
+ var gs=MIXED.rd('geometrika-progress-v2',null)||{};return new Set(Object.keys(gs.answers||{}));
+}
+function pickSubject(sid,n,weakIds){
+ var pool=B.questions.filter(function(q){return q.sid===sid});
+ var seen=seenSet(sid);
+ var byTopic={};pool.forEach(function(q){(byTopic[q.topic]=byTopic[q.topic]||[]).push(q)});
+ var topics=Object.keys(byTopic);
+ topics.sort(function(a,b){
+  var aw=weakIds.indexOf(a)>=0?0:1,bw=weakIds.indexOf(b)>=0?0:1;if(aw!==bw)return aw-bw;
+  var as=byTopic[a].filter(function(q){return seen.has(q.id)}).length/byTopic[a].length;
+  var bs=byTopic[b].filter(function(q){return seen.has(q.id)}).length/byTopic[b].length;
+  return as-bs||Math.random()-0.5});
+ var chosen=[],used={};
+ var order=topics.slice();
+ while(chosen.length<n&&order.length){
+  var next=[];
+  for(var i=0;i<order.length&&chosen.length<n;i++){
+   var t=order[i],qs=byTopic[t].filter(function(q){return !used[q.id]});
+   if(!qs.length)continue;
+   qs.sort(function(a,b){return (seen.has(a.id)?1:0)-(seen.has(b.id)?1:0)||Math.random()-0.5});
+   var q=qs[0];used[q.id]=1;chosen.push(q);next.push(t);
+  }
+  order=next;
+ }
+ return chosen;
+}
+function buildSet(){
+ var weak=MIXED.weakTopics();
+ var wAlg=weak.alg.map(function(w){return w.id}),wGeo=weak.geo.map(function(w){return w.id});
+ if(mode==='boost'&&!wAlg.length&&!wGeo.length)return null;
+ var set=pickSubject('alg',M.per,wAlg).concat(pickSubject('geo',M.per,wGeo));
+ /* ערבוב שמאל גבר */
+ for(var i=set.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=set[i];set[i]=set[j];set[j]=t}
+ return set;
+}
+var set=null,idx=0,firstTry=0,wrongClicks=0,hintsUsed=0,perTopic={},perSubj={alg:{f:0,t:0},geo:{f:0,t:0}};
+function hero(){return '<div class="hero"><h1>'+M.title+'</h1><p>'+M.sub+'</p></div>'}
+function renderStart(){
+ if(mode==='boost'&&!(set&&set.length)){
+  app.innerHTML=hero()+'<div class="card"><h3>עדיין אין נקודות חולשה</h3><p>אחרי עוד קצת תרגול בשני התחומים נדע בדיוק מה לחזק. בינתיים אפשר מבחן מעורב רגיל.</p><a class="btn" href="exam.html?mode=exam">מבחן מעורב</a></div>';
+  return;
+ }
+ app.innerHTML=hero()+'<div class="card"><h3>מוכנים?</h3><p>'+set.length+' שאלות. בכל שאלה בוחרים תשובה; אם טועים מקבלים רמז ומנסים שוב. בסוף סיכום עם מה שכדאי לחזק.</p><button class="btn" id="go" style="font-size:16px;padding:12px 26px">התחלה</button></div>';
+ document.getElementById('go').onclick=function(){renderQ()};
+}
+function renderQ(){
+ var q=set[idx];wrongClicks=0;hintsUsed=0;window.__correctIdx=q.correct;
+ var html=hero()
+  +'<div class="card">'
+  +'<div class="qmeta"><span class="tag" style="background:'+subjColor[q.sid]+'">'+subjName[q.sid]+'</span><span>'+esc(topicTitle[q.sid+':'+q.topic]||q.topic)+'</span><span>·</span><span>'+esc(q.diff)+'</span><span style="margin-inline-start:auto">שאלה '+(idx+1)+' מתוך '+set.length+'</span></div>'
+  +'<div class="bar"><i style="width:'+(idx/set.length*100)+'%"></i></div>'
+  +'<div class="qtext">'+Mx(q.q)+'</div>'
+  +'<div id="opts">'+q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'"><bdi>'+esc(o)+'</bdi></button>'}).join('')+'</div>'
+  +'<div class="fb" id="fb"></div>'
+  +'<div style="margin-top:12px;text-align:left"><button class="btn" id="next" style="display:none">'+(idx+1<set.length?'השאלה הבאה':'לסיכום')+'</button></div>'
+  +'</div>';
+ app.innerHTML=html;
+ var answered=false;
+ Array.prototype.forEach.call(document.querySelectorAll('.opt'),function(b){
+  b.onclick=function(){
+   var i=+b.getAttribute('data-i');
+   if(answered)return;
+   if(i===q.correct){
+    answered=true;b.classList.add('ok');
+    var first=wrongClicks===0;
+    if(first)firstTry++;
+    perSubj[q.sid].t++;if(first)perSubj[q.sid].f++;
+    var k=q.sid+':'+q.topic;perTopic[k]=perTopic[k]||{f:0,t:0};perTopic[k].t++;if(first)perTopic[k].f++;
+    if(q.sid==='alg'){MIXED.algFirst(q,first);MIXED.algRight(q);if(hintsUsed)MIXED.algHint(q,hintsUsed)}
+    else{MIXED.geoFinish(q,wrongClicks,hintsUsed)}
+    var fb=document.getElementById('fb');
+    fb.className='fb show good';
+    fb.innerHTML='<b>נכון!</b>'+(q.explain?'<br>'+Mx(q.explain):'');
+    Array.prototype.forEach.call(document.querySelectorAll('.opt'),function(x){x.disabled=true});
+    document.getElementById('next').style.display='inline-block';
+   }else{
+    wrongClicks++;b.classList.add('no');b.disabled=true;
+    if(q.sid==='alg'){MIXED.algFirst(q,false);MIXED.algWrong(q)}
+    var fb=document.getElementById('fb'),hint=wrongClicks===1?q.h1:(wrongClicks===2?q.h2:'');
+    if(hint){hintsUsed++;fb.className='fb show hint';fb.innerHTML='<b>עדיין לא.</b> רמז: '+Mx(hint)}
+    else{fb.className='fb show hint';fb.innerHTML='<b>עדיין לא.</b> נסו שוב — שימו לב לפרטים הקטנים.'}
+   }
+  };
+ });
+ document.getElementById('next').onclick=function(){idx++;if(idx<set.length)renderQ();else renderSummary()};
+}
+function renderSummary(){
+ var total=set.length,pct=Math.round(firstTry/total*100);
+ var rec={date:new Date().toISOString(),mode:mode,first:firstTry,total:total,bySubj:perSubj};
+ MIXED.saveExam(rec);
+ if(mode==='daily')MIXED.saveMission({done:true,first:firstTry,total:total});
+ var weakSess=Object.keys(perTopic).filter(function(k){return perTopic[k].f<perTopic[k].t}).slice(0,5).map(function(k){return topicTitle[k]||k});
+ var html=hero()
+  +'<div class="card" style="text-align:center"><p style="font-size:14px;color:#617371">בנסיון הראשון</p><div style="font-family:\'Secular One\';font-size:44px;color:#087f78">'+firstTry+' / '+total+'</div>'
+  +'<p style="font-size:14px;color:#617371">'+pct+'% · הנקודות והרצף מתעדכנים אוטומטית</p></div>'
+  +'<div class="sect">דיוק לפי תחום</div><div class="card">'
+  +['alg','geo'].map(function(s){var d=perSubj[s];var p=d.t?Math.round(d.f/d.t*100):0;
+   return '<div class="sumrow"><span class="tag" style="background:'+subjColor[s]+'">'+subjName[s]+'</span><div class="nm"><div class="bar" style="margin:0"><i style="width:'+p+'%;background:'+subjColor[s]+'"></i></div></div><b>'+d.f+'/'+d.t+'</b></div>'}).join('')
+  +'</div>';
+ if(weakSess.length){
+  html+='<div class="sect">כדאי לחזק</div><div class="card">'+weakSess.map(function(t){return '<div class="sumrow"><div class="nm">'+esc(t)+'</div></div>'}).join('')+'<a class="btn ghost" href="exam.html?mode=boost">חיזוק נקודתי עכשיו</a></div>';
+ }
+ html+='<div class="card" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="exam.html?mode=exam">מבחן נוסף</a><a class="btn ghost" href="progress.html">ההתקדמות שלי</a><a class="btn ghost" href="index.html">לבית</a></div>';
+ app.innerHTML=html;
+}
+set=buildSet();
+if(mode==='boost'&&!set){renderStart()}else{renderStart()}
+})();
+</script>
+</body></html>

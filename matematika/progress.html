@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ההתקדמות שלי | מתמטיקה בקצב שלך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Secular+One&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#087f78"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="shared/shell.css"><link rel="stylesheet" href="shared/pages.css"></head><body class="pad">
+<div class="wrap">
+<div class="hero"><h1>ההתקדמות <span>שלי</span></h1><p>תמונה מאוחדת משני התחומים — הנתונים נשמרים במכשיר שלך</p></div>
+<div class="card"><div style="display:flex;text-align:center">
+<div class="stat"><div class="big" id="stPoints">–</div><p>נקודות</p></div>
+<div class="stat"><div class="big" id="stStreak">–</div><p>ימי רצף</p></div>
+<div class="stat"><div class="big" id="stAnswered">–</div><p>שאלות נענו</p></div>
+</div></div>
+<div class="sect">דיוק לפי תחום</div>
+<div class="card" id="subjRows"></div>
+<div class="sect">נקודות חולשה</div>
+<div class="card" id="weakRows"><p>עדיין אין מספיק נתונים — אחרי עוד קצת תרגול נראה כאן מה לחזק.</p></div>
+<div class="grid2">
+<div class="card"><h3>חיזוק באלגברה</h3><p>נקודות החולשה שלך שם</p><a class="btn ghost" href="algebra/index.html">פתיחה</a></div>
+<div class="card"><h3>חיזוק בגאומטריה</h3><p>נקודות החולשה שלך שם</p><a class="btn ghost" style="color:#278c63;border-color:#278c63" href="geometry/index.html">פתיחה</a></div>
+</div>
+<div class="card" style="margin-top:12px"><h3>חיזוק אישי מעורב</h3><p>8 שאלות מנקודות החולשה משני התחומים</p><a class="btn" href="exam.html?mode=boost">חיזוק עכשיו</a></div>
+<div class="note">אלגברה: דיוק בנסיון ראשון · גאומטריה: דיוק מכלל הנסיונות</div>
+</div>
+<script src="shared/shell.js" data-subject="home" data-prefix=""></script>
+<script src="shared/alg-qmap.js"></script>
+<script>
+(function(){
+var ALG_T=[["expressions","ביטויים אלגבריים"],["substitution","הצבה ונוסחאות"],["equations","משוואות ממעלה ראשונה"],["inequalities","אי־שוויונות"],["linear","פונקציה קווית"],["tables","טבלאות וגרפים"],["systems","מערכת משוואות"],["word","בעיות מילוליות"],["powers","חזקות ושורשים"],["geometry","אלגברה בגאומטריה"],["ratio","יחס, פרופורציה וקנה מידה"],["xeqdist","משוואות עם חוק הפילוג"],["xeqminus","מינוס לפני סוגריים"],["xeqword","שאלות מילוליות עם משוואה"],["xratio","יחס, פרופורציה וקנה מידה"],["xangles","זוויות וישרים מקבילים"],["xtriangle","משולש: גובה, שטח והיקף"],["xpythag","משפט פיתגורס"]];
+var GEO_T=[["basics","יסודות ושפת הגאומטריה"],["lines","זוויות וישרים מקבילים"],["triangles","משולשים"],["congruence","חפיפה והוכחה"],["quads","משפחת המרובעים"],["polygons","מצולעים"],["circle","מעגל ועיגול"],["area","היקפים ושטחים"],["similarity","דמיון וקנה מידה"],["pythagoras","משפט פיתגורס"],["transform","טרנספורמציות וצירים"],["solids","גליל וחרוט"]];
+function read(k){try{return JSON.parse(localStorage.getItem(k))||null}catch(e){return null}}
+var game=read('avichai-game-v1')||{};
+var alg=read('algebrika-v3')||{};
+var geo=read('geometrika-progress-v2')||{};
+// points + streak
+var pts=game.points||0;
+var days=Object.keys(game.days||{}).sort();
+function dayKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+var streak=0,d=new Date();
+if(!(game.days&&game.days[dayKey(d)]))d.setDate(d.getDate()-1);
+while(game.days&&game.days[dayKey(d)]){streak++;d.setDate(d.getDate()-1);}
+// algebra: first-try correctness, questions keyed q<topic>... unknown topic mapping -> use hw/topic arrays if present
+var algFirst=alg.first||{},algAtt=alg.attempts||{};
+var algSeen=Object.keys(algFirst).length,algRight=Object.values(algFirst).filter(function(v){return v===true}).length;
+var algAns=algSeen;
+// geometry: answers records {topic,attempts,correct}
+var gAns=geo.answers||{};
+var geoRecs=Object.values(gAns);
+var geoAtt=geoRecs.reduce(function(n,r){return n+(r.attempts||0)},0);
+var geoCor=geoRecs.reduce(function(n,r){return n+(r.correct||0)},0);
+document.getElementById('stPoints').textContent=pts;
+document.getElementById('stStreak').textContent=streak;
+document.getElementById('stAnswered').textContent=algAns+geoRecs.length;
+function row(name,pct,color,count){
+  var p=pct==null?'—':pct+'%';
+  return '<div class="row"><span style="width:78px;font-weight:600">'+name+'</span>'
+    +'<div class="bar" style="flex:1;margin:0"><i style="width:'+(pct||0)+'%;background:'+color+'"></i></div>'
+    +'<span style="font-size:12.5px;color:#617371">'+p+(count!=null?' · '+count+' שאלות':'')+'</span></div>';
+}
+var html='';
+html+=row('אלגברה',algSeen?Math.round(algRight/algSeen*100):null,'#087f78',algSeen||null);
+html+=row('גאומטריה',geoAtt?Math.round(geoCor/geoAtt*100):null,'#278c63',geoRecs.length||null);
+document.getElementById('subjRows').innerHTML=html;
+// weak topics
+var weak=[];
+var algByTopic={};
+Object.keys(algFirst).forEach(function(qid){
+  var t=(typeof ALG_QTOPIC!=='undefined')?ALG_QTOPIC[qid]:null;if(!t)return;
+  var o=algByTopic[t]||(algByTopic[t]={seen:0,right:0});
+  o.seen++;if(algFirst[qid]===true)o.right++;
+});
+Object.keys(algByTopic).forEach(function(t){
+  var o=algByTopic[t];
+  if(o.seen>=3){var acc=o.right/o.seen;
+    if(acc<0.7){var tt=ALG_T.find(function(x){return x[0]===t});
+      weak.push({name:(tt?tt[1]:t)+' (אלגברה)',acc:Math.round(acc*100),subj:'a'});}}
+});
+geoRecs.forEach(function(r){
+  if((r.attempts||0)>=2){
+    var acc=(r.correct||0)/r.attempts;
+    if(acc<0.7){var t=GEO_T.find(function(x){return x[0]===r.topic});
+      weak.push({name:(t?t[1]:r.topic)+' (גאומטריה)',acc:Math.round(acc*100),subj:'g'});}
+  }});
+weak.sort(function(a,b){return a.acc-b.acc});
+weak=weak.slice(0,4);
+if(weak.length){
+  document.getElementById('weakRows').innerHTML=weak.map(function(w){
+    return '<div class="row"><span class="tag" style="background:'+(w.acc<60?'#e87d41':'#d9a825')+'">!</span><span class="nm">'+w.name+'</span><span style="font-size:12.5px;color:#617371">'+w.acc+'%</span></div>';
+  }).join('');
+}
+})();
+</script>
+</body></html>

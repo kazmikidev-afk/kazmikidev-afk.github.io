@@ -1,0 +1,33 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Heebo',sans-serif}
+body{background:#f3f7f5;color:#17302e;direction:rtl;min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 40px}
+.hero{padding:10px 2px 14px}
+.hero h1{font-family:'Secular One';font-size:27px;line-height:1.25}
+.hero h1 span{color:#087f78}
+.hero p{font-size:14px;color:#617371;margin-top:4px;line-height:1.55}
+.card{background:#fff;border-radius:18px;margin:0 0 12px;padding:16px;border:1px solid #e6efec}
+.card h3{font-size:15.5px;margin-bottom:4px}
+.card p{font-size:13px;color:#617371;line-height:1.55}
+.btn{display:inline-block;background:#087f78;color:#fff;border-radius:12px;padding:9px 18px;font-weight:600;font-size:14px;margin-top:10px;text-decoration:none;border:none;cursor:pointer}
+.btn.g{background:#278c63}
+.btn.ghost{background:#fff;color:#087f78;border:1.5px solid #087f78}
+.subj{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.subj .ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Secular One';font-size:21px;color:#fff;flex-shrink:0}
+.subj h4{font-size:15.5px}
+.subj p{font-size:12.5px;color:#617371}
+.bar{height:7px;border-radius:4px;background:#e3ece9;margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:#087f78}
+.sect{font-family:'Secular One';font-size:16px;margin:6px 2px 8px}
+.grid2{display:flex;gap:10px}
+.grid2 .card{flex:1}
+.soon{display:inline-block;background:#fdf6ec;border:1px solid #f4c95d;color:#8a6d1f;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600}
+.stat{flex:1;text-align:center}
+.stat .big{font-family:'Secular One';font-size:24px;color:#087f78}
+.stat p{font-size:11.5px;color:#617371}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eef3f1;font-size:13.5px}
+.row:last-child{border-bottom:none}
+.row .nm{flex:1}
+.tag{font-size:11px;font-weight:700;border-radius:6px;padding:1px 7px;color:#fff;flex-shrink:0}
+.note{font-size:11.5px;color:#9fb3af;text-align:center;padding:2px 16px;line-height:1.6}
+.gbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e6efec;display:flex;justify-content:center;gap:20px;padding:11px 0;font-size:13px;font-weight:600;z-index:8000}
+.pad{padding-bottom:70px}
