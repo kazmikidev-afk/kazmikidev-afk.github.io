@@ -188,6 +188,7 @@ function scrHome(){
  let html=topActions()
  +'<div class="card hero"><h1>📜 היסטוריקה</h1><div class="sub">הכנה למבחן בהיסטוריה · <b>מהפכת הדפוס · המהפכה המדעית · הנאורות</b> · כיתה ח׳</div>'
  +'<div style="margin-top:8px"><span class="chip">📅 מבחן: ד׳ '+EXAM_DATE.split('-').reverse().join('.')+'</span><span class="chip">⏳ '+dchip+'</span><span class="chip">📚 '+TOPICS.reduce(function(n,t){return n+t.lessons.length},0)+' שיעורים · '+QUESTIONS.length+' שאלות תרגול</span></div></div>'
+ +'<div class="inst-box">⚠️ <b>חשוב לדעת:</b> האתר מתרגל את שלושת נושאי המבחן באופן כללי — התוכן <b>לא מתוך המחברת או חוברת הלימוד</b> עצמן. למבחן חשוב לחזור גם על הסיכומים במחברת ועל החוברת עמ׳ 9–22, ולהצטייד בעט כחול או שחור.</div>'
  +'<div class="card"><div class="topic-head"><span class="t-name">📝 מבחן לדוגמה</span><span class="t-pages">20 שאלות · 40 דקות</span></div>'
  +'<p class="small">בתנאי מבחן: שעון, בלי רמזים, משוב מלא בסוף. השאלות מכסות את כל שלושת נושאי המיקוד עם דגש על הנושאים החלשים שלך.</p>'
  +(last?'<p class="small">מבחן אחרון: <b>'+last.score+'/'+last.total+'</b> ('+last.d+')</p>':'')
