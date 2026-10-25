@@ -35,7 +35,7 @@ return{
  mountToggle:function(){
   var btn=document.createElement('button');btn.type='button';btn.id='trackingToggle';
   btn.textContent=consent()?'מעקב לאביחי: פעיל · לחצו לכיבוי':'הפעלת מעקב לימוד לאביחי';
-  btn.style.cssText='position:fixed;bottom:8px;left:8px;z-index:1000;padding:5px 9px;border-radius:10px;border:1px solid #87b7a6;background:#eefaf3;color:#123c35;font:600 12px Arial;max-width:185px;opacity:.92;cursor:pointer';
+  btn.style.cssText='display:block;margin:14px auto 0;padding:6px 12px;border-radius:10px;border:1px solid #87b7a6;background:#eefaf3;color:#123c35;font:600 12px Heebo,Arial;opacity:.92;cursor:pointer';
   btn.title='הנתונים על שימוש, זמן וציונים נשלחים לגיליון הפרטי של מיקי בחשבון Google שלו';
   btn.onclick=function(){
    if(consent()){if(confirm('לכבות מעקב במכשיר זה?')){deactivate('alg');deactivate('geo');localStorage.removeItem(KEY);btn.textContent='הפעלת מעקב לימוד לאביחי'}}
@@ -44,7 +44,7 @@ return{
     if(!entered||!/^[a-f0-9]{32}$/i.test(entered.trim()))return;
     localStorage.setItem(KEY,entered.trim());btn.textContent='מעקב לאביחי: פעיל · לחצו לכיבוי';
    }};
-  document.body.appendChild(btn);
+  var host=document.querySelector('.wrap')||document.body;host.appendChild(btn);
  }
 };
 })();

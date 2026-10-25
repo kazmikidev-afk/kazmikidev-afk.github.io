@@ -91,13 +91,13 @@ function renderSetup(){
  +'</div>'
  +'<div class="card"><h3>איך מתמודדים?</h3>'
  +'<div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">'
- +'<button class="btn" id="startTimed" style="font-size:15.5px;padding:13px 20px">◔ מבחן בקצב שעון — 20 שאלות · 20 דקות</button>'
+ +'<div style="display:flex;gap:10px;align-items:center"><button class="btn" id="startTimed" style="font-size:15.5px;padding:13px 20px;flex:1">◔ מבחן בקצב שעון — 20 שאלות</button><label style="font-size:13.5px;color:#617371">משך: <select id="examMins" style="font:600 14px Heebo;padding:8px 10px;border-radius:10px;border:1.5px solid #d7e4e0"><option value="45" selected>45 דקות</option><option value="20">20 דקות</option></select></label></div>'
  +'<button class="btn ghost" id="startPractice" style="font-size:15.5px;padding:13px 20px">✎ תרגול עם משוב מיידי — 12 שאלות</button>'
  +'</div><p style="margin-top:10px">במבחן בקצב שעון אין רמזים והמשוב רק בסוף — כמו במבחן אמיתי. בתרגול מקבלים רמז והסבר אחרי כל שאלה.</p></div>';
  document.querySelectorAll('[data-all]').forEach(function(b){b.onclick=function(){document.querySelectorAll('.tpick[data-sid="'+b.getAttribute('data-all')+'"]').forEach(function(c){c.checked=true})}});
  document.querySelectorAll('[data-none]').forEach(function(b){b.onclick=function(){document.querySelectorAll('.tpick[data-sid="'+b.getAttribute('data-none')+'"]').forEach(function(c){c.checked=false})}});
  function selected(){var s={alg:new Set(),geo:new Set()};document.querySelectorAll('.tpick:checked').forEach(function(c){s[c.getAttribute('data-sid')].add(c.value)});return s}
- document.getElementById('startTimed').onclick=function(){var s=selected();startExam(s,20,20*60,true)};
+ document.getElementById('startTimed').onclick=function(){var s=selected();var mins=+document.getElementById('examMins').value||45;startExam(s,20,mins*60,true)};
  document.getElementById('startPractice').onclick=function(){var s=selected();startExam(s,12,0,false)};
 }
 /* ================= מנוע מבחן/תרגול ================= */
