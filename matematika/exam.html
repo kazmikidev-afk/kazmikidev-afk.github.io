@@ -48,7 +48,8 @@ var subjName={alg:'אלגברה',geo:'גאומטריה'},subjColor={alg:'#087f78
 var params=new URLSearchParams(location.search),mode=params.get('mode')||'exam';
 var app=document.getElementById('app');
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function Mx(s){return esc(s).replace(/([0-9A-Za-z∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠-]+\s*)+/g,function(m){return /^[0-9A-Za-z(]/.test(m)?'<bdi dir="ltr">'+m+'</bdi>':m})}
+function Mx(s){var ent={'&lt;':'\u0001','&gt;':'\u0002','&amp;':'\u0003','&quot;':'\u0004'},rev=['&lt;','&gt;','&amp;','&quot;'];
+ return esc(s).replace(/&(lt|gt|amp|quot);/g,function(m){return ent[m]}).replace(/([0-9A-Za-z∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠-]+\s*)+/g,function(m){return /^[0-9A-Za-z(]/.test(m)?'<bdi dir="ltr">'+m+'</bdi>':m}).replace(/[\u0001-\u0004]/g,function(m){return rev[m.charCodeAt(0)-1]})}
 function seenSet(sid){
  if(sid==='alg'){var st=MIXED.rd('algebrika-v3',null)||{};return new Set(Object.keys(st.first||{}))}
  var gs=MIXED.rd('geometrika-progress-v2',null)||{};return new Set(Object.keys(gs.answers||{}));
@@ -101,7 +102,7 @@ function renderSetup(){
  document.getElementById('startPractice').onclick=function(){var s=selected();startExam(s,12,0,false)};
 }
 /* ================= מנוע מבחן/תרגול ================= */
-var set=null,idx=0,wrongClicks=0,hintsUsed=0,perTopic={},perSubj=null,timed=false,deadline=0,timerIv=null,answers=null;
+var set=null,idx=0,wrongClicks=0,hintsUsed=0,perTopic={},perSubj=null,perAssigned={alg:0,geo:0},timed=false,deadline=0,timerIv=null,answers=null;
 function topicOf(q){return q.sid+':'+q.topic}
 function buildSet(sel,n){
  var weak=MIXED.weakTopics();
@@ -116,7 +117,8 @@ function buildSet(sel,n){
 function startExam(sel,n,seconds,isTimed){
  set=buildSet(sel,n);
  if(!set.length){app.innerHTML=hero()+'<div class="card"><h3>לא נבחרו נושאים</h3><p>סמנו לפחות נושא אחד כדי להתחיל.</p><button class="btn" id="bk">חזרה</button></div>';document.getElementById('bk').onclick=renderSetup;return}
- idx=0;timed=isTimed;answers=[];perSubj={alg:{f:0,t:0},geo:{f:0,t:0}};perTopic={};
+ idx=0;timed=isTimed;answers=[];perSubj={alg:{f:0,t:0},geo:{f:0,t:0}};perAssigned={alg:0,geo:0};perTopic={};
+ set.forEach(function(q){perAssigned[q.sid]++});
  if(timed){deadline=Date.now()+seconds*1000;timerIv=setInterval(tickTimer,500)}
  if(timed)renderTimedQ();else renderPracticeQ();
 }
@@ -218,15 +220,16 @@ function finishExam(timedOut){
  var firstTry=timed?answers.filter(function(a){return a&&a.ok}).length:(perSubj.alg.f+perSubj.geo.f);
  /* טלמטריה לפי תחום — אותם שמות אירועים כמו באפליקציות */
  ['alg','geo'].forEach(function(s){
-  var d=perSubj[s];if(!d.t)return;
+  var d=perSubj[s],A=perAssigned[s]||0;if(!A)return;
   var wrong={};Object.keys(perTopic).forEach(function(k){
    var parts=k.split(':');if(parts[0]!==s)return;
    var w=perTopic[k].t-perTopic[k].f;if(w>0)wrong[parts[1]]=w;
   });
-  if(timed)MIXED_TRACK.milestone(s,'quiz_complete',{correct:d.f,total:d.t,wrongByTopic:wrong});
-  else MIXED_TRACK.milestone(s,'practice_complete',{topic:'מעורב',set:mode==='daily'?'daily':mode==='boost'?'boost':'mixed',correct:d.f,total:d.t,wrongByTopic:wrong});
+  if(timed)MIXED_TRACK.milestone(s,'quiz_complete',{correct:d.f,total:A,answered:d.t,unanswered:A-d.t,wrongByTopic:wrong});
+  else if(d.t)MIXED_TRACK.milestone(s,'practice_complete',{topic:'מעורב',set:mode==='daily'?'daily':mode==='boost'?'boost':'mixed',correct:d.f,total:d.t,wrongByTopic:wrong});
  });
- var rec={date:new Date().toISOString(),mode:mode,timed:timed,first:firstTry,total:total,bySubj:perSubj};
+ var answeredCount=timed?answers.filter(function(a){return !!a}).length:total;
+ var rec={date:new Date().toISOString(),mode:mode,timed:timed,first:firstTry,total:total,answered:answeredCount,unanswered:total-answeredCount,bySubj:perSubj,assigned:perAssigned};
  MIXED.saveExam(rec);
  if(mode==='daily')MIXED.saveMission({done:true,first:firstTry,total:total});
  var pct=Math.round(firstTry/total*100);
@@ -234,14 +237,26 @@ function finishExam(timedOut){
  var html=hero(timed?'סיכום מבחן':'סיכום תרגול','')
   +'<div class="card" style="text-align:center"><p style="font-size:14px;color:#617371">'+(timed?'תשובות נכונות':'בנסיון הראשון')+(timedOut?' · הסתיים הזמן':'')+'</p><div style="font-family:\'Secular One\';font-size:44px;color:#087f78"><bdi dir="ltr">'+firstTry+' / '+total+'</bdi></div>'
   +'<p style="font-size:14px;color:#617371">'+pct+'% · הנקודות והרצף מתעדכנים אוטומטית</p></div>'
-  +'<div class="sect">דיוק לפי תחום</div><div class="card">'
-  +['alg','geo'].map(function(s){var d=perSubj[s];var p=d.t?Math.round(d.f/d.t*100):0;
-   return '<div class="sumrow"><span class="tag" style="background:'+subjColor[s]+'">'+subjName[s]+'</span><div class="nm"><div class="bar" style="margin:0"><i style="width:'+p+'%;background:'+subjColor[s]+'"></i></div></div><b><bdi dir="ltr">'+d.f+'/'+d.t+'</bdi></b></div>'}).join('')
+  +'<div class="sect">ציון לפי תחום</div><div class="card">'
+  +['alg','geo'].map(function(s){var d=perSubj[s],A=perAssigned[s]||0;if(!A)return '';
+   var p=Math.round(d.f/A*100),u=A-d.t;
+   var acc=d.t?Math.round(d.f/d.t*100):0;
+   return '<div class="sumrow"><span class="tag" style="background:'+subjColor[s]+'">'+subjName[s]+'</span><div class="nm"><div class="bar" style="margin:0"><i style="width:'+p+'%;background:'+subjColor[s]+'"></i></div>'
+    +'<div style="font-size:12px;color:#617371;margin-top:3px">נכון <bdi dir="ltr">'+d.f+'</bdi> מתוך <bdi dir="ltr">'+A+'</bdi> שאלות בתחום'
+    +(u?' · לא נענו: <bdi dir="ltr">'+u+'</bdi>':'')
+    +(d.t?' · דיוק בשאלות שנענו: <bdi dir="ltr">'+d.f+'/'+d.t+'</bdi> (<bdi dir="ltr">'+acc+'%</bdi>)':'')
+    +'</div></div><b><bdi dir="ltr">'+d.f+'/'+A+'</bdi></b></div>'}).join('')
   +'</div>';
  if(weakSess.length){
   html+='<div class="sect">כדאי לחזק</div><div class="card">'+weakSess.map(function(t){return '<div class="sumrow"><div class="nm">'+esc(t)+'</div></div>'}).join('')+'<a class="btn ghost" href="exam.html?mode=boost">חיזוק נקודתי עכשיו</a></div>';
  }
  if(timed){
+  var unans=[];for(var ui=0;ui<set.length;ui++){if(!answers[ui])unans.push(set[ui])}
+  if(unans.length){
+   html+='<div class="sect">שאלות שלא נענו</div><div class="card">'+unans.map(function(q){
+    return '<div class="revw"><span class="tag" style="background:'+subjColor[q.sid]+'">'+subjName[q.sid]+'</span> <b>'+Mx(q.q)+'</b><br>התשובה הנכונה: <b style="color:#1f7a5c"><bdi>'+esc(q.opts[q.correct])+'</bdi></b>'+(q.explain?'<br>'+Mx(q.explain):'')+'</div>';
+   }).join('')+'</div>';
+  }
   var review=answers.filter(function(a){return a&&!a.ok});
   if(review.length){
    html+='<div class="sect">מעבר על הטעויות</div><div class="card">'+review.map(function(a){

@@ -11,4 +11,19 @@
     +'<a class="uni-tab'+(subj==='geometry'?' on':'')+'" href="'+prefix+'geometry/index.html">גאומטריה</a>'
     +'</div>';
   document.body.insertBefore(bar,document.body.firstChild);
+  /* גיבוי ענן מאוחד — אותו endpoint, אותו קוד הסכמה ואותם מפתחות כמו באפליקציות, פעם ביום, מכל דף מאוחד (בית/מבחן/התקדמות/ספרייה). */
+  try{
+    var CB_URL='https://script.google.com/macros/s/AKfycbxmxolfKtSSXUY6ORmRDmK5VxjI6-Px5gNDDNA9fnhQ5-5ta6_NZQvaWj6jXjA46eja/exec';
+    var CB_KEYS=["algebrika-v3","geometrika-progress-v2","geometrika-theme","avichai-game-v1","avichai-plan-seen-v1","avichai-teacher-code-v1","avichai-tracking-v1","matematika-mixed-v1"];
+    var code=(localStorage.getItem('avichai-tracking-v1')||'').trim();
+    if(code.length===32&&location.hash!=='#restore'){
+      var today=new Date().toISOString().slice(0,10);
+      if(localStorage.getItem('cb_last_matematika')!==today){
+        var ls={};CB_KEYS.forEach(function(k){var v=localStorage.getItem(k);if(v!==null)ls[k]=v});
+        fetch(CB_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({code:code,app:'matematika',payload:{format:'shared-backup-v1',app:'matematika',savedAt:new Date().toISOString(),localStorage:ls}})})
+          .then(function(r){return r.json()}).then(function(j){if(j&&j.ok)localStorage.setItem('cb_last_matematika',today)}).catch(function(){});
+      }
+    }
+  }catch(_){}
+
 })();
