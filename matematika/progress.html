@@ -74,12 +74,17 @@ Object.keys(algByTopic).forEach(function(t){
     if(acc<0.7){var tt=ALG_T.find(function(x){return x[0]===t});
       weak.push({name:(tt?tt[1]:t)+' (אלגברה)',acc:Math.round(acc*100),subj:'a'});}}
 });
+var geoByTopic={};
 geoRecs.forEach(function(r){
-  if((r.attempts||0)>=2){
-    var acc=(r.correct||0)/r.attempts;
-    if(acc<0.7){var t=GEO_T.find(function(x){return x[0]===r.topic});
-      weak.push({name:(t?t[1]:r.topic)+' (גאומטריה)',acc:Math.round(acc*100),subj:'g'});}
-  }});
+  var o=geoByTopic[r.topic]||(geoByTopic[r.topic]={a:0,c:0});
+  o.a+=(r.attempts||0);o.c+=(r.correct||0);
+});
+Object.keys(geoByTopic).forEach(function(tid){
+  var o=geoByTopic[tid];
+  if(o.a>=2){var acc=o.c/o.a;
+    if(acc<0.7){var t=GEO_T.find(function(x){return x[0]===tid});
+      weak.push({name:(t?t[1]:tid)+' (גאומטריה)',acc:Math.round(acc*100),subj:'g'});}}
+});
 weak.sort(function(a,b){return a.acc-b.acc});
 weak=weak.slice(0,4);
 if(weak.length){
