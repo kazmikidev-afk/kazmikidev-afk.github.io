@@ -1,0 +1,16 @@
+{
+  "name": "היסטוריקה — הכנה למבחן בהיסטוריה",
+  "short_name": "היסטוריקה",
+  "description": "תרגול והכנה למבחן בהיסטוריה לכיתה ח' לפי המיקוד: מהפכת הדפוס, המהפכה המדעית, הנאורות",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5fb",
+  "theme_color": "#7a4f21",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>היסטוריקה — הכנה למבחן בהיסטוריה · מהפכות בעת החדשה</title>
+<meta name="description" content="אתר תרגול והכנה למבחן בהיסטוריה לכיתה ח' לפי המיקוד: מהפכת הדפוס, המהפכה המדעית, הנאורות. לימוד, תרגול ומבחן לדוגמה.">
+<meta name="theme-color" content="#7a4f21">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f5fb; --card:#ffffff; --ink:#191d33; --ink2:#4a4f6e; --line:#e3e5f2;
+  --pri:#7a4f21; --pri2:#9c6b2f; --pri-soft:#f5edde; --ok:#0f8a5f; --ok-soft:#e3f6ee;
+  --bad:#c73e4e; --bad-soft:#fbe7ea; --warn:#a86408; --warn-soft:#fdf1dd;
+  --chip:#f5edde; --shadow:0 2px 10px rgba(25,29,51,.07);
+}
+[data-theme="dark"]{
+  --bg:#10121f; --card:#1a1d31; --ink:#f0f1fa; --ink2:#a9adc9; --line:#2c3050;
+  --pri:#d9a964; --pri2:#ecc384; --pri-soft:#3a2e1b; --ok:#3ecf96; --ok-soft:#12352a;
+  --bad:#ff8291; --bad-soft:#451f26; --warn:#f2b45c; --warn-soft:#3d2f14;
+  --chip:#3a2e1b; --shadow:0 2px 10px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Heebo,system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 90px}
+h1{font-size:1.45rem;margin:.2em 0 .35em;font-weight:800}
+h2{font-size:1.15rem;margin:1.1em 0 .4em;font-weight:700}
+h3{font-size:1.02rem;margin:.9em 0 .3em;font-weight:700}
+p{margin:.35em 0}
+a{color:var(--pri2)}
+button{font-family:inherit}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#7a4f21,#b0803f);color:#fff;border:none}
+.hero h1{color:#fff}
+.hero .sub{opacity:.92;font-size:.95rem}
+.chip{display:inline-block;background:var(--chip);color:var(--pri2);border-radius:999px;padding:3px 12px;font-size:.82rem;font-weight:600;margin:2px 4px 2px 0}
+.hero .chip{background:rgba(255,255,255,.18);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:14px;padding:13px 18px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .05s}
+.btn:active{transform:scale(.98)}
+.btn-pri{background:var(--pri);color:#fff}
+.btn-pri2{background:var(--pri-soft);color:var(--pri2)}
+.btn-ghost{background:transparent;color:var(--pri2);border:1.5px solid var(--line)}
+.btn-block{display:flex;width:100%}
+.btn-lg{padding:16px 20px;font-size:1.08rem;border-radius:16px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:140px}
+.topic-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topic-head .t-name{font-weight:800;font-size:1.08rem}
+.topic-head .t-pages{font-size:.78rem;color:var(--ink2)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0 4px}
+.bar>i{display:block;height:100%;background:var(--ok);border-radius:99px;transition:width .3s}
+.bar-note{font-size:.8rem;color:var(--ink2)}
+.opt{display:block;width:100%;text-align:right;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;margin:8px 0;font-size:1rem;cursor:pointer;color:var(--ink)}
+.opt:hover{border-color:var(--pri2)}
+.opt:disabled{cursor:default}
+.opt.sel-ok{background:var(--ok-soft);border-color:var(--ok);font-weight:700}
+.opt.sel-bad{background:var(--bad-soft);border-color:var(--bad)}
+.opt.reveal-ok{border-color:var(--ok);border-style:dashed}
+.feedback{border-radius:14px;padding:12px 14px;margin:10px 0;font-size:.95rem}
+.feedback.ok{background:var(--ok-soft);border:1px solid var(--ok)}
+.feedback.bad{background:var(--bad-soft);border:1px solid var(--bad)}
+.feedback .exp{margin-top:6px}
+.hintbox{background:var(--warn-soft);border:1px solid var(--warn);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:.92rem}
+.lesson p,.lesson li{font-size:1rem}
+.lesson ul{padding-right:20px;margin:.3em 0}
+.lesson li{margin:.25em 0}
+.mistake{background:var(--warn-soft);border-right:4px solid var(--warn);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:.93rem}
+.example{background:var(--pri-soft);border-right:4px solid var(--pri2);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:.95rem}
+table.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95rem}
+table.tbl th,table.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+table.tbl th{background:var(--pri-soft);color:var(--pri2)}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.1rem;background:var(--chip);color:var(--pri2);border-radius:12px;padding:6px 14px}
+.timer.low{background:var(--bad-soft);color:var(--bad)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 2px}
+.qprog{font-size:.85rem;color:var(--ink2);font-weight:600}
+.sym{font-family:"Times New Roman",serif;direction:ltr;unicode-bidi:embed;font-weight:700}
+.small{font-size:.85rem;color:var(--ink2)}
+.center{text-align:center}
+.hidden{display:none!important}
+.kbd-num{direction:ltr;unicode-bidi:embed}
+.res-big{font-size:2.4rem;font-weight:800;margin:6px 0}
+.res-big.ok{color:var(--ok)}
+.res-big.mid{color:var(--warn)}
+.res-big.bad{color:var(--bad)}
+.footer-note{text-align:center;font-size:.78rem;color:var(--ink2);margin-top:22px}
+.icon-btn{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:1.05rem;cursor:pointer;color:var(--ink)}
+.inst-box{background:var(--pri-soft);border:1px dashed var(--pri2);border-radius:14px;padding:12px 14px;margin:10px 0;font-size:.92rem}
+summary{cursor:pointer;font-weight:700;color:var(--pri2);padding:6px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:8px 0}
+@media (max-width:420px){.wrap{padding:10px 10px 80px}.btn{padding:12px 14px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="modal-root"></div>
+<script>
+"use strict";
+/* ============ נתוני לימוד — לפי הודעת צוות ההיסטוריה (מעין אביבי, 25.10): מבחן 4.11.2026 ============ */
+const EXAM_DATE='2026-11-04';
+const TOPICS=[{"id":"t1","name":"מהפכת הדפוס","pages":"מחברת + חוברת עמ׳ 9–22","tag":"גוטנברג · אותיות נעות · הפצת ידע · אוריינות","lessons":[{"title":"העולם לפני הדפוס","body":"\n<p>בימי הביניים באירופה, <b>כל ספר הועתק בכתב יד</b> — בעיקר על ידי נזירים במנזרים. העתקת ספר אחד ארכה חודשים ולעיתים שנים.</p>\n<ul>\n<li>ספרים היו <b>נדירים ויקרים מאוד</b> — רק עשירים וכנסיות יכלו להחזיק בהם.</li>\n<li>בכל העתקה התגנבו <b>טעויות</b>, שהועתקו שוב ושוב מעותק לעותק.</li>\n<li>רוב האנשים <b>לא ידעו קרוא וכתוב</b> — גם ככה לא היו ספרים.</li>\n</ul>\n<p>התוצאה: הידע היה כמעט כולו בידי <b>הכנסייה והמעמד הגבוה</b>, והתפשט לאט מאוד.</p>\n<div class=\"example\"><b>לזכור:</b> הבעיה הייתה לא חוסר רעיונות — אלא חוסר דרך מהירה וזולה <b>להפיץ</b> אותם.</div>"},{"title":"גוטנברג והמצאת הדפוס","body":"\n<p><b>יוהנס גוטנברג</b> ממיינץ שבגרמניה פיתח באמצע <b>המאה ה-15</b> (סביב 1440) את שיטת הדפוס באותיות נעות.</p>\n<p>החידוש: במקום לגלף דף שלם או להעתיק ביד, מרכיבים כל עמוד מ<b>אותיות קטנות ממתכת</b> שאפשר לסדר, להדפיס, לפרק — ולהשתמש בהן שוב ושוב לעמודים אחרים.</p>\n<ul>\n<li><b>מכבש הדפוס</b> לוחץ את הנייר על האותיות המדוידות — כך מקבלים עותקים זהים במהירות.</li>\n<li>הספר המפורסם הראשון שהודפס בשיטה: <b>התנ\"ך של גוטנברג</b>.</li>\n</ul>\n<div class=\"mistake\"><b>טעות נפוצה:</b> גוטנברג לא \"המציא את הכתב\" ולא כתב את הספרים — הוא המציא דרך <b>לייצר עותקים רבים במהירות</b>.</div>"},{"title":"השפעות מהפכת הדפוס","body":"\n<p>בתוך עשרות שנים התפשטו בתי דפוס בכל אירופה, והשינוי היה עצום:</p>\n<ul>\n<li><b>מחירי הספרים ירדו</b> וכמות העותקים זינקה — ספרים הגיעו לסוחרים, לבעלי מלאכה ולסטודנטים.</li>\n<li><b>אחוז האוריינות עלה</b> — יותר אנשים למדו קרוא וכתוב כי היה מה לקרוא.</li>\n<li>רעיונות חדשים <b>התפשטו במהירות</b> בין ערים ומדינות — כמו כתבי הרפורמציה הפרוטסטנטית.</li>\n<li>מדענים יכלו לקרוא את עבודתם של אחרים ולבנות עליה — <b>קרקע פורייה למהפכה המדעית</b>.</li>\n</ul>\n<div class=\"example\"><b>לזכור:</b> דפוס = מהפכת <b>תקשורת</b>. הוא לא שינה מה אומרים, אלא <b>לכמה אנשים ובאיזו מהירות</b> המסר מגיע.</div>"}]},{"id":"t2","name":"המהפכה המדעית","pages":"מחברת + חוברת עמ׳ 9–22","tag":"שיטה מדעית · קופרניקוס · גלילאו · ניוטון","lessons":[{"title":"מהי המהפכה המדעית?","body":"\n<p>במאות ה-16 וה-17 התחולל באירופה שינוי עמוק בדרך שבה בני אדם חקרו את העולם.</p>\n<p><b>לפני:</b> הסתמכו בעיקר על כתבי הכנסייה ועל הוגים קדומים כמו אריסטו ותלמי — מה שנכתב אצלם נתפס כאמת שלא צריך לבדוק.</p>\n<p><b>אחרי:</b> מדענים התחילו <b>לבדוק את המציאות בעצמם</b> — בתצפיות, במדידות ובניסויים.</p>\n<div class=\"example\"><b>השיטה המדעית:</b> שאלה ← השערה ← ניסוי/תצפית ← מסקנה. פרנסיס ביקון הדגיש ניסוי ואיסוף עובדות; רנה דקארט הדגיש היגיון וספק ביקורתי.</div>\n<div class=\"mistake\"><b>טעות נפוצה:</b> המהפכה המדעית לא \"ביטלה את הדת\" — היא שינתה את <b>דרך הבירור של שאלות על הטבע</b>: ראיות במקום סמכות בלבד.</div>"},{"title":"קופרניקוס: השמש במרכז","body":"\n<p>המודל המקובל היה <b>הגאוצנטרי</b> (של תלמי): <b>כדור הארץ במרכז היקום</b>, והשמש והכוכבים סובבים אותו. הכנסייה אימצה תפישה זו.</p>\n<p><b>ניקולאוס קופרניקוס</b>, כומר ואסטרונום פולני, חישב וטען ההפך — המודל <b>ההליוצנטרי</b>: <b>השמש במרכז</b>, וכדור הארץ סובב סביבה וגם סביב צירו.</p>\n<ul>\n<li>את ספרו פרסם ב-1543, לקראת סוף חייו — מתוך חשש מעימות עם הכנסייה.</li>\n<li>המודל פישט את חישובי מסלולי כוכבי הלכת.</li>\n</ul>\n<div class=\"example\"><b>לזכור:</b> קופרניקוס <b>הציע</b> את המודל בעיקר מחישובים — ההוכחות מהתצפיות יגיעו אחריו, עם גלילאו.</div>"},{"title":"גלילאו: המדען של הטלסקופ","body":"\n<p><b>גלילאו גליליי</b> שיפר את <b>הטלסקופ</b> והפנה אותו לשמיים — ומה שראה סתר את התפישה המקובלת:</p>\n<ul>\n<li><b>מכתשים והרים על פני הירח</b> — השמים אינם \"מושלמים וחלקים\" כפי שחשבו.</li>\n<li><b>ירחים הסובבים את צדק</b> — לא כל הגופים השמימיים סובבים את כדור הארץ!</li>\n</ul>\n<p>גלילאו פרסם את ממצאיו ותמך בגלוי במודל של קופרניקוס. הכנסייה הביאה אותו למשפט, הוא נאלץ לחזור בו מדבריו ונידון ל<b>מעצר בית</b> עד סוף חייו.</p>\n<div class=\"mistake\"><b>טעות נפוצה:</b> גלילאו לא המציא את הטלסקופ — הוא <b>שיפר</b> אותו והיה הראשון שעשה בו שימוש מדעי שיטתי.</div>"},{"title":"ניוטון: חוקים לכל היקום","body":"\n<p><b>אייזק ניוטון</b> (סוף המאה ה-17) השלים את המהפכה המדעית. בספרו \"עקרונות מתמטיים של פילוסופיית הטבע\" (1687) ניסח את <b>חוקי התנועה</b> ואת <b>חוק הכבידה האוניברסלי</b>.</p>\n<ul>\n<li>חוק הכבידה: כל גופים בעלי מסה <b>נמשכים זה לזה</b> — בכוח הגדל עם המסות וקטן עם המרחק.</li>\n<li>אותם חוקים מסבירים <b>גם</b> נפילת תפוח מהעץ <b>וגם</b> תנועת הירח וכוכבי הלכת.</li>\n</ul>\n<p>המסקנה הגדולה: <b>הטבע פועל כמו מכונה לפי חוקים קבועים</b> שאפשר לגלותם ולחשבם — תפישה שסללה את הדרך לתנועת הנאורות.</p>\n<div class=\"example\"><b>משפט מפורסם של ניוטון:</b> \"אם ראיתי רחוק יותר, זה משום שעמדתי על כתפיהם של ענקים\" — הוא בנה על עבודתם של קופרניקוס, קפלר וגלילאו.</div>"}]},{"id":"t3","name":"הנאורות","pages":"מחברת + חוברת עמ׳ 9–22","tag":"תבונה · לוק · מונטסקיה · וולטר · רוסו","lessons":[{"title":"מהי תנועת הנאורות?","body":"\n<p>הנאורות (השכלה) הייתה תנועה רוחנית של <b>המאה ה-18</b> — \"מאת האורות\".</p>\n<p>רעיון הליבה: לאדם יש <b>תבונה</b>, ועליו להשתמש בה — לבחון בחשיבה ביקורתית מסורות, סמכויות ואמונות, במקום לקבל אותן כמובנות מאליהן.</p>\n<ul>\n<li>סיסמת התנועה, בנוסח של הפילוסוף <b>ימנואל קאנט</b>: <b>\"העז להיות נבון!\"</b></li>\n<li>הוגי הנאורות ביקרו את <b>המלוכה המוחלטת</b> ואת כוחה של הכנסייה, וביקשו חירות וזכויות לאדם.</li>\n<li><b>האנציקלופדיה</b> של דידרו וד'אלמבר ריכזה את הידע של התקופה כדי להפיץ אותו לקהל רחב.</li>\n</ul>"},{"title":"לוק ומונטסקיה","body":"\n<p><b>ג'ון לוק</b> (אנגליה):</p>\n<ul>\n<li>לכל אדם יש <b>זכויות טבעיות</b>: <b>חיים, חירות וקניין</b> — איש לא רשאי לשלול אותן.</li>\n<li>השלטון מקבל את כוחו <b>מהסכמת הנתינים</b>; שלטון שרודה בזכויות אזרחיו עלול לאבד את לגיטימיותו.</li>\n</ul>\n<p><b>מונטסקיה</b> (צרפת):</p>\n<ul>\n<li>כדי למנוע עריצות יש <b>להפריד את רשויות השלטון</b>: <b>מחוקקת</b> (כנסת/פרלמנט), <b>מבצעת</b> (ממשלה) ו<b>שופטת</b> (בתי משפט).</li>\n<li>רשות <b>בולמת ומאזנת</b> את הרשות האחרת — כך לא ירוכז כוח יתר ביד אחת.</li>\n</ul>"},{"title":"וולטר ורוסו","body":"\n<p><b>וולטר</b> (צרפת) לחם בעד:</p>\n<ul>\n<li><b>חופש הביטוי והמחשבה</b> — הזכות לומר ולכתוב את דעתך.</li>\n<li><b>סובלנות דתית</b> — נגד פנאטיות ורדיפה על רקע אמונה.</li>\n</ul>\n<p><b>ז'אן-ז'אק רוסו</b> (ז'נבה/צרפת):</p>\n<ul>\n<li><b>החוזה החברתי</b>: אנשים מתאגדים ומסכימים על חוקים ושלטון המשרתים את כולם.</li>\n<li><b>הרצון הכללי</b>: השלטון צריך לפעול לפי האינטרס המשותף של העם — הריבון הוא <b>העם</b>, לא המלך.</li>\n</ul>"},{"title":"השפעות הנאורות על העולם","body":"\n<p>רעיונות הנאורות לא נשארו בספרים:</p>\n<ul>\n<li>הם השפיעו על <b>המהפכה האמריקאית</b> (1776) ועל <b>המהפכה הצרפתית</b> (1789) — דרישת זכויות, שוויון והגבלת כוח השלטון.</li>\n<li>מושגים שאנו מכירים היום — <b>דמוקרטיה, זכויות אדם, הפרדת רשויות, שוויון בפני החוק</b> — גדלו מתוך רעיונות אלה.</li>\n</ul>\n<table class=\"tbl\"><tr><th>הוגה</th><th>הרעיון המרכזי</th></tr>\n<tr><td>לוק</td><td>זכויות טבעיות: חיים, חירות, קניין</td></tr>\n<tr><td>מונטסקיה</td><td>הפרדת רשויות</td></tr>\n<tr><td>וולטר</td><td>חופש ביטוי וסובלנות דתית</td></tr>\n<tr><td>רוסו</td><td>חוזה חברתי והרצון הכללי</td></tr></table>\n<div class=\"example\"><b>לזכור:</b> המהפכה המדעית לימדה שהטבע ניתן להבנה בתבונה; הנאורות הפנתה את אותה תבונה <b>לחברה ולמדינה</b>.</div>"}]}];
+/* --- בנק שאלות (40): לפי נושאי המיקוד — ברמת הנושא הכללית, לא מתוך החוברת הפיזית --- */
+const QUESTIONS=[{"id":"t1q1","topic":"t1","d":1,"q":"כיצד הופקו רוב הספרים באירופה לפני המצאת הדפוס?","o":["הועתקו אחד-אחד בכתב יד, בעיקר על ידי נזירים","הודפסו במכונות דפוס קטנות","הוקלדו במכונות כתיבה","נכתבו על לוחות חרס"],"a":0,"h1":"חשבו כמה זמן לוקח להעתיק ספר שלם ביד.","h2":"במנזרים עבדו מעתיקי ספרים מיומנים.","e":"לפני הדפוס כל עותק של ספר הועתק ידנית — עבודה ארוכה ויקרה שבוצעה בעיקר במנזרים. לכן ספרים היו נדירים ויקרים."},{"id":"t1q2","topic":"t1","d":1,"q":"מי נחשב לממציא הדפוס באירופה?","o":["יוהנס גוטנברג","גלילאו גליליי","אייזק ניוטון","ניקולאוס קופרניקוס"],"a":0,"h1":"גרמני מהמאה ה-15.","h2":"השאר היו מדענים ממאות מאוחרות יותר.","e":"יוהנס גוטנברג ממיינץ, גרמניה, פיתח באמצע המאה ה-15 את הדפוס באותיות נעות."},{"id":"t1q3","topic":"t1","d":1,"q":"באיזו תקופה פעל גוטנברג והופיע הדפוס באירופה?","o":["באמצע המאה ה-15, סביב שנת 1440","במאה ה-18","בימי קדם","במאה ה-20"],"a":0,"h1":"הדפוס קדם למהפכה המדעית.","h2":"המאה ה-18 היא מאת הנאורות — מאוחד מדי.","e":"גוטנברג פיתח את שיטת הדפוס באמצע המאה ה-15 (כ-1440). המאה ה-18 היא תקופת הנאורות, מאות שנים אחר כך."},{"id":"t1q4","topic":"t1","d":2,"q":"מהו החידוש המרכזי בשיטת הדפוס של גוטנברג?","o":["אותיות נעות ממתכת, שאפשר לסדר לעמוד, להדפיס ואז לפרק ולהשתמש בהן שוב","גלגול דיו על קלף","כתיבה מהירה ביד על נייר","המצאת הנייר"],"a":0,"h1":"המילה \"נעות\" מרמזת שהאותיות זזות ממקום למקום.","h2":"אותה אות מתכת משרתת עמודים רבים ושונים.","e":"החידוש: אותיות מתכת בודדות הניתנות להרכבה מחדש. מדפיסים עמוד, מפרקים את הלוח ומרכיבים עמוד חדש — ייצור מהיר של עותקים זהים."},{"id":"t1q5","topic":"t1","d":1,"q":"מהו הספר המפורסם הראשון שהודפס בשיטת גוטנברג?","o":["התנ\"ך","האנציקלופדיה של דידרו","\"החוזה החברתי\" של רוסו","ספרו של ניוטון"],"a":0,"h1":"איזה ספר הכי חשוב היה להדפיס בעולם הנוצרי של המאה ה-15?","h2":"האנציקלופדיה שייכת למאת הנאורות.","e":"הספר הראשון והמפורסם של גוטנברג היה התנ\"ך — הספר המרכזי של אירופה הנוצרית באותה תקופה."},{"id":"t1q6","topic":"t1","d":2,"q":"מדוע היו ספרים יקרים מאוד לפני המצאת הדפוס?","o":["ייצור כל עותק דרש עבודת העתקה ידנית ארוכה של חודשים ולעיתים שנים","הנייר היה עשוי זהב","המלכים אסרו למכור ספרים","לא היו בכלל קוראים"],"a":0,"h1":"חשבו על כמות העבודה בהפקת עותק אחד.","h2":"כתב יד = זמן עבודה עצום = מחיר גבוה.","e":"כל עותק הועתק ביד במשך חודשים. עבודה כה ארוכה הפכה כל ספר לפריט יוקרה."},{"id":"t1q7","topic":"t1","d":2,"q":"מה קרה למחיר הספרים ולזמינותם בעקבות המצאת הדפוס?","o":["המחירים ירדו וספרים הגיעו לקהל רחב בהרבה","המחירים עלו כי הביקוש גדל","לא חל שינוי","הפקת ספרים נאסרה"],"a":0,"h1":"הדפוס מייצר עותקים רבים במהירות — מה זה עושה למחיר?","h2":"היצע גדול = מחיר נמוך.","e":"הדפוס הוזיל את ייצור הספרים, המחירים ירדו, וספרים הפכו נגישים לסוחרים, לבעלי מלאכה ולסטודנטים."},{"id":"t1q8","topic":"t1","d":2,"q":"מהי אחת ההשפעות החברתיות החשובות של מהפכת הדפוס?","o":["עלייה באחוז האוריינות — יותר אנשים למדו קרוא וכתוב","ירידה במספר יודעי קרוא וכתוב","חלוקת אדמות מחדש","ביטול הכמורה"],"a":0,"h1":"כשיש הרבה חומר קריאה זול — יש סיבה ללמוד לקרוא.","h2":"אוריינות = יכולת קריאה וכתיבה.","e":"ככל שהתרבו הספרים והוזלו, גדל התמריץ ללמוד קרוא וכתוב — ואחוז האוריינים באירופה עלה בהדרגה."},{"id":"t1q9","topic":"t1","d":2,"q":"כיצד תרמה מהפכת הדפוס למהפכה המדעית?","o":["אפשרה להפיץ ממצאים וספרי מדע במהירות למדענים ברחבי אירופה","המציאה את הטלסקופ","מימנה מסעות תגליות","אסרה על הכנסייה לעסוק במדע"],"a":0,"h1":"מדע מתקדם כשחוקרים קוראים אלה את עבודתם של אלה.","h2":"\"על כתפי ענקים\" — קודם צריך להדפיס את כתבי הענקים.","e":"בזכות הדפוס הופצו ממצאים מדעיים במהירות ובזול; מדענים קראו את עבודת עמיתיהם ובנו עליה — כך הואצה המהפכה המדעית."},{"id":"t1q10","topic":"t1","d":2,"q":"מי החזיק ברוב הספרים והידע באירופה לפני המצאת הדפוס?","o":["הכנסייה והמעמד הגבוה","האיכרים בכפרים","התלמידים","הסוחרים הזרים בלבד"],"a":0,"h1":"מי מימן את המנזרים ואת המעתיקים?","h2":"ספר יקר — רק מוסדות ועשירים.","e":"מחירם הגבוה של הספרים ריכז את הידע בידי הכנסייה והמעמדות הגבוהים; ההמון נותר בלי גישה לספרים."},{"id":"t1q11","topic":"t1","d":3,"q":"מדוע המצאת הדפוס נחשבת ל\"מהפכה\" ולא סתם שיפור טכני?","o":["כי שינתה מהותית את אופן הפצת הידע והשפיעה על דת, מדע, חינוך וחברה","כי הייתה מלווה במלחמה בין ערים","כי הוחלפה בה ממשלת גרמניה","כי נאסרה בה הכתיבה ביד"],"a":0,"h1":"מהפכה = שינוי עמוק בכל תחומי החיים.","h2":"חשבו על השפעה ארוכת טווח: רפורמציה, מדע, אוריינות.","e":"הדפוס שינה את מהירות זרימת המידע בחברה כולה — ואפשר את הרפורמציה, המהפכה המדעית והתפשטות ההשכלה. זהו שינוי מבני, ולכן \"מהפכה\"."},{"id":"t1q12","topic":"t1","d":3,"q":"מה היה תפקיד הדפוס בהתפשטות הרפורמציה הפרוטסטנטית?","o":["כתביו של מרטין לותר הודפסו והופצו במהירות ברחבי אירופה","הדפוס אסר את הפצת כתבי לותר","הדפוס הומצא בגלל הרפורמציה","אין קשר בין השניים"],"a":0,"h1":"מהפכת תקשורת משרתת מהפכות רעיוניות.","h2":"כשאפשר להדפיס אלפי חוברות — רעיון חדש מתפשט מהר.","e":"כתבי לותר הודפסו בעותקים רבים והופצו מעיר לעיר — דוגמה מובהקת לאופן שבו הדפוס האיץ שינויים דתיים ורעיוניים גדולים."},{"id":"t2q1","topic":"t2","d":1,"q":"על מה הסתמכו בעיקר לפני המהפכה המדעית כדי לענות על שאלות על הטבע?","o":["כתבי הכנסייה וכתבי הוגים קדומים כמו אריסטו ותלמי","ניסויים מבוקרים במעבדות","תצפיות בטלסקופים","מדידות מדויקות"],"a":0,"h1":"לפני המהפכה האמינו לסמכות, לא לבדיקה.","h2":"אריסטו ותלמי חיו לפני יותר מאלף שנה.","e":"לפני המהפכה המדעית נהגו לקבל את דברי הכנסייה והקדמונים כאמת מוחלטת, בלי לבדוק אותם במציאות."},{"id":"t2q2","topic":"t2","d":1,"q":"מהם שלבי הבסיס של השיטה המדעית שגובשה במהפכה המדעית?","o":["שאלה ← השערה ← ניסוי או תצפית ← מסקנה","קריאת ספרים עתיקים ← קבלת מסקנות","אמונה ← ציות","ניחוש ← הכרזה"],"a":0,"h1":"השיטה המדעית בודקת במציאות.","h2":"השערה צריכה לעמוד במבחן ניסוי.","e":"השיטה המדעית: מנסחים שאלה והשערה, בודקים בתצפית או ניסוי, ורק אז מסיקים — ומוכנים לשנות את המסקנה אם הראיות סותרות אותה."},{"id":"t2q3","topic":"t2","d":1,"q":"מי החוקר שהציע את המודל ההליוצנטרי?","o":["ניקולאוס קופרניקוס","תלמי","אריסטו","אייזק ניוטון"],"a":0,"h1":"כומר ואסטרונום פולני.","h2":"תלמי ואריסטו תמכו דווקא במודל ההפוך.","e":"קופרניקוס הציע במאה ה-16 שהשמש במרכז וכדור הארץ סובב סביבה. ניוטון בא אחריו והשלים את התמונה."},{"id":"t2q4","topic":"t2","d":1,"q":"מה טוען המודל ההליוצנטרי?","o":["השמש במרכז, וכדור הארץ סובב סביבה וגם סביב צירו","כדור הארץ במרכז היקום","הירח במרכז היקום","ליקום אין חוקיות"],"a":0,"h1":"הליו = שמש.","h2":"סנטרי = מרכז. הליוצנטרי = השמש במרכז.","e":"במודל ההליוצנטרי השמש במרכז, כדור הארץ נע סביבה וסובב סביב צירו — כך מוסברים מחזור הימים ותנועת הכוכבים."},{"id":"t2q5","topic":"t2","d":1,"q":"מה טען המודל הגאוצנטרי, שקדם לקופרניקוס?","o":["כדור הארץ ניצב במרכז היקום והשמש והכוכבים סובבים אותו","השמש במרכז היקום","הירח קובע את מסלול הכוכבים","היקום חסר מרכז"],"a":0,"h1":"גאו = ארץ.","h2":"המודל של תלמי, שאומץ על ידי הכנסייה.","e":"המודל הגאוצנטרי (תלמי) מיקם את כדור הארץ במרכז, והכנסייה אימצה אותו. קופרניקוס הפך את התמונה."},{"id":"t2q6","topic":"t2","d":2,"q":"מדוע היסס קופרניקוס לפרסם את תורתו ופרסם אותה רק לקראת סוף חייו?","o":["היא סתרה את עמדת הכנסייה, והוא חשש מתגובתה","לא היו מדפסות באירופה","איבד את כתב היד","רצה קודם לבדוק בטלסקופ"],"a":0,"h1":"מי נפגע מהטענה שהארץ אינה במרכז?","h2":"בתקופתו הכנסייה שלטה גם בשאלות מדע.","e":"המודל ההליוצנטרי סתר את תפישת הכנסייה שהארץ במרכז. קופרניקוס חשש מעימות ודחה את הפרסום ל-1543, שנת מותו."},{"id":"t2q7","topic":"t2","d":1,"q":"איזה מכשיר שיפר גלילאו גליליי והפנה לשמיים לצורך תצפיות מדעיות?","o":["הטלסקופ","המיקרוסקופ","המצפן","הברומטר"],"a":0,"h1":"כלי לצפייה בדברים רחוקים.","h2":"טלה = רחוק, סקופ = לצפות.","e":"גלילאו שיפר את הטלסקופ (לא המציא אותו) והשתמש בו לתצפיות שיטתיות — ראיות שתמכו במודל ההליוצנטרי."},{"id":"t2q8","topic":"t2","d":2,"q":"מה ממצאיו של גלילאו בטלסקופ סתר את התפישה העתיקה על השמיים?","o":["מכתשים והרים על פני הירח, וירחים הסובבים את צדק","מים זורמים על מאדים","טבעת סביב כדור הארץ","שהירח מאיר מאור עצמו"],"a":0,"h1":"השמים נחשבו ל\"מושלמים\" — עגולים וחלקים.","h2":"אם יש גופים הסובבים את צדק — לא הכול סובב את הארץ.","e":"פני ירח מלאי מכתשים סתרו את תפישת \"השמים המושלמים\"; ירחי צדק הוכיחו שלא כל הגופים סובבים את כדור הארץ — תמיכה ישירה בקופרניקוס."},{"id":"t2q9","topic":"t2","d":2,"q":"כיצד הגיבה הכנסייה לתמיכתו הפומבית של גלילאו במודל ההליוצנטרי?","o":["הביאה אותו למשפט, הוא נאלץ לחזור בו ונידון למעצר בית","מינתה אותו לאסטרונום הראשי שלה","התעלמה לחלוטין","הדפיסה את ספריו בעצמה"],"a":0,"h1":"הכנסייה לא אהבה מי שסותר אותה בפומבי.","h2":"הסוף היה עצוב: זקן וכלוא בביתו.","e":"גלילאו הובא למשפט ב-1633, נאלץ לכחש את תמיכתו בקופרניקוס ונידון למעצר בית עד מותו — מפורסם על הקרב בין מדע לסמכות."},{"id":"t2q10","topic":"t2","d":1,"q":"מי ניסח את חוקי התנועה ואת חוק הכבידה האוניברסלי?","o":["אייזק ניוטון","ג'ון לוק","פרנסיס ביקון","מונטסקיה"],"a":0,"h1":"התפוח המפורסם.","h2":"אנגלי, סוף המאה ה-17.","e":"אייזק ניוטון ניסח את חוקי התנועה ואת חוק הכבידה, שמסביר גם נפילת תפוח וגם תנועת כוכבי לכת — אותם חוקים לשמים ולארץ."},{"id":"t2q11","topic":"t2","d":2,"q":"מה קובע חוק הכבידה האוניברסלי של ניוטון?","o":["כל גופים בעלי מסה נמשכים זה לזה; הכוח גדל עם המסות וקטן עם המרחק","רק כדור הארץ מושך גופים","גופים קלים אינם מושכים כלל","הכבידה פועלת רק בים"],"a":0,"h1":"המילה \"אוניברסלי\" = כללי, על הכול.","h2":"שני גופים כלשהם — גם שני תפוחים — נמשכים זה לזה.","e":"לפי ניוטון, כל גוף בעל מסה מושך כל גוף אחר. לכן אותו חוק מסביר את נפילת התפוח ואת מסלול הירח — חוק אחד לכל היקום."},{"id":"t2q12","topic":"t2","d":2,"q":"מה הייתה תרומתם של ביקון ודקארט למהפכה המדעית?","o":["ביקון הדגיש ניסוי ואיסוף עובדות; דקארט הדגיש היגיון וספק ביקורתי","השניים פיתחו את הטלסקופ","השניים ניסחו את חוק הכבידה","השניים הדפיסו את התנ\"ך"],"a":0,"h1":"אחד אמין לידיים ולחושים, השני — לראש.","h2":"\"אני חושב, משמע אני קיים\" — מי אמר?","e":"ביקון עיצב את הגישה האמפירית (ניסויים ותצפיות) ודקארט את הגישה הרציונלית (היגיון וספק מתודי) — יחד הם בסיס השיטה המדעית."},{"id":"t2q13","topic":"t2","d":2,"q":"מדוע המשפט \"עמדתי על כתפיהם של ענקים\" מיוחס לניוטון ומה משמעותו?","o":["שהצלחתו נשענה על עבודת חוקרים שקדמו לו, כמו קופרניקוס וגלילאו","שהיה גבוה מאוד","שהעמיד פסלים לגלילאו","שמדענים עובדים בבדידות"],"a":0,"h1":"למה \"כתפיים\"?","h2":"המדע מצטבר — כל דור בונה על הקודם.","e":"ניוטון הודה שהישגיו אפשריים בזכות הדורות שקדמו לו: קופרניקוס, קפלר, גלילאו. המדע הוא מאמץ מצטבר, לא גאונות בודדת."},{"id":"t2q14","topic":"t2","d":3,"q":"מה הקשר בין המהפכה המדעית לתנועת הנאורות שבאה אחריה?","o":["ההצלחה בפתרון תעלומות הטבע בתבונה עודדה להשתמש בתבונה גם בחברה ובמדינה","הנאורות קדמה למהפכה המדעית","המהפכה המדעית ביטלה את הצורך בתבונה","אין קשר בין השתיים"],"a":0,"h1":"אם התבונה פיצחה את הטבע — למה לא גם את החברה?","h2":"הסדר כרונולוגי: דפוס ← מדע ← נאורות.","e":"המהפכה המדעית הוכיחה שתבונה וראיות מנצחות סמכות עיוורת. הוגי הנאורות יישמו את אותו עקרון על החברה, המשטר והדת."},{"id":"t3q1","topic":"t3","d":1,"q":"באיזו מאה פרחה תנועת הנאורות (ההשכלה)?","o":["במאה ה-18","במאה ה-15","במאה ה-12","במאה ה-20"],"a":0,"h1":"\"מאת האורות\".","h2":"היא באה אחרי המהפכה המדעית.","e":"הנאורות פרחה במאה ה-18, בעיקר בצרפת ובאנגליה, בעקבות המהפכה המדעית של המאות 16-17."},{"id":"t3q2","topic":"t3","d":1,"q":"מהו רעיון הליבה של הנאורות?","o":["לאדם יש תבונה, ועליו להשתמש בה כדי לבחון ביקורתית מסורות וסמכויות","יש לציית למלך ולכנסייה בלי לשאול","המדע מסוכן ויש להימנע ממנו","העבר תמיד טוב מההווה"],"a":0,"h1":"נאורות = אור = שכל.","h2":"הפוך מ\"כך אמרו תמיד\".","e":"הנאורות הציבה את התבונה במרכז: לבדוק, לשאול ולבקר — במקום לקבל סמכות ומסורת כמובנות מאליהן."},{"id":"t3q3","topic":"t3","d":2,"q":"מהי הסיסמה המפורסמת של קאנט לתנועת הנאורות?","o":["\"העז להיות נבון!\"","\"המלך הוא המדינה\"","\"כוח מול כוח\"","\"דעת רבים ראשונה\""],"a":0,"h1":"היא קריאה לחשוב בעצמך.","h2":"Sapere aude בלטינית.","e":"ימנואל קאנט ניסח: \"העז להיות נבון!\" — קריאה לכל אדם להשתמש בתבונתו שלו ולא להסתמך על הדרכת אחרים."},{"id":"t3q4","topic":"t3","d":1,"q":"מהן שלוש הזכויות הטבעיות לפי ג'ון לוק?","o":["חיים, חירות וקניין","עבודה, לחם ודירה","אמונה, תקווה ואהבה","חינוך, בריאות ותחבורה"],"a":0,"h1":"שלוש זכויות שאי אפשר לשלול.","h2":"חפ\"ק — חיים, חירות, קניין.","e":"לפי לוק לכל אדם זכויות טבעיות מלידה: חיים, חירות וקניין. תפקיד המדינה להגן עליהן, לא לשלול אותן."},{"id":"t3q5","topic":"t3","d":2,"q":"מניין, לפי לוק, שואב השלטון את כוחו ואת לגיטימיותו?","o":["מהסכמת הנתינים — העם מסמיך את השלטון להגן על זכויותיו","מבחירת אלוהים את המלך","מכוח צבאי בלבד","מהכנסייה הקתולית"],"a":0,"h1":"אם השלטון בוגד — אפשר להחליפו.","h2":"חוזה בין העם לשלטון.","e":"לוק: השלטון קיים בהסכמת הנתינים כדי להגן על זכויותיהם; שלטון הרודן בהם מאבד את לגיטימיותו, ולעם יש זכות להחליפו."},{"id":"t3q6","topic":"t3","d":1,"q":"איזה פתרון הציע מונטסקיה כדי למנוע ריכוז כוח ועריצות?","o":["הפרדת רשויות: מחוקקת, מבצעת ושופטת","מלך חזק יותר","ממשלה צבאית","ביטול בתי המשפט"],"a":0,"h1":"כוח בולם כוח.","h2":"שלוש רשויות = שליטה הדדית.","e":"מונטסקיה הציע לחלק את השלטון לשלוש רשויות — מחוקקת, מבצעת ושופטת — שבולמות ומאזנות זו את זו, כדי שלא ירוכז כוח ביד אחת."},{"id":"t3q7","topic":"t3","d":1,"q":"מהן הרשויות בהפרדת הרשויות של מונטסקיה?","o":["מחוקקת, מבצעת, שופטת","צבאית, דתית, עיתונאית","מלוכה, אצולה, כמורה","מיסוי, חינוך, ביטחון"],"a":0,"h1":"מי חוקק, מי מבצע, מי שופט?","h2":"בישראל: כנסת, ממשלה, בתי משפט.","e":"הרשות המחוקקת (פרלמנט) חוקקת חוקים, המבצעת (ממשלה) מנהלת את המדינה, והשופטת (בתי משפט) שופטת לפי החוק — בהפרדה מלאה."},{"id":"t3q8","topic":"t3","d":1,"q":"בעד מה נלחם וולטר?","o":["חופש הביטוי והמחשבה, וסובלנות דתית","הגברת כוחה של הכנסייה","חזרה לימי הביניים","איסור הדפסת ספרים"],"a":0,"h1":"צרפתי חד-לשון שאהב לכתוב.","h2":"\"איני מסכים לדבריך, אך אלחם על זכותך לומרם\" (מיוחס לו).","e":"וולטר לחם בעד חופש הביטוי והמחשבה ובעד סובלנות דתית, ונגד פנאטיות ורדיפה על רקע אמונה."},{"id":"t3q9","topic":"t3","d":2,"q":"מהו \"החוזה החברתי\" לפי רוסו?","o":["הסכם שבו אנשים מתאגדים ומסכימים על חוקים ושלטון המשרתים את כולם","חוזה שכירות בין שכנים","הסכם מסחר בין מדינות","תקנון של גילדת סוחרים"],"a":0,"h1":"חוזה בין אנשים לבין עצמם כחברה.","h2":"קשור לרעיון הרצון הכללי.","e":"לפי רוסו, החברה מבוססת על חוזה חברתי: אנשים מסכימים יחד על חוקים ושלטון שישרתו את האינטרס המשותף — הרצון הכללי."},{"id":"t3q10","topic":"t3","d":2,"q":"מי הוא \"הריבון\" לפי רוסו?","o":["העם — והשלטון צריך לפעול לפי הרצון הכללי","המלך בלבד","הכנסייה","הצבא"],"a":0,"h1":"ריבון = השליט העליון.","h2":"אצל רוסו הכוח שייך לכולם, לא ליחיד.","e":"רוסו טען שהריבון הוא העם: הלגיטימיות של השלטון נובעת מהרצון הכללי — האינטרס המשותף של אזרחי המדינה."},{"id":"t3q11","topic":"t3","d":2,"q":"מהי מטרת \"האנציקלופדיה\" של דידרו וד'אלמבר?","o":["לרכז את הידע של התקופה ולהפיץ אותו לקהל רחב","לשבח את מלכי צרפת","לאסוף סיפורי עם בלבד","לתרגם את התנ\"ך לצרפתית"],"a":0,"h1":"אנציקלופדיה = כל הידע בספרים.","h2":"מיזם טיפוסי לנאורות: הפצת ידע.","e":"האנציקלופדיה ריכזה את ידע המדע, האומנויות והמלאכות בעשרות כרכים — כלי להפצת ההשכלה והביקורת לקהל רחב."},{"id":"t3q12","topic":"t3","d":2,"q":"על אילו מאורעות היסטוריים השפיעו רעיונות הנאורות?","o":["המהפכה האמריקאית (1776) והמהפכה הצרפתית (1789)","מלחמת העולם הראשונה","מסעי הצלב","חלוקת אפריקה"],"a":0,"h1":"שתי מהפכות בסוף המאה ה-18.","h2":"הצד השני של האוקיינוס + צרפת.","e":"רעיונות הנאורות — זכויות, חירות, הפרדת רשויות, ריבונות העם — הלביעו את המהפכה האמריקאית ואת המהפכה הצרפתית."},{"id":"t3q13","topic":"t3","d":3,"q":"מה משותף לרעיונות של לוק, מונטסקיה ורוסו?","o":["כל שלושתם מגבילים את כוח השלטון ומבססים אותו על הסכמת האזרחים","כולם מחזקים את המלוכה המוחלטת","כולם דורשים שלטון דת","כולם מתנגדים לחוקים"],"a":0,"h1":"חשבו על האויב המשותף: עריצות.","h2":"זכויות + הפרדת רשויות + ריבונות העם = מגבלות על שליט.","e":"שלושת ההוגים רצו להגביל את כוח השלטון המוחלט: לוק בזכויות טבעיות, מונטסקיה בהפרדת רשויות, רוסו בריבונות העם — יסודות הדמוקרטיה המודרנית."},{"id":"t3q14","topic":"t3","d":3,"q":"מדוע ביקרו הוגי הנאורות את המלוכה המוחלטת?","o":["כי ריכזה את כל הכוח בידי מלך אחד בלי בלמים ובלי זכויות לאזרחים","כי הייתה חלשה מדי מול שכנות","כי אסרה על סחר חוץ","כי תמכה בנאורות יתר על המידה"],"a":0,"h1":"מלוכה מוחלטת = הכוח ביד אחד.","h2":"מה היו מציעים לוק או מונטסקיה במקומה?","e":"במלוכה המוחלטת המלך מחזיק את כל הרשויות ואין הגנה על זכויות האזרח — בדיוק מה שהוגי הנאורות ביקשו לשנות בהפרדת רשויות, זכויות טבעיות והסכמת הנתינים."}];
+/* ============ מנוע האפליקציה ============ */
+const PKEY='historia-progress-v1', TKEY='historia-theme', IKEY='historia-install-hint-v1';
+const TKEY_TRACK='avichai-tracking-v1'; /* קוד הסכמה משותף (אותו מקור, אותו קוד) — לא דורסים, רק קוראים */
+const $=function(s){return document.querySelector(s)};
+const app=$('#app');
+
+/* --- התקדמות מקומית --- */
+function blankP(){return{v:1,topics:{t1:{a:0,c:0},t2:{a:0,c:0},t3:{a:0,c:0}},wrong:{},exams:[],days:{},lessons:{}}}
+function loadP(){try{const p=JSON.parse(localStorage.getItem(PKEY)||'null');if(p&&p.v===1)return p}catch(e){}return blankP()}
+function saveP(p){localStorage.setItem(PKEY,JSON.stringify(p))}
+let P=loadP();
+function dayKey(){return new Date().toISOString().slice(0,10)}
+function touchDay(qs){const d=dayKey();if(!P.days[d])P.days[d]={q:0,sessions:0};P.days[d].q+=qs||0;saveP(P)}
+function streak(){let n=0;const d=new Date();for(;;){const k=d.toISOString().slice(0,10);if(P.days[k]&&P.days[k].q>0){n++;d.setDate(d.getDate()-1)}else{if(k===dayKey()){d.setDate(d.getDate()-1);continue}break}}return n}
+function acc(t){const x=P.topics[t];return x.a?Math.round(100*x.c/x.a):null}
+function topicById(id){return TOPICS.find(function(t){return t.id===id})}
+function qById(id){return QUESTIONS.find(function(q){return q.id===id})}
+function prepQ(q){if(!q._opts){const idx=shuffle([0,1,2,3]);q._opts=idx.map(function(i){return q.o[i]});q._a=idx.indexOf(q.a)}return q}
+function esc(s){return s}
+
+/* --- ערכת נושא --- */
+function applyTheme(){const t=localStorage.getItem(TKEY)||'';if(t==='dark'||(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');else document.documentElement.removeAttribute('data-theme')}
+function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')==='dark';localStorage.setItem(TKEY,cur?'light':'dark');applyTheme();render()}
+applyTheme();
+
+/* --- איור אטום (SVG משוחזר, ללא רמז לזהות היסוד) --- */
+function atomSVG(spec){
+ const p=spec.p,n=spec.n,e=spec.e,W=220,H=220,cx=110,cy=110;
+ function ringElectrons(count,r,offset){
+  let out='';
+  for(let i=0;i<count;i++){const a=offset+i*2*Math.PI/count-Math.PI/2;
+   const x=(cx+r*Math.cos(a)).toFixed(1),y=(cy+r*Math.sin(a)).toFixed(1);
+   out+='<circle cx="'+x+'" cy="'+y+'" r="7" fill="#fff" stroke="#4338a8" stroke-width="2"/><text x="'+x+'" y="'+(+y+4)+'" text-anchor="middle" font-size="11" font-weight="bold" fill="#c73e4e">−</text>'}
+  return out}
+ let orbits='<circle cx="'+cx+'" cy="'+cy+'" r="58" fill="none" stroke="#9aa" stroke-width="1.2" stroke-dasharray="4 3"/>';
+ let els=ringElectrons(Math.min(e,2),58,0);
+ if(e>2){orbits+='<circle cx="'+cx+'" cy="'+cy+'" r="92" fill="none" stroke="#9aa" stroke-width="1.2" stroke-dasharray="4 3"/>';els+=ringElectrons(Math.min(e-2,8),92,0.6)}
+ let nuc='<circle cx="'+cx+'" cy="'+cy+'" r="34" fill="#eceafa" stroke="#4338a8" stroke-width="2.5"/>';
+ const tot=p+n,cols=Math.ceil(Math.sqrt(tot));let i=0;
+ for(let k=0;k<tot;k++){
+  const isP=k<p;const row=Math.floor(k/cols),col=k%cols;
+  const rowsN=Math.ceil(tot/cols);
+  const x=cx+(col-(cols-1)/2)*13, y=cy+(row-(rowsN-1)/2)*13;
+  if(isP)nuc+='<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="#ffd9de" stroke="#c73e4e" stroke-width="1.4"/><text x="'+x+'" y="'+(y+3.5)+'" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#c73e4e">+</text>';
+  else nuc+='<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="#e8e8ec" stroke="#8a8fa8" stroke-width="1.4"/>';
+  i++}
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;max-width:230px;display:block;margin:6px auto" role="img" aria-label="איור אטום: גרעין עם חלקיקים חיוביים ונייטרליים, אלקטרונים סביב">'
+  +orbits+els+nuc
+  +'</svg>';
+}
+
+/* --- טיימר מבחן --- */
+let examTimer=null;
+function fmtT(s){const m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r}
+
+/* --- ניתוב --- */
+window.addEventListener('hashchange',render);
+function nav(h){location.hash=h}
+function render(){
+ const h=location.hash||'';
+ if(h!=='#/exam-run')stopExamTimer();
+ if(h.startsWith('#/learn/')){const seg=h.split('/');return scrLearn(seg[2],parseInt(seg[3]||'0',10))}
+ if(h.startsWith('#/practice/'))return scrPractice(h.split('/')[2]);
+ if(h==='#/exam')return scrExamSetup();
+ if(h==='#/exam-run'){if(!S||S.kind!=='exam')startExam();return}
+ if(h==='#/progress')return scrProgress();
+ return scrHome();
+}
+function topActions(){
+ return '<div class="topbar"><button class="icon-btn" onclick="nav(\'\')" title="בית">🏠 בית</button>'
+ +'<div><button class="icon-btn" onclick="toggleTheme()" title="מצב כהה/בהיר">◐</button></div></div>';
+}
+
+/* --- מסך בית --- */
+function daysToExam(){const now=new Date();now.setHours(0,0,0,0);const ex=new Date(EXAM_DATE+'T00:00:00');return Math.round((ex-now)/86400000)}
+function scrHome(){
+ const d=daysToExam();
+ const dchip=d>0?'נשארו '+d+' ימים למבחן':(d===0?'המבחן היום!':'המבחן עבר');
+ const last=P.exams.length?P.exams[P.exams.length-1]:null;
+ let html=topActions()
+ +'<div class="card hero"><h1>📜 היסטוריקה</h1><div class="sub">הכנה למבחן בהיסטוריה · <b>מהפכת הדפוס · המהפכה המדעית · הנאורות</b> · כיתה ח׳</div>'
+ +'<div style="margin-top:8px"><span class="chip">📅 מבחן: ד׳ '+EXAM_DATE.split('-').reverse().join('.')+'</span><span class="chip">⏳ '+dchip+'</span><span class="chip">📚 '+TOPICS.reduce(function(n,t){return n+t.lessons.length},0)+' שיעורים · '+QUESTIONS.length+' שאלות תרגול</span></div></div>'
+ +'<div class="card"><div class="topic-head"><span class="t-name">📝 מבחן לדוגמה</span><span class="t-pages">20 שאלות · 40 דקות</span></div>'
+ +'<p class="small">בתנאי מבחן: שעון, בלי רמזים, משוב מלא בסוף. השאלות מכסות את כל שלושת נושאי המיקוד עם דגש על הנושאים החלשים שלך.</p>'
+ +(last?'<p class="small">מבחן אחרון: <b>'+last.score+'/'+last.total+'</b> ('+last.d+')</p>':'')
+ +'<button class="btn btn-pri btn-block btn-lg" onclick="nav(\'#/exam\')">התחלת מבחן לדוגמה</button></div>'
+ +'<h2>נושאי המיקוד</h2>';
+ TOPICS.forEach(function(t){
+  const a=acc(t.id);const x=P.topics[t.id];
+  const done=(t.lessons||[]).filter(function(l,i){return P.lessons[t.id+':'+i]}).length;
+  html+='<div class="card"><div class="topic-head"><span class="t-name">'+t.name+'</span><span class="t-pages">'+t.pages+'</span></div>'
+  +'<div class="small" style="margin:4px 0">'+t.tag+'</div>'
+  +(x.a?'<div class="bar"><i style="width:'+a+'%"></i></div><div class="bar-note">תרגול: '+x.c+' נכון מתוך '+x.a+' ('+a+'%) · שיעורים: '+done+'/'+t.lessons.length+'</div>'
+      :'<div class="bar-note">שיעורים שנלמדו: '+done+'/'+t.lessons.length+' · עדיין לא תורגל</div>')
+  +'<div class="row" style="margin-top:8px"><button class="btn btn-pri2" onclick="nav(\'#/learn/'+t.id+'/0\')">📖 לימוד</button><button class="btn btn-pri" onclick="nav(\'#/practice/'+t.id+'\')">✏️ תרגול</button></div></div>';
+ });
+ html+='<div class="row"><button class="btn btn-ghost" onclick="nav(\'#/practice/all\')">תרגול מעורב</button><button class="btn btn-ghost" onclick="nav(\'#/practice/weak\')">תרגול חולשות</button><button class="btn btn-ghost" onclick="nav(\'#/progress\')">📊 ההתקדמות שלי</button></div>';
+ html+=installBox();
+ html+='<div class="footer-note">מבוסס על הודעת צוות ההיסטוריה (25.10): מבחן 4.11 — מהפכת הדפוס, המהפכה המדעית, הנאורות · ההכנה לפי המחברת וחוברת הלימוד עמ׳ 9–22 · התוכן כאן כללי לפי הנושאים ולא מתוך החוברת עצמה · ההתקדמות נשמרת במכשיר זה</div>';
+ app.innerHTML=html;
+ mountTrackToggle();
+ maybeAutoBackup();
+}
+
+/* --- לימוד --- */
+function scrLearn(tid,idx){
+ const t=topicById(tid);if(!t)return nav('');
+ idx=Math.max(0,Math.min(idx,t.lessons.length-1));
+ const L=t.lessons[idx];
+ P.lessons[tid+':'+idx]=1;saveP(P);
+ let html=topActions()
+ +'<div class="card"><div class="topic-head"><span class="t-name">📖 '+t.name+'</span><span class="t-pages">שיעור '+(idx+1)+' מתוך '+t.lessons.length+'</span></div>'
+ +'<div class="small">'+t.pages+'</div></div>'
+ +'<div class="card lesson"><h2>'+L.title+'</h2>'+L.body+'</div>'
+ +'<div class="row">'
+ +(idx>0?'<button class="btn btn-ghost" onclick="nav(\'#/learn/'+tid+'/'+(idx-1)+'\')">← הקודם</button>':'')
+ +(idx<t.lessons.length-1?'<button class="btn btn-pri" onclick="nav(\'#/learn/'+tid+'/'+(idx+1)+'\')">השיעור הבא ←</button>'
+   :'<button class="btn btn-pri" onclick="nav(\'#/practice/'+tid+'\')">✏️ לתרגול בנושא ←</button>')
+ +'</div>';
+ app.innerHTML=html;
+ trackMode('learn',t.name);
+ window.scrollTo(0,0);
+}
+/* --- מנוע שאלות משותף --- */
+let S=null; /* session */
+let LAST_ROUTE='';
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t}return a}
+function pickPractice(mode){
+ let pool=[];
+ if(mode==='all')pool=QUESTIONS.slice();
+ else if(mode==='weak'){
+  const wrongIds=Object.keys(P.wrong).filter(function(id){return P.wrong[id]>0});
+  pool=wrongIds.map(qById).filter(Boolean);
+  /* משלימים מהנושא החלש ביותר */
+  const weak=TOPICS.slice().sort(function(a,b){return (acc(a.id)===null?0:acc(a.id))-(acc(b.id)===null?0:acc(b.id))})[0];
+  pool=pool.concat(QUESTIONS.filter(function(q){return q.topic===weak.id&&pool.indexOf(q)<0}));
+ } else pool=QUESTIONS.filter(function(q){return q.topic===mode});
+ const fresh=pool.filter(function(q){return !P.wrong[q.id]});
+ return shuffle(pool.filter(function(q){return P.wrong[q.id]})).concat(shuffle(fresh)).slice(0,10);
+}
+function scrPractice(mode){
+ const qs=pickPractice(mode);
+ if(!qs.length){app.innerHTML=topActions()+'<div class="card center"><p>אין עדיין שאלות לתרגול כאן — קודם כל כל הכבוד, אין חולשות רשומות! 👏</p><button class="btn btn-pri" onclick="nav(\'\')">חזרה</button></div>';return}
+ qs.forEach(prepQ);
+ const names={all:'תרגול מעורב',weak:'תרגול חולשות'};
+ S={kind:'practice',qs:qs,i:0,ok:0,hint:0,answered:false,title:names[mode]||('תרגול: '+topicById(mode).name)};
+ LAST_ROUTE='#/practice/'+mode;
+ drawQ();
+ trackMode('practice',S.title);
+}
+function drawQ(){
+ const q=S.qs[S.i],tot=S.qs.length;
+ let html=topActions()
+ +'<div class="card"><div class="topbar"><span class="qprog">'+S.title+' · שאלה '+(S.i+1)+'/'+tot+'</span><span class="qprog">✅ '+S.ok+'</span></div>'
+ +'<div class="bar"><i style="width:'+Math.round(100*S.i/tot)+'%"></i></div>'
+ +'<h2 style="margin-top:10px">'+q.q+'</h2>'
+ +(q.svg?atomSVG(q.svg)+'<div class="small center">+ פרוטון · עיגול אפור = נויטרון · − אלקטרון</div>':'')
+ +'<div id="opts">'+q._opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" onclick="answerQ('+i+')">'+o+'</button>'}).join('')+'</div>'
+ +'<div id="hintzone">'
+ +(!S.answered&&q.h1?'<button class="btn btn-ghost" id="hintbtn" onclick="showHint()">💡 רמז'+(S.hint===0?'':' נוסף')+'</button>':'')
+ +(S.hint>0?'<div class="hintbox">💡 '+q.h1+'</div>':'')
+ +(S.hint>1?'<div class="hintbox">💡💡 '+q.h2+'</div>':'')
+ +'</div><div id="fb"></div></div>';
+ app.innerHTML=html;
+ window.scrollTo(0,0);
+}
+function showHint(){
+ S.hint=Math.min(2,S.hint+1);
+ const q=S.qs[S.i];
+ let hz='<div class="hintbox">💡 '+q.h1+'</div>';
+ if(S.hint>1&&q.h2)hz+='<div class="hintbox">💡💡 '+q.h2+'</div>';
+ if(S.hint<2&&q.h2)hz+='<button class="btn btn-ghost" onclick="showHint()">💡 רמז נוסף</button>';
+ $('#hintzone').innerHTML=hz;
+}
+function answerQ(i){
+ if(S.answered)return;S.answered=true;
+ const q=S.qs[S.i],good=i===q._a;
+ if(S.kind==='exam'){S.res[S.i]=i;markExam(i);return}
+ if(good)S.ok++;
+ P.topics[q.topic].a++;if(good)P.topics[q.topic].c++;
+ if(!good)P.wrong[q.id]=(P.wrong[q.id]||0)+1;else if(P.wrong[q.id])P.wrong[q.id]=Math.max(0,P.wrong[q.id]-1);
+ touchDay(1);
+ document.querySelectorAll('.opt').forEach(function(b){
+  const bi=+b.getAttribute('data-i');b.disabled=true;
+  if(bi===i)b.classList.add(good?'sel-ok':'sel-bad');
+  if(!good&&bi===q._a)b.classList.add('reveal-ok');
+ });
+ $('#hintzone').innerHTML='';
+ const wrongOpt=q.o[i];
+ $('#fb').innerHTML='<div class="feedback '+(good?'ok':'bad')+'"><b>'+(good?'✅ נכון!':'❌ לא בדיוק.')+'</b>'
+  +'<div class="exp">'+q.e+'</div>'
+  +(!good?'<div class="exp small">התשובה הנכונה: <b>'+q._opts[q._a]+'</b></div>':'')
+  +'</div>'
+  +'<button class="btn btn-pri btn-block" onclick="nextQ()">'+(S.i<S.qs.length-1?'השאלה הבאה ←':'סיכום ←')+'</button>';
+ window.scrollTo(0,document.body.scrollHeight);
+ trackMilestone('practice_answer',{correct:good?1:0,topic:q.topic});
+}
+function nextQ(){
+ if(S.kind==='exam'){if(S.i<S.qs.length-1){S.i++;S.answered=false;drawExam()}else finishExam(false);return}
+ if(S.i<S.qs.length-1){S.i++;S.hint=0;S.answered=false;drawQ()}
+ else endSession();
+}
+function endSession(){
+ const tot=S.qs.length,pct=Math.round(100*S.ok/tot);
+ const cls=pct>=80?'ok':(pct>=60?'mid':'bad');
+ let weak=[];
+ const byT={};S.qs.forEach(function(q,i){byT[q.topic]=byT[q.topic]||{a:0,c:0};byT[q.topic].a++});
+ app.innerHTML=topActions()
+ +'<div class="card center"><h2>סיימת את '+S.title+'</h2>'
+ +'<div class="res-big '+cls+'">'+S.ok+'/'+tot+'</div>'
+ +'<p>'+(pct>=80?'כל הכבוד! 👏':pct>=60?'יפה — עוד תרגול קטן וזה יושב 💪':'שווה לחזור על הלימוד ולנסות שוב 📖')+'</p></div>'
+ +'<div class="row"><button class="btn btn-pri2" onclick="nav(\'\')">🏠 בית</button><button class="btn btn-pri" onclick="nav(LAST_ROUTE)">עוד סיבוב</button></div>';
+ trackMilestone('practice_complete',{title:S.title,correct:S.ok,total:tot});
+}
+
+/* --- מבחן לדוגמה: 20 שאלות · 40 דקות · בלי רמזים --- */
+const EXAM_Q=20,EXAM_MIN=40;
+function examPick(){
+ const per={t1:7,t2:6,t3:7}; /* 20 — מכסה את כל המיקוד */
+ /* דגש לנושא החלש ביותר: מעבירים שאלה אחת מהנושא החזק לחלש */
+ const accs=TOPICS.map(function(t){return{id:t.id,a:acc(t.id)}});
+ const withData=accs.filter(function(x){return x.a!==null});
+ if(withData.length>=2){
+  withData.sort(function(a,b){return a.a-b.a});
+  const weakest=withData[0].id,strongest=withData[withData.length-1].id;
+  if(withData[withData.length-1].a-withData[0].a>=20&&per[strongest]>5){per[strongest]--;per[weakest]++}
+ }
+ let out=[];
+ Object.keys(per).forEach(function(tid){
+  const pool=shuffle(QUESTIONS.filter(function(q){return q.topic===tid}));
+  out=out.concat(pool.slice(0,per[tid]));
+ });
+ /* השלמה אם חסר (לא אמור לקרות עם הבנק הנוכחי) */
+ if(out.length<EXAM_Q){const rest=shuffle(QUESTIONS.filter(function(q){return out.indexOf(q)<0}));out=out.concat(rest.slice(0,EXAM_Q-out.length))}
+ const fin=shuffle(out).slice(0,EXAM_Q);fin.forEach(prepQ);return fin;
+}
+function scrExamSetup(){
+ app.innerHTML=topActions()
+ +'<div class="card"><h2>📝 מבחן לדוגמה — היסטוריה</h2>'
+ +'<ul><li><b>'+EXAM_Q+' שאלות</b> מכל שלושת נושאי המיקוד (עם דגש על מה שחלש לך).</li>'
+ +'<li><b>'+EXAM_MIN+' דקות</b> — שעון רץ. נגמר הזמן? המבחן נעול אוטומטית.</li>'
+ +'<li>בלי רמזים ובלי משוב באמצע — בדיוק כמו בכיתה.</li>'
+ +'<li>בוחרים תשובה ועוברים הלאה — אי אפשר לחזור אחורה, בדיוק כמו במבחן אמיתי.</li></ul>'
+ +'<button class="btn btn-pri btn-block btn-lg" onclick="startExam()">מתחילים ▶</button>'
+ +'<button class="btn btn-ghost btn-block" style="margin-top:8px" onclick="nav(\'\')">עוד לא</button></div>';
+}
+function startExam(){
+ S={kind:'exam',qs:examPick(),i:0,res:[],left:EXAM_MIN*60,answered:false};
+ location.hash='#/exam-run';
+ drawExam();
+ examTimer=setInterval(function(){
+  S.left--;
+  const el=$('#timer');if(el){el.textContent='⏱ '+fmtT(S.left);if(S.left<=300)el.classList.add('low')}
+  if(S.left<=0)finishExam(true);
+ },1000);
+ trackMode('exam','מבחן לדוגמה');
+}
+function stopExamTimer(){if(examTimer){clearInterval(examTimer);examTimer=null}}
+function drawExam(){
+ const q=S.qs[S.i],tot=S.qs.length;
+ app.innerHTML='<div class="topbar"><span class="qprog">מבחן לדוגמה · שאלה '+(S.i+1)+'/'+tot+'</span><span class="timer" id="timer">⏱ '+fmtT(S.left)+'</span></div>'
+ +'<div class="card"><div class="bar"><i style="width:'+Math.round(100*S.i/tot)+'%"></i></div>'
+ +'<h2 style="margin-top:10px">'+q.q+'</h2>'
+ +(q.svg?atomSVG(q.svg)+'<div class="small center">+ פרוטון · עיגול אפור = נויטרון · − אלקטרון</div>':'')
+ +'<div id="opts">'+q._opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" onclick="answerQ('+i+')">'+o+'</button>'}).join('')+'</div>'
+ +'<div id="fb"></div></div>';
+ /* שחזור בחירה קיימת כשחוזרים לאחור לא נתמך — נעילה אחרי בחירה */
+ window.scrollTo(0,0);
+}
+function markExam(i){
+ const q=S.qs[S.i];
+ document.querySelectorAll('.opt').forEach(function(b){const bi=+b.getAttribute('data-i');b.disabled=true;if(bi===i)b.classList.add('sel-ok')});
+ $('#fb').innerHTML='<button class="btn btn-pri btn-block" onclick="nextQ()">'+(S.i<S.qs.length-1?'השאלה הבאה ←':'סיום המבחן ←')+'</button>';
+}
+function finishExam(timedOut){
+ stopExamTimer();
+ let ok=0;const per={t1:[0,0],t2:[0,0],t3:[0,0]};
+ S.qs.forEach(function(q,i){
+  per[q.topic][1]++;
+  const good=S.res[i]===q._a;if(good){ok++;per[q.topic][0]++}
+  P.topics[q.topic].a++;if(good)P.topics[q.topic].c++;
+  if(!good)P.wrong[q.id]=(P.wrong[q.id]||0)+1;else if(P.wrong[q.id])P.wrong[q.id]=Math.max(0,P.wrong[q.id]-1);
+ });
+ touchDay(EXAM_Q);
+ const rec={d:new Date().toISOString().slice(0,10),score:ok,total:S.qs.length,per:per};
+ P.exams.push(rec);if(P.exams.length>10)P.exams=P.exams.slice(-10);
+ saveP(P);
+ const pct=Math.round(100*ok/S.qs.length);
+ const cls=pct>=80?'ok':(pct>=60?'mid':'bad');
+ /* נושאים לחיזוק: דיוק נמוך מ-70% */
+ const weakT=TOPICS.filter(function(t){const p=per[t.id];return p[1]>0&&100*p[0]/p[1]<70});
+ let perHtml='<table class="tbl"><tr><th>נושא</th><th>נכון</th></tr>';
+ TOPICS.forEach(function(t){const p=per[t.id];perHtml+='<tr><td>'+t.name+'</td><td>'+p[0]+'/'+p[1]+'</td></tr>'});
+ perHtml+='</table>';
+ let review='<details><summary>📋 צפייה בכל השאלות והתשובות</summary><div style="margin-top:8px">';
+ S.qs.forEach(function(q,i){
+  const good=S.res[i]===q.a;
+  review+='<div class="feedback '+(good?'ok':'bad')+'"><b>שאלה '+(i+1)+':</b> '+q.q
+  +'<div class="exp">'+(good?'✅ ענית נכון':'❌ ענית: '+(S.res[i]!==undefined?q._opts[S.res[i]]:'לא נענתה'))+'<br><b>התשובה הנכונה:</b> '+q._opts[q._a]+'<br>'+q.e+'</div></div>';
+ });
+ review+='</div></details>';
+ app.innerHTML=topActions()
+ +'<div class="card center"><h2>'+(timedOut?'⏱ נגמר הזמן — המבחן נעול':'סיימת את המבחן!')+'</h2>'
+ +'<div class="res-big '+cls+'">'+ok+'/'+S.qs.length+'</div>'
+ +'<p>'+(pct>=80?'מצוין! אתה מוכן 💪':pct>=60?'בכיוון הנכון — עוד קצת תרגול':'כדאי לחזור על הלימוד לפני המבחן')+'</p></div>'
+ +'<div class="card"><h3>פירוט לפי נושא</h3>'+perHtml
+ +(weakT.length?'<p class="small">🔎 לחיזוק לפני המבחן: <b>'+weakT.map(function(t){return t.name}).join(' · ')+'</b></p>':'<p class="small">כל הנושאים בדיוק של 70% ומעלה 👏</p>')
+ +'</div>'+review
+ +'<div class="row">'
+ +(weakT.length?'<button class="btn btn-pri" onclick="nav(\'#/practice/'+weakT[0].id+'\')">✏️ תרגול: '+weakT[0].name+'</button>':'')
+ +'<button class="btn btn-pri2" onclick="nav(\'#/exam\')">🔄 מבחן נוסף</button>'
+ +'<button class="btn btn-ghost" onclick="nav(\'\')">🏠 בית</button></div>';
+ trackMilestone('exam_complete',{score:ok,total:S.qs.length});
+ window.scrollTo(0,0);
+}
+/* --- התקדמות, ייצוא/ייבוא, גיבוי --- */
+function scrProgress(){
+ const s=streak();
+ let rows='';
+ TOPICS.forEach(function(t){
+  const x=P.topics[t.id],a=acc(t.id);
+  rows+='<tr><td>'+t.name+'</td><td>'+(x.a?x.c+'/'+x.a:'—')+'</td><td>'+(a===null?'—':a+'%')+'</td></tr>';
+ });
+ let hist=P.exams.length?P.exams.slice().reverse().map(function(e){return '<tr><td>'+e.d+'</td><td>'+e.score+'/'+e.total+'</td></tr>'}).join(''):'<tr><td colspan="2">עדיין לא נעשה מבחן לדוגמה</td></tr>';
+ const hasBackupCode=(localStorage.getItem(TKEY_TRACK)||'').length===32;
+ app.innerHTML=topActions()
+ +'<h1>📊 ההתקדמות שלי</h1>'
+ +'<div class="card"><div class="row" style="text-align:center">'
+ +'<div style="flex:1"><div class="res-big" style="font-size:1.6rem">'+s+'</div><div class="small">ימי רצף</div></div>'
+ +'<div style="flex:1"><div class="res-big" style="font-size:1.6rem">'+(P.exams.length?P.exams[P.exams.length-1].score+'/'+P.exams[P.exams.length-1].total:'—')+'</div><div class="small">מבחן אחרון</div></div>'
+ +'<div style="flex:1"><div class="res-big" style="font-size:1.6rem">'+daysToExam()+'</div><div class="small">ימים למבחן</div></div></div></div>'
+ +'<div class="card"><h3>תרגול לפי נושא</h3><table class="tbl"><tr><th>נושא</th><th>נכון/נענה</th><th>דיוק</th></tr>'+rows+'</table></div>'
+ +'<div class="card"><h3>מבחנים קודמים</h3><table class="tbl"><tr><th>תאריך</th><th>ציון</th></tr>'+hist+'</table></div>'
+ +'<div class="card"><h3>העתקה וגיבוי</h3>'
+ +'<p class="small">ההתקדמות נשמרת אוטומטית במכשיר הזה.'+(hasBackupCode?' גיבוי ענן יומי פעיל (לאותו גיליון פרטי של ההורה, כמו באפליקציות המתמטיקה).':'')+'</p>'
+ +'<div class="row"><button class="btn btn-ghost" onclick="exportP()">⬇️ ייצוא</button><button class="btn btn-ghost" onclick="importP()">⬆️ ייבוא</button><button class="btn btn-ghost" onclick="cbRestore()">☁️ שחזור מגיבוי</button></div></div>'
+ +installBox();
+ app.innerHTML=app.innerHTML;
+ mountTrackToggle();
+}
+function exportP(){
+ const blob=new Blob([JSON.stringify(P,null,1)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='madaica-progress.json';a.click();
+}
+function importP(){
+ const inp=document.createElement('input');inp.type='file';inp.accept='application/json';
+ inp.onchange=function(){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=function(){try{const p=JSON.parse(r.result);if(p&&p.v===1&&p.topics){P=p;saveP(P);alert('הייבוא הצליח!');scrProgress()}else alert('קובץ לא מתאים')}catch(e){alert('שגיאה בקובץ')}};
+  r.readAsText(f)};
+ inp.click();
+}
+
+/* --- גיבוי ענן יומי — אותו חוזה מוכח כמו אלגבריקה/גאומטריקה, מרחב historia (אותו חוזה שאומת עם historia) --- */
+const CB_URL='https://script.google.com/macros/s/AKfycbxmxolfKtSSXUY6ORmRDmK5VxjI6-Px5gNDDNA9fnhQ5-5ta6_NZQvaWj6jXjA46eja/exec';
+const CB_APP='historia',CB_KEYS=[PKEY,TKEY];
+async function cbBackup(force){
+ try{
+  const code=(localStorage.getItem(TKEY_TRACK)||'').trim();if(code.length!==32)return;
+  const today=dayKey();
+  if(!force&&localStorage.getItem('cb_last_'+CB_APP)===today)return;
+  const ls={};CB_KEYS.forEach(function(k){const v=localStorage.getItem(k);if(v!==null)ls[k]=v});
+  const r=await fetch(CB_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({code:code,app:CB_APP,payload:{format:'shared-backup-v1',app:CB_APP,savedAt:new Date().toISOString(),localStorage:ls}})});
+  const j=await r.json();if(j&&j.ok)localStorage.setItem('cb_last_'+CB_APP,today);
+ }catch(e){}
+}
+let _backed=false;
+function maybeAutoBackup(){if(_backed)return;_backed=true;cbBackup(false)}
+async function cbRestore(){
+ try{
+  const code=(prompt('קוד הגיבוי (32 תווים, אותו קוד כמו באלגבריקה):')||'').trim();
+  if(!code)return;
+  if(code.length!==32){alert('הקוד צריך להיות 32 תווים');return}
+  const j=await(await fetch(CB_URL+'?code='+encodeURIComponent(code)+'&app='+encodeURIComponent(CB_APP))).json();
+  if(!j.ok||!j.payload){alert('לא נמצא גיבוי ענן להיסטוריקה'+(j.error?': '+j.error:''));return}
+  const p=j.payload;
+  if(p.format!=='shared-backup-v1'||!p.localStorage){alert('קובץ הגיבוי לא במבנה המוכר');return}
+  if(!confirm('לשחזר את הגיבוי מ-'+(p.savedAt||'?')+'? המידע הנוכחי באפליקציה יוחלף.'))return;
+  Object.entries(p.localStorage).forEach(function(kv){localStorage.setItem(kv[0],kv[1])});
+  alert('השחזור הושלם. האפליקציה נטענת מחדש.');location.hash='';location.reload();
+ }catch(e){alert('השחזור נכשל: '+e.message)}
+}
+
+/* --- מעקב לימוד (רק אם קוד ההסכמה כבר פעיל במכשיר — אותו גיליון פרטי, בלי הרחבת גילוי) --- */
+const TRACK_URL='https://script.google.com/macros/s/AKfycbwlq3_queCzhjr_tVXN7BlsHR1_IK94c3BKra-G2mbI2TbJMhqNYXwZFSPj-kiNpT1NdQ/exec';
+const TRACK_APP='היסטוריקה';
+function trackCode(){return localStorage.getItem(TKEY_TRACK)||''}
+function trackOn(){return /^[a-f0-9]{32}$/i.test(trackCode())}
+function trackPost(e){
+ if(!trackOn())return;
+ const payload=JSON.stringify({v:1,code:trackCode(),app:TRACK_APP,at:new Date().toISOString(),id:Date.now().toString(36)+Math.random().toString(36).slice(2,10),...e});
+ try{if(navigator.sendBeacon&&navigator.sendBeacon(TRACK_URL,new Blob([payload],{type:'text/plain'})))return;
+ fetch(TRACK_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:payload}).catch(function(){})}catch(_){}
+}
+let _tmode={mode:'other',topic:'',since:Date.now(),started:false};
+function trackFlush(){if(!trackOn())return;const now=Date.now();const sec=Math.min(300,Math.max(0,Math.round((now-_tmode.since)/1000)));if(sec>0&&_tmode.started)trackPost({type:'time',mode:_tmode.mode,topic:_tmode.topic,seconds:sec});_tmode.since=now}
+function trackMode(m,t){if(!trackOn())return;if(!_tmode.started){_tmode.started=true;trackPost({type:'session_open'})}trackFlush();_tmode.mode=m;_tmode.topic=t||'';_tmode.since=Date.now()}
+function trackMilestone(type,detail){if(!trackOn())return;if(!_tmode.started){_tmode.started=true;trackPost({type:'session_open'})}trackPost({type:type,...(detail||{})})}
+document.addEventListener('visibilitychange',function(){
+ if(document.hidden){if(_tmode.started){trackFlush();trackPost({type:'session_close'});_tmode.started=false}}
+ else if(_tmode.started){_tmode.since=Date.now()}
+});
+window.addEventListener('pagehide',function(){if(_tmode.started){trackFlush();trackPost({type:'session_close'});_tmode.started=false}});
+setInterval(function(){if(!document.hidden&&_tmode.started)trackFlush()},60000);
+function mountTrackToggle(){
+ var btn=document.createElement('button');btn.type='button';btn.id='trackingToggle';
+ btn.textContent=trackOn()?'מעקב לאביחי: פעיל · לחצו לכיבוי':'הפעלת מעקב לימוד לאביחי';
+ btn.style.cssText='display:block;margin:14px auto 0;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink2);font:600 12px Heebo,Arial;opacity:.92;cursor:pointer';
+ btn.title='הנתונים על שימוש, זמן וציונים נשלחים לגיליון הפרטי של מיקי בחשבון Google שלו';
+ btn.onclick=function(){
+  if(trackOn()){if(confirm('לכבות מעקב במכשיר זה?')){if(_tmode.started){trackPost({type:'session_close'});_tmode.started=false}localStorage.removeItem(TKEY_TRACK);btn.textContent='הפעלת מעקב לימוד לאביחי'}}
+  else if(confirm('להפעיל מעקב במכשיר של אביחי? זמני שימוש לפי מצב, נושאים וציונים יישלחו לגיליון הפרטי של מיקי ב-Google. אין להפעיל במכשיר אחר.')){
+   var entered=prompt('קוד ההפעלה מופיע בלשונית הסבר בגיליון הפרטי של מיקי:');
+   if(!entered||!/^[a-f0-9]{32}$/i.test(entered.trim()))return;
+   localStorage.setItem(TKEY_TRACK,entered.trim());btn.textContent='מעקב לאביחי: פעיל · לחצו לכיבוי';
+  }};
+ app.appendChild(btn);
+}
+
+/* --- הוספה למסך הבית (PWA) --- */
+let deferredInstall=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredInstall=e;if(location.hash===''||location.hash==='#/progress')render()});
+function installBox(){
+ const dismissed=localStorage.getItem(IKEY);
+ if(dismissed&&!deferredInstall)return '';
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ let inner='';
+ if(deferredInstall)inner='<button class="btn btn-pri btn-block" onclick="doInstall()">📲 הוספה למסך הבית — כמו אפליקציה</button>';
+ else if(ios)inner='<div class="inst-box">📲 <b>להוספה למסך הבית (אייפון):</b> לחצו על כפתור השיתוף ב-Safari ⬆️ ואז "הוסף למסך הבית".</div><button class="btn btn-ghost btn-block" onclick="localStorage.setItem(\'historia-install-hint-v1\',\'1\');render()">הבנתי, אל תציג שוב</button>';
+ else inner='<div class="inst-box">📲 <b>להוספה למסך הבית:</b> מתפריט הדפדפן (⋮) בחרו "הוספה למסך הבית" / "התקנת אפליקציה".</div><button class="btn btn-ghost btn-block" onclick="localStorage.setItem(\'historia-install-hint-v1\',\'1\');render()">הבנתי, אל תציג שוב</button>';
+ return '<div class="card">'+inner+'</div>';
+}
+async function doInstall(){if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice}catch(e){}deferredInstall=null;localStorage.setItem(IKEY,'1');render()}
+
+/* --- שחזור דרך #restore --- */
+if(location.hash==='#restore'){location.hash='';setTimeout(cbRestore,400)}
+render();
+</script>
+</body>
+</html>
