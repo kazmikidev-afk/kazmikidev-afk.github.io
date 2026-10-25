@@ -49,7 +49,7 @@ var params=new URLSearchParams(location.search),mode=params.get('mode')||'exam';
 var app=document.getElementById('app');
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function Mx(s){var ent={'&lt;':'\u0001','&gt;':'\u0002','&amp;':'\u0003','&quot;':'\u0004'},rev=['&lt;','&gt;','&amp;','&quot;'];
- return esc(s).replace(/&(lt|gt|amp|quot);/g,function(m){return ent[m]}).replace(/([0-9A-Za-z∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠-]+\s*)+/g,function(m){return /^[0-9A-Za-z(]/.test(m)?'<bdi dir="ltr">'+m+'</bdi>':m}).replace(/[\u0001-\u0004]/g,function(m){return rev[m.charCodeAt(0)-1]})}
+ return esc(s).replace(/&(lt|gt|amp|quot);/g,function(m){return ent[m]}).replace(/[0-9A-Za-z(\u200e\u0001-\u0004-][0-9A-Za-z\u0001-\u0004\u200e\u2070-\u209c\u2190-\u2193∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠\s-]*[0-9A-Za-z\u0001-\u0004\u2070-\u209c\u2190-\u2193∠≌△⊥∥°²³√π¼½¾+*\/=×÷·^%().,:−–±≤≥≠-]|[0-9A-Za-z(\u200e\u0001-\u0004-]/g,function(m){return '<bdi dir="ltr">'+m+'</bdi>'}).replace(/[\u0001-\u0004]/g,function(m){return rev[m.charCodeAt(0)-1]})}
 function seenSet(sid){
  if(sid==='alg'){var st=MIXED.rd('algebrika-v3',null)||{};return new Set(Object.keys(st.first||{}))}
  var gs=MIXED.rd('geometrika-progress-v2',null)||{};return new Set(Object.keys(gs.answers||{}));
