@@ -379,7 +379,7 @@ function scrHome(){
  const last=P.exams.length?P.exams[P.exams.length-1]:null;
  let html=topActions()
  +'<div class="card hero"><h1>⚛️ מדעיקה</h1><div class="sub">הכנה למבחן במדעים · <b>מבנה החומר</b> · כיתה ח׳</div>'
- +'<div style="margin-top:8px"><span class="chip">📅 מבחן: ד׳ '+EXAM_DATE.split('-').reverse().join('.')+'</span><span class="chip">⏳ '+dchip+'</span><span class="chip">שיעור 4 · מעבדה 4</span></div></div>'
+ +'<div style="margin-top:8px"><span class="chip">📅 מבחן: ד׳ '+EXAM_DATE.split('-').reverse().join('.')+'</span><span class="chip">⏳ '+dchip+'</span><span class="chip">📚 '+TOPICS.reduce(function(n,t){return n+t.lessons.length},0)+' שיעורים · '+QUESTIONS.length+' שאלות תרגול</span></div></div>'
  +'<div class="card"><div class="topic-head"><span class="t-name">📝 מבחן לדוגמה</span><span class="t-pages">20 שאלות · 40 דקות</span></div>'
  +'<p class="small">בתנאי מבחן: שעון, בלי רמזים, משוב מלא בסוף. השאלות מכסות את כל שלושת נושאי המיקוד עם דגש על הנושאים החלשים שלך.</p>'
  +(last?'<p class="small">מבחן אחרון: <b>'+last.score+'/'+last.total+'</b> ('+last.d+')</p>':'')
