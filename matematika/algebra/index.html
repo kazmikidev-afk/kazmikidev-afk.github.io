@@ -902,9 +902,9 @@ const MASHOV_FEED='https://kazmikidev-afk.github.io/mashov-feed.json';
 let mashovFeed=null;
 fetch(MASHOV_FEED+'?t='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{mashovFeed=j;showFeedBanner();showTodayTask();renderExamPanel();renderHome($('#search')?$('#search').value:'')}).catch(()=>{});
 function feedData(){return (mashovFeed&&mashovFeed.algebrika)||{}}
-function feedTest(){let t=feedData().test;if(!t||!t.date)return null;let days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);return days>=0&&days<=6?{...t,days}:null}
+function feedTest(){let t=feedData().test;if(!t||!t.date)return null;let days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);return days>=1&&days<=6?{...t,days}:null}
 let panelTopics=null;
-function renderExamPanel(){try{const sec=$('#examTrack');if(!sec)return;const t=feedData().test;let info=null;if(t&&t.date){const days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);if(days>=0&&days<=14)info={...t,days}}
+function renderExamPanel(){try{const sec=$('#examTrack');if(!sec)return;const t=feedData().test;let info=null;if(t&&t.date){const days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);if(days>=1&&days<=14)info={...t,days}}
  const pm=$('#pcMock');
  if(!info){sec.style.display='none';panelTopics=null;const mn0=$('#mapNote');if(mn0)mn0.style.display='none';if(pm)pm.style.display='none';return}
  const official=(info.topics||[]).filter(id=>bank[id]&&topics.some(x=>x.id===id));

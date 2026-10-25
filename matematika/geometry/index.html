@@ -1164,7 +1164,7 @@ const MASHOV_FEED='https://kazmikidev-afk.github.io/mashov-feed.json';
 let mashovFeed=null;
 fetch(MASHOV_FEED+'?t='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{mashovFeed=j;showFeedBanner();showTodayTask()}).catch(()=>{});
 function feedData(){return (mashovFeed&&mashovFeed.geometrika)||{}}
-function feedTest(){let t=feedData().test;if(!t||!t.date)return null;let days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);return days>=0&&days<=6?{...t,days}:null}
+function feedTest(){let t=feedData().test;if(!t||!t.date)return null;let days=Math.ceil((new Date(t.date+'T10:00:00')-Date.now())/864e5);return days>=1&&days<=6?{...t,days}:null}
 function showFeedBanner(){let el=document.getElementById('feedBanner');if(!el){el=document.createElement('div');el.id='feedBanner';el.style.cssText='max-width:1050px;margin:0 auto 14px';document.querySelector('main').prepend(el)}let t=feedTest();el.style.display=t?'block':'none';if(t)el.innerHTML=`<div style="border:2px solid var(--red);border-radius:18px;padding:16px 18px;background:var(--paper)"><b>🎯 מבחן במתמטיקה בעוד ${t.days===0?'היום!':t.days===1?'יום אחד':t.days+' ימים'}</b> (${t.date.split('-').reverse().join('.')}). התרגול היומי מתמקד עכשיו בנושאי המבחן. מומלץ לסיים במבחן עם שעון (כפתור "מצב מבחן" למעלה).</div>`}
 function dailyRng(seed){let a=seed>>>0||7;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function dateKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
