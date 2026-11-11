@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>תוצאות הדף היומי | מתמטיקה בקצב שלך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Secular+One&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#087f78"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="shared/shell.css"><link rel="stylesheet" href="shared/pages.css">
+<style>
+.fld{display:flex;gap:10px;margin-top:10px}
+.fld label{flex:1;font-size:12.5px;color:#617371;font-weight:600}
+.fld input{display:block;width:100%;margin-top:4px;border:1.5px solid #d5e2de;border-radius:10px;padding:8px 10px;font-size:15px;background:#fff;color:#17302e}
+.q{border-top:1px solid #eef3f1;padding:12px 0}
+.q:first-child{border-top:none;padding-top:2px}
+.q.miss{background:#fff6f0;border-radius:12px;padding:12px 8px}
+.qh{display:flex;align-items:center;gap:8px}
+.qn{font-family:'Secular One';font-size:17px;color:#087f78;width:26px;flex-shrink:0}
+.qh select{border:1.5px solid #d5e2de;border-radius:10px;padding:7px 6px;font-size:13.5px;background:#fff;color:#17302e;min-width:0}
+.qh select.tp{flex:1}
+.qh .rm{border:none;background:none;color:#9fb3af;font-size:20px;cursor:pointer;padding:0 6px;line-height:1}
+.marks{display:flex;gap:8px;margin-top:9px}
+.marks button{flex:1;border:1.5px solid #d5e2de;background:#fff;border-radius:12px;padding:9px 0;font-size:19px;font-weight:700;color:#617371;cursor:pointer}
+.marks button.on[data-m=ok]{background:#278c63;border-color:#278c63;color:#fff}
+.marks button.on[data-m=half]{background:#d9a825;border-color:#d9a825;color:#fff}
+.marks button.on[data-m=no]{background:#e87d41;border-color:#e87d41;color:#fff}
+.marks button.on[data-m=skip]{background:#617371;border-color:#617371;color:#fff}
+.errs{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.errs button{border:1.5px solid #f0d2c0;background:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;color:#8a4a22;cursor:pointer}
+.errs button.on{background:#e87d41;border-color:#e87d41;color:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:#617371;margin-top:8px}
+.legend b{color:#17302e}
+#sumText{width:100%;min-height:190px;margin-top:10px;border:1.5px solid #d5e2de;border-radius:12px;padding:10px;font-size:13px;line-height:1.6;direction:rtl;resize:vertical;color:#17302e;background:#f8fbfa}
+.msg{font-size:13px;font-weight:600;margin-top:10px;min-height:18px}
+.msg.bad{color:#c05a1f}.msg.good{color:#278c63}
+.hist .row button{border:none;background:none;color:#087f78;font-weight:600;font-size:13px;cursor:pointer;padding:4px 6px}
+.hist .row button.del{color:#c05a1f}
+.ltr{direction:ltr;unicode-bidi:isolate}
+</style></head><body class="pad">
+<div class="wrap">
+<div class="hero"><h1>תוצאות <span>הדף היומי</span></h1><p>אחרי שבודקים את הדף מול המפתח: מסמנים כל שאלה, שומרים, ומעתיקים את הסיכום למי שמכין את הדף של מחר.</p></div>
+
+<div class="card">
+<h3>איזה דף?</h3>
+<div class="fld">
+<label>תאריך הדף<input type="date" id="fDate"></label>
+<label>כמה דקות לקח?<input type="number" id="fMin" min="1" max="180" inputmode="numeric" placeholder="למשל 18"></label>
+</div>
+</div>
+
+<div class="card">
+<h3>סימון השאלות</h3>
+<div class="legend"><span><b>✓</b> נכון עם דרך</span><span><b>½</b> נכון בלי דרך או נימוק</span><span><b>✗</b> שגוי</span><span><b>–</b> דילג או נתקע</span></div>
+<div id="qs" style="margin-top:10px"></div>
+<button class="btn ghost" id="addQ" type="button">+ שאלה נוספת</button>
+</div>
+
+<div class="card">
+<button class="btn" id="saveBtn" type="button" style="margin-top:0">שמירת התוצאות</button>
+<div class="msg" id="msg"></div>
+</div>
+
+<div class="card" id="sumCard" style="display:none">
+<h3>סיכום להעברה</h3>
+<p>מדביקים את הטקסט הזה למי שמכין את הדפים, כדי שהדף הבא ייבנה לפי התוצאות.</p>
+<textarea id="sumText" readonly></textarea>
+<button class="btn" id="copyBtn" type="button">העתקה</button>
+<a class="btn ghost" href="progress.html">להתקדמות</a>
+</div>
+
+<div class="sect">דפים שהוזנו</div>
+<div class="card hist" id="hist"><p>עדיין לא הוזנו דפים.</p></div>
+<div class="note">התוצאות נשמרות במכשיר הזה בלבד. כדאי להזין תמיד מאותו מכשיר.</div>
+</div>
+<script src="shared/paper.js"></script>
+<script src="shared/shell.js" data-subject="home" data-prefix=""></script>
+<script>
+(function(){
+var P=window.PAPER,$=function(id){return document.getElementById(id)};
+var DEFAULT_LEVELS=[1,1,2,2,2,2,3];
+var items=[];
+function blank(levels){return levels.map(function(lv,i){return{n:i+1,topic:'',level:lv,mark:'',err:''}})}
+function fromQuery(q){
+  var out=[];
+  q.split(',').forEach(function(tag){
+    var m=/^([A-Z]{2})-([123])$/.exec(tag.trim().toUpperCase());
+    if(m)out.push({n:out.length+1,topic:m[1],level:+m[2],mark:'',err:''});
+  });
+  return out.slice(0,20);
+}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function render(){
+  var box=$('qs');box.textContent='';
+  items.forEach(function(it,idx){
+    var q=el('div','q');q.id='q'+idx;
+    var h=el('div','qh');
+    h.appendChild(el('span','qn',String(it.n)));
+    var tp=el('select','tp');tp.setAttribute('aria-label','נושא שאלה '+it.n);
+    var o0=el('option',null,'— נושא —');o0.value='';tp.appendChild(o0);
+    var known=false;
+    P.TOPICS.forEach(function(t){var o=el('option',null,t[1]);o.value=t[0];if(t[0]===it.topic){o.selected=true;known=true}tp.appendChild(o)});
+    if(it.topic&&!known){var ox=el('option',null,it.topic);ox.value=it.topic;ox.selected=true;tp.appendChild(ox)}
+    tp.onchange=function(){it.topic=tp.value;q.classList.remove('miss')};
+    h.appendChild(tp);
+    var lv=el('select');lv.setAttribute('aria-label','רמת שאלה '+it.n);
+    [[1,'חימום'],[2,'רמת מבחן'],[3,'אתגר']].forEach(function(x){var o=el('option',null,x[1]);o.value=x[0];if(x[0]===it.level)o.selected=true;lv.appendChild(o)});
+    lv.onchange=function(){it.level=+lv.value};
+    h.appendChild(lv);
+    var rm=el('button','rm','×');rm.type='button';rm.title='הסרת השאלה';rm.setAttribute('aria-label','הסרת שאלה '+it.n);
+    rm.onclick=function(){items.splice(idx,1);items.forEach(function(x,i){x.n=i+1});render()};
+    h.appendChild(rm);
+    q.appendChild(h);
+    var mk=el('div','marks');
+    P.MARKS.forEach(function(m){
+      var b=el('button',it.mark===m[0]?'on':'',m[1]);b.type='button';b.dataset.m=m[0];b.title=m[2];b.setAttribute('aria-label','שאלה '+it.n+': '+m[2]);
+      b.onclick=function(){it.mark=m[0];if(m[0]!=='no')it.err='';render()};
+      mk.appendChild(b);
+    });
+    q.appendChild(mk);
+    if(it.mark==='no'){
+      var er=el('div','errs');
+      P.ERRS.forEach(function(e){
+        var b=el('button',it.err===e[0]?'on':'',e[1]);b.type='button';
+        b.onclick=function(){it.err=it.err===e[0]?'':e[0];render()};
+        er.appendChild(b);
+      });
+      q.appendChild(er);
+    }
+    box.appendChild(q);
+  });
+}
+function say(text,cls){var m=$('msg');m.textContent=text;m.className='msg '+(cls||'')}
+function showSummary(date){
+  var t=P.summaryText(date);
+  $('sumCard').style.display=t?'block':'none';
+  $('sumText').value=t;
+}
+function load(date,queryItems){
+  var sh=P.getSheet(date);
+  if(sh){
+    items=sh.items.map(function(it){return{n:it.n,topic:it.topic,level:it.level,mark:it.mark,err:it.err||''}});
+    $('fMin').value=sh.minutes||'';
+    say('הדף הזה כבר הוזן — אפשר לתקן ולשמור שוב.','good');
+    showSummary(date);
+  }else{
+    items=(queryItems&&queryItems.length)?queryItems:blank(DEFAULT_LEVELS);
+    $('fMin').value='';say('');$('sumCard').style.display='none';
+  }
+  render();
+}
+function renderHist(){
+  var list=P.sheets().reverse(),box=$('hist');
+  box.textContent='';
+  if(!list.length){box.appendChild(el('p',null,'עדיין לא הוזנו דפים.'));return}
+  list.slice(0,30).forEach(function(sh){
+    var r=el('div','row');
+    r.appendChild(el('span','nm',P.heDate(sh.date)+' · '+sh.items.length+' שאלות'+(sh.minutes?' · '+sh.minutes+' דק׳':'')));
+    r.appendChild(el('span',null,P.sheetScore(sh)+'%'));
+    var e=el('button',null,'עריכה');e.type='button';
+    e.onclick=function(){$('fDate').value=sh.date;load(sh.date);window.scrollTo({top:0,behavior:'smooth'})};
+    r.appendChild(e);
+    var d=el('button','del','מחיקה');d.type='button';
+    d.onclick=function(){
+      if(!confirm('למחוק את התוצאות של '+P.heDate(sh.date)+'? אי אפשר לשחזר.'))return;
+      P.removeSheet(sh.date);renderHist();
+      if($('fDate').value===sh.date)load(sh.date);
+    };
+    r.appendChild(d);
+    box.appendChild(r);
+  });
+}
+$('addQ').onclick=function(){items.push({n:items.length+1,topic:'',level:2,mark:'',err:''});render()};
+$('fDate').onchange=function(){if($('fDate').value)load($('fDate').value)};
+$('saveBtn').onclick=function(){
+  var date=$('fDate').value;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){say('צריך לבחור תאריך.','bad');return}
+  if(!items.length){say('אין שאלות לשמור.','bad');return}
+  var bad=-1;
+  items.forEach(function(it,i){var miss=!it.topic||!it.mark;$('q'+i).classList.toggle('miss',miss);if(miss&&bad<0)bad=i});
+  if(bad>=0){say('חסר נושא או סימון בשאלה '+items[bad].n+'.','bad');$('q'+bad).scrollIntoView({behavior:'smooth',block:'center'});return}
+  var min=parseInt($('fMin').value,10);
+  var ok=P.saveSheet({date:date,minutes:(min>0&&min<=180)?min:null,items:items.map(function(it){return{n:it.n,topic:it.topic,level:it.level,mark:it.mark,err:it.mark==='no'?it.err:''}})});
+  if(!ok){say('השמירה נכשלה — ייתכן שהאחסון במכשיר חסום או מלא.','bad');return}
+  say('נשמר.'+(min>0?'':' לא נרשם זמן — אפשר להוסיף ולשמור שוב.'),'good');
+  showSummary(date);renderHist();
+  $('sumCard').scrollIntoView({behavior:'smooth',block:'start'});
+};
+$('copyBtn').onclick=function(){
+  var ta=$('sumText'),btn=$('copyBtn');
+  function done(){btn.textContent='הועתק ✓';setTimeout(function(){btn.textContent='העתקה'},1800)}
+  function fallback(){ta.focus();ta.select();try{if(document.execCommand('copy'))done()}catch(e){}}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(ta.value).then(done,fallback);else fallback();
+};
+/* פתיחה: ?d=2026-11-12&q=ST-1,EQ-1,BR-2,WP-2,AN-2,RA-2,PY-3 ממלא מראש תאריך ותגיות (הקישור מגיע ממפתח התשובות) */
+var qs=new URLSearchParams(location.search);
+var d0=qs.get('d');if(!/^\d{4}-\d{2}-\d{2}$/.test(d0||''))d0=P.dayKey(new Date());
+$('fDate').value=d0;
+load(d0,fromQuery(qs.get('q')||''));
+renderHist();
+})();
+</script>
+</body></html>
