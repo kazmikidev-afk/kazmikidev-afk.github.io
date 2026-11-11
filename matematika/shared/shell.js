@@ -14,8 +14,8 @@
   /* גיבוי ענן מאוחד — שני מרחבי-השמות המוכחים של האפליקציות (אלגבריקה + גאומטריקה), אותו endpoint, אותו קוד הסכמה, אותן רשימות מפתחות (כולל matematika-mixed-v1), פעם ביום מכל דף מאוחד. */
   try{
     var CB_URL='https://script.google.com/macros/s/AKfycbxmxolfKtSSXUY6ORmRDmK5VxjI6-Px5gNDDNA9fnhQ5-5ta6_NZQvaWj6jXjA46eja/exec';
-    var CB_SETS={algebrika:["algebrika-v3","avichai-game-v1","avichai-plan-seen-v1","avichai-teacher-code-v1","avichai-tracking-v1","matematika-mixed-v1"],
-                 geometrika:["geometrika-progress-v2","geometrika-theme","avichai-game-v1","avichai-plan-seen-v1","avichai-teacher-code-v1","avichai-tracking-v1","matematika-mixed-v1"]};
+    var CB_SETS={algebrika:["algebrika-v3","avichai-game-v1","avichai-plan-seen-v1","avichai-teacher-code-v1","avichai-tracking-v1","matematika-mixed-v1","matematika-paper-v1"],
+                 geometrika:["geometrika-progress-v2","geometrika-theme","avichai-game-v1","avichai-plan-seen-v1","avichai-teacher-code-v1","avichai-tracking-v1","matematika-mixed-v1","matematika-paper-v1"]};
     var code=(localStorage.getItem('avichai-tracking-v1')||'').trim();
     if(code.length===32&&location.hash!=='#restore'){
       var today=new Date().toISOString().slice(0,10);
