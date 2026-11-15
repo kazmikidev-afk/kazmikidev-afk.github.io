@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e17">
+<title>המשלוח של אביחי 📦</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root{
+    --bg:#0b0e17; --card:#141a2a; --card2:#1a2238;
+    --neon:#39ff88; --neon2:#7c5cff; --gold:#ffd23f;
+    --text:#eef2ff; --dim:#9aa4c0; --red:#ff5c7a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:var(--bg); color:var(--text);
+    background-image:
+      radial-gradient(circle at 85% -5%, rgba(124,92,255,.22), transparent 45%),
+      radial-gradient(circle at 5% 15%, rgba(57,255,136,.12), transparent 40%);
+    min-height:100vh; padding-bottom:96px;
+  }
+  .wrap{max-width:560px; margin:0 auto; padding:20px 16px 0;}
+  header{text-align:center; padding:26px 8px 10px;}
+  .box-emoji{font-size:56px; animation:float 3s ease-in-out infinite; display:inline-block;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  h1{font-size:30px; margin:10px 0 6px; background:linear-gradient(90deg,var(--neon),var(--gold),var(--neon2));
+     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+  .sub{color:var(--dim); font-size:15px; line-height:1.5;}
+  /* tracking bar */
+  .track{display:flex; justify-content:space-between; align-items:flex-start; margin:26px 4px 8px; position:relative;}
+  .track::before{content:''; position:absolute; top:14px; right:24px; left:24px; height:3px;
+    background:linear-gradient(90deg,var(--neon) 75%, #2a3350 75%); border-radius:2px;}
+  .step{position:relative; z-index:1; text-align:center; width:25%;}
+  .step .dot{width:29px; height:29px; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center;
+    font-size:14px; background:var(--card); border:2px solid var(--neon);}
+  .step.pending .dot{border-color:#3a4566; animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,210,63,.45)}50%{box-shadow:0 0 0 9px rgba(255,210,63,0)}}
+  .step .lbl{font-size:11.5px; color:var(--dim);}
+  .step.done .lbl{color:var(--neon);}
+  .step.pending .lbl{color:var(--gold);}
+  /* cards */
+  .card{background:var(--card); border:1px solid #232c48; border-radius:18px; padding:18px 16px; margin:16px 0;
+    box-shadow:0 6px 22px rgba(0,0,0,.35); position:relative; overflow:hidden;}
+  .card.sub-border{border-color:rgba(255,210,63,.55);}
+  .pkg{font-size:11px; color:var(--dim); letter-spacing:1px; margin-bottom:8px;}
+  .card h2{font-size:19px; display:flex; align-items:center; gap:8px;}
+  .badge{display:inline-block; font-size:12px; font-weight:700; border-radius:99px; padding:4px 12px; margin:10px 0 4px;}
+  .badge.swap{background:rgba(255,210,63,.15); color:var(--gold); border:1px solid rgba(255,210,63,.5);}
+  .badge.same{background:rgba(57,255,136,.12); color:var(--neon); border:1px solid rgba(57,255,136,.4);}
+  .row{display:flex; gap:10px; margin-top:10px; font-size:14px; line-height:1.55;}
+  .row .k{flex:0 0 86px; color:var(--dim); font-size:13px; padding-top:1px;}
+  .was{color:var(--dim);}
+  .was b{color:var(--text);}
+  .why{background:var(--card2); border-radius:12px; padding:12px 14px; margin-top:12px; font-size:14px; line-height:1.65;}
+  .why .t{color:var(--gold); font-weight:700; display:block; margin-bottom:4px; font-size:13px;}
+  .price{font-size:22px; font-weight:800; color:var(--neon);}
+  .old-price{text-decoration:line-through; color:var(--dim); font-size:15px; font-weight:400; margin-right:6px;}
+  .stock{font-size:12.5px; color:var(--red); margin-top:6px; font-weight:600;}
+  .note-line{font-size:13px; color:var(--dim); margin-top:8px; line-height:1.5;}
+  a.buy{display:block; text-align:center; margin-top:14px; padding:12px; border-radius:12px;
+    background:linear-gradient(90deg,var(--neon2),#563bff); color:#fff; font-weight:700; font-size:15px;
+    text-decoration:none; transition:transform .15s;}
+  a.buy:active{transform:scale(.97);}
+  a.buy.alt{background:#232c48; border:1px solid #3a4566; padding:9px; font-size:13.5px; margin-top:8px;}
+  /* total */
+  .total{background:linear-gradient(135deg,#182036,#101527); border:1px solid rgba(57,255,136,.4);
+    border-radius:18px; padding:20px 18px; margin:22px 0; text-align:center;}
+  .total .nums{font-size:26px; font-weight:800; margin:8px 0;}
+  .total .save{color:var(--gold); font-size:16px; font-weight:700;}
+  .total .fine{color:var(--dim); font-size:12.5px; margin-top:10px; line-height:1.5;}
+  footer{text-align:center; color:var(--dim); font-size:12px; margin-top:26px; line-height:1.6;}
+  /* install button */
+  #installBtn{position:fixed; bottom:16px; right:16px; left:16px; max-width:528px; margin:0 auto;
+    display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; border:none; border-radius:14px;
+    background:linear-gradient(90deg,var(--neon),#2bd97a); color:#06130b; font-weight:800; font-size:16px;
+    font-family:inherit; cursor:pointer; box-shadow:0 8px 24px rgba(57,255,136,.35); z-index:50;}
+  #installHint{display:none; position:fixed; bottom:0; right:0; left:0; background:#1a2238; color:var(--text);
+    padding:16px 20px 22px; font-size:14px; line-height:1.6; z-index:60; border-radius:18px 18px 0 0;
+    border-top:2px solid var(--neon);}
+  #installHint b{color:var(--neon);}
+  #installHint .x{position:absolute; top:8px; left:14px; background:none; border:none; color:var(--dim); font-size:20px; cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="box-emoji">📦</span>
+    <h1>המשלוח של אביחי</h1>
+    <p class="sub">סטאפ הגיימינג החדש שלך — נבדק, תומחר ומחכה לאור ירוק 🟢</p>
+  </header>
+
+  <div class="track">
+    <div class="step done"><div class="dot">✅</div><div class="lbl">נאסף</div></div>
+    <div class="step done"><div class="dot">🔍</div><div class="lbl">נבדק</div></div>
+    <div class="step done"><div class="dot">💰</div><div class="lbl">תומחר</div></div>
+    <div class="step pending"><div class="dot">🚀</div><div class="lbl">מוכן לשילוח</div></div>
+  </div>
+
+  <!-- 1: Monitor — SUBSTITUTE -->
+  <div class="card sub-border">
+    <div class="pkg">חבילה 1 מתוך 5 · מסך</div>
+    <h2>🖥️ Xiaomi G27Qi 2026</h2>
+    <span class="badge swap">⚡ החלפה חכמה · חוסכים ₪326</span>
+    <div class="row"><div class="k">מה ביקשת</div><div class="was">Lenovo Legion 27Q-10 · 27" QHD 240Hz · <b>₪965</b></div></div>
+    <div class="row"><div class="k">מה במשלוח</div><div>Xiaomi G27Qi 2026 · 27" QHD 200Hz · <span class="price">₪639</span></div></div>
+    <div class="why"><span class="t">למה זה עדיף?</span>
+      200Hz מול 240Hz — ההבדל כמעט בלתי נראה, גם בוולורנט וגם ב-CS2. אותה רזולוציית QHD חדה ואותו גודל 27 אינץ', וה-RTX 4070 בלפטופ שלך מנצל אותו עד הסוף. ההפרש בין המסכים = עוד משחק חדש לספריה 🎮
+    </div>
+    <div class="note-line">רוצה בכל זאת את המקסימום? הלגיון 240Hz עדיין באוויר ב-₪965.</div>
+    <a class="buy" href="https://www.zap.co.il/model.aspx?modelid=1237246">למחירים בזאפ ←</a>
+  </div>
+
+  <!-- 2: Mouse — same, cheaper -->
+  <div class="card">
+    <div class="pkg">חבילה 2 מתוך 5 · עכבר</div>
+    <h2>🖱️ Attack Shark R5 Ultra לבן</h2>
+    <span class="badge same">🎯 בדיוק מה שרצית · במחיר טוב יותר</span>
+    <div class="row"><div class="k">מה ביקשת</div><div class="was">R5 Ultra לבן · <b>₪299</b> בארץ</div></div>
+    <div class="row"><div class="k">מה במשלוח</div><div>אותו עכבר בדיוק מהאתר הרשמי · <span class="price">$63.99 ≈ ₪210</span> <span class="old-price">₪299</span></div></div>
+    <div class="why"><span class="t">למה זה בועט?</span>
+      39 גרם של סיבי פחמן, חיישן PAW3950MAX ו-8000Hz — נשק אמיתי לתחרותי. משלוח חינם, ומתחת ל-75$ אז בלי מע"מ.
+    </div>
+    <div class="stock">⚠️ נשארו יחידות בודדות — כדאי לא לפספס</div>
+    <a class="buy" href="https://attackshark.com/products/attack-shark-r5ultra-carbon-fibre-wireless-8k-paw3950max-gaming-mouse">לרכישה באתר הרשמי ←</a>
+  </div>
+
+  <!-- 3: Arm — same -->
+  <div class="card">
+    <div class="pkg">חבילה 3 מתוך 5 · זרוע למסך</div>
+    <h2>💪 NB F80</h2>
+    <span class="badge same">✅ כמו שרצית · בארץ, מגיע תוך ימים</span>
+    <div class="row"><div class="k">מה במשלוח</div><div>זרוע גז NB F80 · <span class="price">₪151–155</span></div></div>
+    <div class="why"><span class="t">למה היא מתאימה?</span>
+      מחזיקה מסכים של 2–9 ק"ג עם VESA 100 — והמסך החדש שוקל 3.9 ק"ג, אז זה בול. המסך מרחף באוויר, זז לכל כיוון, ונשאר לך שולחן נקי עם מקום לפד הענק.
+    </div>
+    <a class="buy" href="https://pcmaster.co.il/nbf80">לרכישה ב-PCMaster ←</a>
+  </div>
+
+  <!-- 4: Pad — same -->
+  <div class="card">
+    <div class="pkg">חבילה 4 מתוך 5 · פד עכבר</div>
+    <h2>🗾 Attack Shark CM02 Pro XXL</h2>
+    <span class="badge same">✅ כמו שרצית · עיצוב סמוראי</span>
+    <div class="row"><div class="k">מה במשלוח</div><div>פד ענק 900×400 מ"מ בעיצוב סמוראי · <span class="price">$26.99 ≈ ₪87</span> באמזון</div></div>
+    <div class="why"><span class="t">למה זה מגניב?</span>
+      מכסה את כל השולחן — העכבר והמקלדת יושבים יחד על אותה משטח חלק, עם עיצוב סמוראי שמשדרג את כל הפינה.
+    </div>
+    <div class="note-line">אופציה חסכונית: פד XXL גנרי בארץ ב-₪69.90 עם אחריות שנה — בלי עיצוב הסמוראי.</div>
+    <a class="buy" href="https://www.amazon.com/ATTACK-SHARK-Waterproof-Stitched-Anti-Slip/dp/B0GXTPPZ5F">לרכישה באמזון ←</a>
+    <a class="buy alt" href="https://gamedrive.co.il/products/משטח-עכבר-משחק-גדול">החלופה הזולה בארץ (₪69.90) ←</a>
+  </div>
+
+  <!-- 5: Hooks — same -->
+  <div class="card">
+    <div class="pkg">חבילה 5 מתוך 5 · ווים לאוזניות</div>
+    <h2>🎧 3 ווים מתחת לשולחן</h2>
+    <span class="badge same">✅ כמו שרצית · הכי זול שיש</span>
+    <div class="row"><div class="k">מה במשלוח</div><div>3 ווים נצמדים לשפת השולחן · <span class="price">≈ ₪32</span> לשלושתם</div></div>
+    <div class="why"><span class="t">למה זה שימושי?</span>
+      נתפסים בלי קידוח, מסתובבים 360°, וכל אוזניה מקבלת בית משלה — השולחן נשאר פנוי למשחקים.
+    </div>
+    <a class="buy" href="https://he.aliexpress.com/item/1005013585204527.html">לרכישה בעלי אקספרס ←</a>
+  </div>
+
+  <div class="total">
+    <div>💰 סיכום המשלוח</div>
+    <div class="nums">≈ ₪1,120 <span class="old-price">₪1,430</span></div>
+    <div class="save">חסכנו בערך ₪310 🎉</div>
+    <div class="fine">המחירים נבדקו הבוקר (15.11) ויכולים לזוז קצת עד ההזמנה.<br>שום דבר עוד לא נקנה — מחכים לאור ירוק 🟢</div>
+  </div>
+
+  <footer>
+    נבנה במיוחד עבור אביחי ⚡<br>המלצות מבוססות על בדיקת מחירים בארץ ובחו"ל
+  </footer>
+</div>
+
+<button id="installBtn">📲 הוסף לדף הבית</button>
+<div id="installHint">
+  <button class="x" onclick="document.getElementById('installHint').style.display='none'">✕</button>
+  כדי להוסיף למסך הבית: לחץ על <b>⋮</b> למעלה בכרום ← <b>הוספה למסך הבית</b> ← <b>הוסף</b>. האייקון יופיע כמו אפליקציה רגילה 📱
+</div>
+
+<script>
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+let deferredPrompt=null;
+const btn=document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
+btn.addEventListener('click',async()=>{
+  if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; }
+  else{ document.getElementById('installHint').style.display='block'; }
+});
+window.addEventListener('appinstalled',()=>{ btn.style.display='none'; });
+</script>
+</body>
+</html>

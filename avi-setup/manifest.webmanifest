@@ -1,0 +1,17 @@
+{
+  "name": "המשלוח של אביחי",
+  "short_name": "המשלוח שלי",
+  "description": "סטאפ הגיימינג של אביחי - נבדק, תומחר ומוכן לשילוח",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0e17",
+  "theme_color": "#0b0e17",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512-mask.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
