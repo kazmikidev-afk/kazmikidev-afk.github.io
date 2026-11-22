@@ -16,7 +16,7 @@
 .step>summary::-webkit-details-marker{display:none}
 .step>summary .n{width:26px;height:26px;border-radius:50%;background:#087f78;color:#fff;font:700 13px 'Secular One';display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .step .in{padding:0 16px 16px}
-.step svg{direction:ltr;width:100%;height:auto;display:block;margin:8px 0;background:#f8fbfa;border-radius:12px}
+.step svg text.he{direction:rtl;unicode-bidi:isolate}.step svg{direction:ltr;width:100%;height:auto;display:block;margin:8px 0;background:#f8fbfa;border-radius:12px}
 .sl{display:flex;align-items:center;gap:10px;font-size:13px;margin:6px 0}
 .sl label{width:90px;flex-shrink:0;color:#617371;font-weight:600}
 .sl input[type=range]{flex:1;accent-color:#087f78}
@@ -90,7 +90,7 @@
 </div></details>
 
 <details class="card step" id="s4"><summary><span class="n">4</span>נפח: שכבות של בסיס</summary><div class="in">
-<svg id="v4" viewBox="0 0 300 200"></svg>
+<svg id="v4" viewBox="0 0 300 215"></svg>
 <div class="sl"><label>רדיוס r</label><input type="range" id="r4" min="1" max="8" value="3"><output id="r4o"></output></div>
 <div class="sl"><label>גובה h</label><input type="range" id="h4" min="1" max="10" value="5"><output id="h4o"></output></div>
 <div class="pills"><button class="pill on" id="p4a">גליל</button><button class="pill" id="p4b">חרוט: מלאים 3 בגובה שווה</button></div>
@@ -172,7 +172,7 @@ function d1(){var a=+$('a1').value,b=+$('b1').value,s=Math.min(240/a,130/b),W=a*
  $('r1').innerHTML='שטח המלבן: '+M('a·b = '+a*b)+'<br>שטח המשולש (חצי): '+M('a·b/2 = '+a*b/2)}
 /* ---------- 2 מעגל ---------- */
 function d2(){var r=+$('r2').value,s=Math.min(70/r,16),R=r*s;
- $('v2').innerHTML='<circle cx="85" cy="85" r="'+R+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5"/><line x1="85" y1="85" x2="'+(85+R)+'" y2="85" stroke="#e87d41" stroke-width="2.5"/><text x="'+(85+R/2)+'" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#e87d41">r</text><rect x="180" y="'+(85-R)+'" width="'+R+'" height="'+R+'" fill="#e87d41" fill-opacity=".25" stroke="#e87d41" stroke-width="2"/><text x="'+(180+R/2)+'" y="'+(85-R/2+4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#8a4a22">r·r</text><text x="180" y="'+(85+14)+'" font-size="11" fill="#617371">ריבוע שצלעו r</text><text x="180" y="'+(85+28)+'" font-size="11" fill="#617371">במעגל נכנסים בערך 3.14 כאלה</text>';
+ $('v2').innerHTML='<circle cx="85" cy="85" r="'+R+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5"/><line x1="85" y1="85" x2="'+(85+R)+'" y2="85" stroke="#e87d41" stroke-width="2.5"/><text x="'+(85+R/2)+'" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#e87d41">r</text><rect x="180" y="'+(85-R)+'" width="'+R+'" height="'+R+'" fill="#e87d41" fill-opacity=".25" stroke="#e87d41" stroke-width="2"/><text x="'+(180+R/2)+'" y="'+(85-R/2+4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#8a4a22">r·r</text><text class="he" x="'+(180+R/2)+'" y="'+(85+16)+'" text-anchor="middle" font-size="11" fill="#617371">ריבוע שצלעו r</text><text class="he" x="'+(180+R/2)+'" y="'+(85+30)+'" text-anchor="middle" font-size="11" fill="#617371">נכנסים במעגל</text><text class="he" x="'+(180+R/2)+'" y="'+(85+44)+'" text-anchor="middle" font-size="11" fill="#617371">בערך 3.14 כאלה</text>';
  $('r2r').innerHTML='היקף: '+M('2·π·r ≈ '+f1(2*PI*r))+'<br>שטח: '+M('π·r² ≈ '+f1(PI*r*r))+' &nbsp;(בערך '+f1(PI)+' × '+r*r+')'}
 /* ---------- 3 מעטפת ---------- */
 var unrolled=false;
@@ -180,8 +180,8 @@ function cylSvg(r,h,cx,cy,maxW,maxH,fill){var rx=Math.max(20,Math.min(maxW,r*10)
  return '<path d="M'+(cx-rx)+' '+cy+' L'+(cx-rx)+' '+(cy+H)+' A'+rx+' '+ry+' 0 0 0 '+(cx+rx)+' '+(cy+H)+' L'+(cx+rx)+' '+cy+'" fill="'+fill+'" stroke="#087f78" stroke-width="2.5"/><ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#bfe6dc" stroke="#087f78" stroke-width="2.5"/><line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+rx)+'" y2="'+cy+'" stroke="#e87d41" stroke-width="2.5"/><text x="'+(cx+rx/2)+'" y="'+(cy-4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#e87d41">r</text><text x="'+(cx+rx+8)+'" y="'+(cy+H/2)+'" font-size="12" font-weight="700" fill="#17302e">h</text>'}
 function d3(){var r=+$('r3').value,h=+$('h3').value;
  if(!unrolled){$('v3').innerHTML=cylSvg(r,h,150,40,80,130,'#d9f0ea')}
- else{var w=2*PI*r,s=Math.min(260/w,130/h),W=w*s,H=h*s,x=(300-W)/2,y=30;
-  $('v3').innerHTML='<rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5" stroke-dasharray="6 3"/><text x="150" y="'+(y+H+16)+'" text-anchor="middle" font-size="12.5" font-weight="700" fill="#e87d41">רוחב = היקף הבסיס = 2πr ≈ '+f1(w)+'</text><text x="'+(x-6)+'" y="'+(y+H/2+4)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="#17302e">h = '+h+'</text>'}
+ else{var w=2*PI*r,s=Math.min(220/w,120/h),W=w*s,H=h*s,x=(300-W)/2+10,y=24;
+  $('v3').innerHTML='<rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5" stroke-dasharray="6 3"/><text x="150" y="'+(y+H+16)+'" text-anchor="middle" font-size="13" font-weight="700" fill="#e87d41">2πr ≈ '+f1(w)+'</text><text class="he" x="150" y="'+(y+H+32)+'" text-anchor="middle" font-size="11.5" fill="#617371">רוחב המלבן = היקף הבסיס</text><text x="'+(x-6)+'" y="'+(y+H/2+4)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="#17302e">h = '+h+'</text>'}
  var lat=2*PI*r*h,base=PI*r*r;
  $('r3r').innerHTML='מעטפת: '+M('2πrh = '+2*r*h+'π ≈ '+f1(lat))+'<br>שני בסיסים: '+M('2πr² = '+2*r*r+'π ≈ '+f1(2*base))+'<br>שטח כולל: '+M((2*r*h+2*r*r)+'π ≈ '+f1(lat+2*base))}
 /* ---------- 4 נפח ---------- */
@@ -189,8 +189,8 @@ var coneMode=false;
 function d4(){var r=+$('r4').value,h=+$('h4').value,L=Math.min(h,10),V=PI*r*r*h;
  var rx=Math.max(20,r*9),lh=Math.min(16,150/h),ry=rx*.3,cx=150,top=190-L*lh-ry-8,s='';
  for(var i=0;i<h;i++){var y=190-ry-(i+1)*lh;s+='<ellipse cx="'+cx+'" cy="'+(y+lh)+'" rx="'+rx+'" ry="'+ry+'" fill="'+(i%2?'#bfe6dc':'#d9f0ea')+'" stroke="#087f78" stroke-width="1.2"/>'}
- if(coneMode){$('v4').innerHTML='<path d="M'+(cx-rx)+' 170 L'+cx+' 20 L'+(cx+rx)+' 170" fill="#f4c95d" fill-opacity=".5" stroke="#8a6d1f" stroke-width="2.5"/><ellipse cx="'+cx+'" cy="170" rx="'+rx+'" ry="'+ry+'" fill="#f4c95d" fill-opacity=".6" stroke="#8a6d1f" stroke-width="2"/><text x="150" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a6d1f">3 חרוטים כאלה = גליל אחד באותו בסיס וגובה</text>'}
- else $('v4').innerHTML=s+'<text x="'+(cx+rx+10)+'" y="100" font-size="12.5" font-weight="700" fill="#17302e">'+h+' שכבות</text><text x="150" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#087f78">כל שכבה = שטח הבסיס πr² = '+r*r+'π</text>';
+ if(coneMode){$('v4').innerHTML='<path d="M'+(cx-rx)+' 170 L'+cx+' 20 L'+(cx+rx)+' 170" fill="#f4c95d" fill-opacity=".5" stroke="#8a6d1f" stroke-width="2.5"/><ellipse cx="'+cx+'" cy="170" rx="'+rx+'" ry="'+ry+'" fill="#f4c95d" fill-opacity=".6" stroke="#8a6d1f" stroke-width="2"/><text class="he" x="150" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#8a6d1f">שלושה חרוטים כאלה = גליל אחד</text><text class="he" x="150" y="206" text-anchor="middle" font-size="11" fill="#8a6d1f">באותו בסיס ובאותו גובה</text>'}
+ else $('v4').innerHTML=s+'<text class="he" x="'+Math.min(285,cx+rx+30)+'" y="100" text-anchor="middle" font-size="12.5" font-weight="700" fill="#17302e">'+h+' שכבות</text><text class="he" x="150" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#087f78">כל שכבה = שטח הבסיס</text><text x="150" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#087f78">πr² = '+r*r+'π</text>';
  $('r4r').innerHTML='גליל: '+M('πr²h = '+r*r*h+'π ≈ '+f1(V))+'<br>חרוט: '+M('⅓πr²h = '+f1(r*r*h/3)+'π ≈ '+f1(V/3))}
 /* ---------- 5 חרוט ---------- */
 function d5(){var r=+$('r5').value,h=+$('h5').value,l=Math.sqrt(r*r+h*h),s=Math.min(120/r,150/h),R=r*s,H=h*s,cx=150,y0=20,y1=y0+H;
