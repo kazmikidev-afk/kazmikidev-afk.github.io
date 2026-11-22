@@ -141,8 +141,9 @@
 <!-- ============ לחשב ============ -->
 <section id="t-calc" style="display:none">
 <div class="card" id="cStart"><h3>תרגול חישובים</h3>
-<p>מצב לימוד מראה פתרון מלא אחרי כל תשובה. מצב מבחן לא מראה כלום עד הסוף. בחרו נושאים או השאירו הכל.</p>
+<p>הרמה הקשה היא ברירת המחדל: שאלות בכמה שלבים, כמו במבחן. מצב לימוד מראה פתרון מלא אחרי כל תשובה. מצב מבחן לא מראה כלום עד הסוף. אפשר לבחור נושאים או להשאיר הכל.</p>
 <div class="pills" id="cTypes" style="margin-top:8px"></div>
+<div class="mode"><span>רמה:</span><button class="pill" id="lvB">רגילה</button><button class="pill on" id="lvH">קשה (ברירת מחדל)</button></div>
 <div class="mode"><span>מצב:</span><button class="pill on" id="mStudy">לימוד</button><button class="pill" id="mTest">מבחן (10 שאלות)</button></div>
 <div class="stt" id="cStat"></div>
 <button class="btn" id="cGo">התחלה</button></div>
@@ -288,14 +289,16 @@ function rStep(){var box=$('rBox');box.style.display='block';box.textContent='';
  var c=el('button','btn','הבא');c.onclick=function(){if(!toks.length)return;next(S.check(t,toks),toks.slice())};
  nav.appendChild(c);nav.appendChild(u);box.appendChild(nav)}
 /* ---------- לחשב ---------- */
-var CS=null,calcTest=false,calcTypes=[];
+var CS=null,calcTest=false,calcTypes=[],calcHard=true;
 function calcStat(){var o=S.read().calc,keys=Object.keys(o),tot=0,ok=0;keys.forEach(function(k){tot+=o[k].n;ok+=o[k].ok});
  var weak=keys.filter(function(k){return o[k].n>=3}).sort(function(a,b){return o[a].ok/o[a].n-o[b].ok/o[b].n})[0];
  $('cStat').innerHTML=tot?'<span>נענו '+tot+', נכון '+Math.round(ok/tot*100)+'%</span>'+(weak&&o[weak].ok/o[weak].n<.8?'<span>כדאי לחזק: '+S.TYPE_NAMES[weak]+'</span>':''):'<span>עדיין לא תורגל</span>';
  var box=$('cTypes');if(!box.children.length){Object.keys(S.TYPE_NAMES).forEach(function(k){var b=el('button','pill',S.TYPE_NAMES[k]);b.onclick=function(){var i=calcTypes.indexOf(k);if(i>=0)calcTypes.splice(i,1);else calcTypes.push(k);b.classList.toggle('on')};box.appendChild(b)})}}
+$('lvB').onclick=function(){calcHard=false;$('lvB').classList.add('on');$('lvH').classList.remove('on')};
+$('lvH').onclick=function(){calcHard=true;$('lvH').classList.add('on');$('lvB').classList.remove('on')};
 $('mStudy').onclick=function(){calcTest=false;$('mStudy').classList.add('on');$('mTest').classList.remove('on')};
 $('mTest').onclick=function(){calcTest=true;$('mTest').classList.add('on');$('mStudy').classList.remove('on')};
-$('cGo').onclick=function(){var n=calcTest?10:8;var types=calcTypes.map(function(k){return k});CS={qs:S.genSet(n,types),i:0,res:[],test:calcTest,fb:false};$('cStart').style.display='none';cStep()};
+$('cGo').onclick=function(){var n=calcTest?10:8;var types=calcTypes.length?calcTypes.slice():(calcHard?S.HARD_SET:S.BASIC_SET);CS={qs:S.genSet(n,types),i:0,res:[],test:calcTest,fb:false};$('cStart').style.display='none';cStep()};
 function cStep(){var box=$('cBox');box.style.display='block';box.textContent='';
  if(CS.i>=CS.qs.length){var ok=CS.res.filter(function(r){return r.ok}).length;S.sessionAdd(CS.test?'calc-test':'calc-study',ok,CS.qs.length);
   CS.res.forEach(function(r){S.calcSet(r.q.type,r.ok)});
