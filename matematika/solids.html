@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>גליל וחרוט: להבין ולשחזר | מתמטיקה בקצב שלך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Secular+One&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#087f78"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="shared/shell.css"><link rel="stylesheet" href="shared/pages.css">
+<style>
+.tabs{display:flex;background:#e3ece9;border-radius:13px;padding:3px;margin:0 0 12px;position:sticky;top:0;z-index:15}
+.tabs button{flex:1;border:none;background:none;padding:9px 2px;border-radius:10px;font:600 13.5px Heebo;color:#617371;cursor:pointer}
+.tabs button.on{background:#fff;color:#087f78;box-shadow:0 1px 3px rgba(23,48,46,.15)}
+.m{direction:ltr;unicode-bidi:isolate;display:inline-block;font-weight:700}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.tool{background:#f3f9f7;border:1px solid #dcebe6;border-radius:12px;padding:9px 10px;font-size:12.5px;line-height:1.5}
+.tool b{display:block;font-size:13px;color:#087f78}
+.step{padding:0}
+.step>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:10px}
+.step>summary::-webkit-details-marker{display:none}
+.step>summary .n{width:26px;height:26px;border-radius:50%;background:#087f78;color:#fff;font:700 13px 'Secular One';display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step .in{padding:0 16px 16px}
+.step svg{width:100%;height:auto;display:block;margin:8px 0;background:#f8fbfa;border-radius:12px}
+.sl{display:flex;align-items:center;gap:10px;font-size:13px;margin:6px 0}
+.sl label{width:90px;flex-shrink:0;color:#617371;font-weight:600}
+.sl input[type=range]{flex:1;accent-color:#087f78}
+.sl output{width:34px;text-align:center;font-weight:700}
+.res{background:#eefaf3;border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.8;margin-top:8px}
+.say{font-size:13.5px;line-height:1.65;color:#2c4a46;margin:6px 0}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.pill{border:1.5px solid #cfe0db;background:#fff;border-radius:999px;padding:7px 14px;font:600 13px Heebo;color:#17302e;cursor:pointer}
+.pill.on{background:#087f78;border-color:#087f78;color:#fff}
+.pill:disabled{opacity:.35}
+.tok{font:700 20px Heebo;min-width:46px;padding:9px 12px;direction:ltr}
+.expr{direction:ltr;min-height:54px;border:2px dashed #b9d3cb;border-radius:14px;padding:10px 12px;font:700 22px Heebo;display:flex;align-items:center;flex-wrap:wrap;gap:4px;background:#fff;margin:8px 0}
+.expr .ph{color:#9fb3af;font-size:13px;font-weight:500;direction:rtl}
+.ok{color:#278c63;font-weight:700}.bad{color:#c05a1f;font-weight:700}
+.opt{display:block;width:100%;text-align:right;border:1.5px solid #cfe0db;background:#fff;border-radius:12px;padding:11px 12px;margin:7px 0;font:500 14.5px Heebo;color:#17302e;cursor:pointer}
+.opt.good{background:#e3f6ec;border-color:#278c63}.opt.no{background:#fdeee5;border-color:#e87d41}
+.pr{height:8px;border-radius:5px;background:#e3ece9;overflow:hidden;margin:6px 0 10px}
+.pr i{display:block;height:100%;background:#087f78;transition:width .25s}
+.numin{direction:ltr;font:700 22px Heebo;width:120px;text-align:center;border:2px solid #b9d3cb;border-radius:12px;padding:8px}
+.qtext{font-size:15.5px;line-height:1.7;margin:6px 0 10px}
+.mode{display:flex;gap:8px;align-items:center;font-size:12.5px;color:#617371;margin-bottom:8px;flex-wrap:wrap}
+.legendbox{font-size:12.5px;color:#617371;line-height:1.6}
+.stt{display:flex;gap:8px;font-size:12px;flex-wrap:wrap}
+.stt span{background:#f1f6f4;border-radius:8px;padding:3px 9px}
+.wrongbox{border-top:1px solid #eef3f1;padding:10px 0;font-size:13.5px;line-height:1.7}
+.nav{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.nav .btn{margin-top:6px}
+</style></head><body class="pad">
+<div class="wrap">
+<div class="hero"><h1>גליל וחרוט: <span>להבין ולשחזר</span></h1><p>בלי דף נוסחאות במבחן. כאן בונים כל נוסחה מההתחלה, ואז מתרגלים לשלוף אותה לבד.</p></div>
+
+<div class="tabs" role="tablist">
+<button class="on" data-t="learn">להבין</button><button data-t="build">לבנות</button><button data-t="recall">לשלוף</button><button data-t="calc">לחשב</button>
+</div>
+
+<!-- ============ להבין ============ -->
+<section id="t-learn">
+<div class="card">
+<h3>ארבעה כלים שמספיקים לכל השאר</h3>
+<div class="tools">
+<div class="tool"><b>1. מלבן ומשולש</b>שטח מלבן = צלע × צלע. משולש הוא חצי מלבן.</div>
+<div class="tool"><b>2. מעגל</b>היקף = 2πr. שטח = π ריבועי רדיוס.</div>
+<div class="tool"><b>3. נפח = בסיס × גובה</b>ובחרוט לוקחים שליש מזה.</div>
+<div class="tool"><b>4. פיתגורס</b>במשולש ישר זווית: ניצב² + ניצב² = יתר².</div>
+</div>
+<p style="margin-top:8px">בכל שלב פותחים, מזיזים את המחוונים ורואים מה משתנה. הנוסחאות של הגליל והחרוט הן רק שילוב של הארבעה האלה.</p>
+</div>
+
+<details class="card step" open id="s1"><summary><span class="n">1</span>מלבן ומשולש</summary><div class="in">
+<svg id="v1" viewBox="0 0 300 170"></svg>
+<div class="sl"><label>צלע a</label><input type="range" id="a1" min="2" max="12" value="8"><output id="a1o"></output></div>
+<div class="sl"><label>צלע b</label><input type="range" id="b1" min="2" max="12" value="5"><output id="b1o"></output></div>
+<div class="res" id="r1"></div>
+<p class="say">האלכסון חותך את המלבן לשני משולשים זהים. לכן שטח משולש ישר זווית הוא חצי משטח המלבן. כל מה שיבוא אחר כך עומד על זה.</p>
+</div></details>
+
+<details class="card step" id="s2"><summary><span class="n">2</span>מעגל: היקף ושטח</summary><div class="in">
+<svg id="v2" viewBox="0 0 300 170"></svg>
+<div class="sl"><label>רדיוס r</label><input type="range" id="r2" min="1" max="10" value="4"><output id="r2o"></output></div>
+<div class="res" id="r2r"></div>
+<p class="say">הקוטר הוא שני רדיוסים. היקף המעגל הוא בערך 3.14 קטרים, זה π. לכן היקף = π · 2r. שטח המעגל הוא בערך 3.14 ריבועים שצלעם r, זה π · r².</p>
+</div></details>
+
+<details class="card step" id="s3"><summary><span class="n">3</span>מעטפת הגליל נפרשת למלבן</summary><div class="in">
+<svg id="v3" viewBox="0 0 300 200"></svg>
+<div class="pills"><button class="pill on" id="p3a">גליל</button><button class="pill" id="p3b">פרוס את המעטפת</button></div>
+<div class="sl"><label>רדיוס r</label><input type="range" id="r3" min="1" max="8" value="3"><output id="r3o"></output></div>
+<div class="sl"><label>גובה h</label><input type="range" id="h3" min="1" max="12" value="6"><output id="h3o"></output></div>
+<div class="res" id="r3r"></div>
+<p class="say">המעטפת פרושה היא מלבן. רוחבו הוא כל ההיקף של הבסיס, 2πr, וגובהו הוא h. לכן שטח המעטפת הוא 2πr · h. שטח הפנים הכולל מוסיף עוד שני מעגלים.</p>
+</div></details>
+
+<details class="card step" id="s4"><summary><span class="n">4</span>נפח: שכבות של בסיס</summary><div class="in">
+<svg id="v4" viewBox="0 0 300 200"></svg>
+<div class="sl"><label>רדיוס r</label><input type="range" id="r4" min="1" max="8" value="3"><output id="r4o"></output></div>
+<div class="sl"><label>גובה h</label><input type="range" id="h4" min="1" max="10" value="5"><output id="h4o"></output></div>
+<div class="pills"><button class="pill on" id="p4a">גליל</button><button class="pill" id="p4b">חרוט: מלאים 3 בגובה שווה</button></div>
+<div class="res" id="r4r"></div>
+<p class="say">נפח גליל הוא ערימה של h שכבות, כל שכבה בגודל הבסיס πr². אז V = πr² · h. אם ממלאים גליל בחרוטים עם אותו בסיס ואותו גובה, צריך בדיוק 3. לכן חרוט הוא שליש: ⅓πr²h.</p>
+</div></details>
+
+<details class="card step" id="s5"><summary><span class="n">5</span>חרוט: פיתגורס וחתך צירי</summary><div class="in">
+<svg id="v5" viewBox="0 0 300 200"></svg>
+<div class="sl"><label>רדיוס r</label><input type="range" id="r5" min="1" max="12" value="3"><output id="r5o"></output></div>
+<div class="sl"><label>גובה h</label><input type="range" id="h5" min="1" max="12" value="4"><output id="h5o"></output></div>
+<div class="res" id="r5r"></div>
+<p class="say">אם חותכים את החרוט לאורך הציר מתקבל משולש שווה שוקיים: בסיסו הקוטר 2r וגובהו h. הקו הצדדי הוא היתר של משולש ישר זווית עם ניצבים r ו-h, ולכן l² = r² + h². בגליל החתך הצירי הוא מלבן 2r על h.</p>
+</div></details>
+
+<details class="card step" id="s6"><summary><span class="n">6</span>מה קורה לנפח כששינו מידות</summary><div class="in">
+<div class="pills" id="p6"><button class="pill on" data-k="r">רדיוס פי k</button><button class="pill" data-k="h">גובה פי k</button><button class="pill" data-k="b">שניהם פי k</button></div>
+<div class="sl"><label>k</label><input type="range" id="k6" min="2" max="4" value="2"><output id="k6o"></output></div>
+<div class="res" id="r6"></div>
+<p class="say">כל מידה שמופיעה בנוסחה משפיעה לפי החזקה שלה: r בריבוע, h פעם אחת. אותו הדבר בחרוט, כי השליש לא משתנה. לכן כשהרדיוס והגובה גדלים פי k, הנפח גדל פי k·k·k.</p>
+</div></details>
+
+<details class="card step" id="s7"><summary><span class="n">7</span>גוללים דף: שתי דרכים</summary><div class="in">
+<div class="say">דף 30×21 ס״מ אפשר לגלול לצינור בשתי דרכים. הצלע שמקיפה את הצינור היא היקף הבסיס.</div>
+<div class="pills" id="p7"><button class="pill on" data-c="30">30 מקיף, גובה 21</button><button class="pill" data-c="21">21 מקיף, גובה 30</button></div>
+<svg id="v7" viewBox="0 0 300 150"></svg>
+<div class="res" id="r7"></div>
+<p class="say">משווים נפחים: הצינור הרחב והנמוך מול הצר והגבוה. הרדיוס מופיע בריבוע, ולכן ההיקף הגדול יותר מנצח במקרה הזה. (כשמחשבים תמיד מוצאים קודם r מתוך 2πr.)</p>
+</div></details>
+</section>
+
+<!-- ============ לבנות ============ -->
+<section id="t-build" style="display:none">
+<div class="card"><h3>בונים נוסחה צעד אחר צעד</h3><p>בוחרים נוסחה, עונים על 2-3 שאלות הכוונה, ואז מרכיבים אותה מהאסימונים. בלי לשנן מראש.</p>
+<div class="pills" id="bList" style="margin-top:10px"></div></div>
+<div class="card" id="bBox" style="display:none"></div>
+</section>
+
+<!-- ============ לשלוף ============ -->
+<section id="t-recall" style="display:none">
+<div class="card" id="rStart"><h3>שליפה בלי עזרה, כמו במבחן</h3>
+<p>8 שאלות: מרכיבים נוסחאות מאסימונים וגם עונים על שאלות יחידות ומושגים. אין רמזים ואין תשובה תוך כדי. התיקון מגיע בסוף, ושאלות שפספסתם חוזרות מוקדם יותר.</p>
+<div class="stt" id="rStat" style="margin-top:8px"></div>
+<button class="btn" id="rGo">התחלה</button></div>
+<div class="card" id="rBox" style="display:none"></div>
+</section>
+
+<!-- ============ לחשב ============ -->
+<section id="t-calc" style="display:none">
+<div class="card" id="cStart"><h3>תרגול חישובים</h3>
+<p>מצב לימוד מראה פתרון מלא אחרי כל תשובה. מצב מבחן לא מראה כלום עד הסוף. בחרו נושאים או השאירו הכל.</p>
+<div class="pills" id="cTypes" style="margin-top:8px"></div>
+<div class="mode"><span>מצב:</span><button class="pill on" id="mStudy">לימוד</button><button class="pill" id="mTest">מבחן (10 שאלות)</button></div>
+<div class="stt" id="cStat"></div>
+<button class="btn" id="cGo">התחלה</button></div>
+<div class="card" id="cBox" style="display:none"></div>
+</section>
+
+<div class="card" id="a2hs" style="display:none"><h3>● הוספה למסך הבית</h3><p id="a2hsText">כך האתר תמיד במרחק נגיעה אחת</p><button class="btn" id="a2hsBtn">הוספה</button></div>
+<div class="note">ההתקדמות נשמרת במכשיר הזה ובגיבוי היומי הקיים. אין כאן מפתחות תשובה למבחן.</div>
+</div>
+<script src="shared/solids.js"></script>
+<script src="shared/shell.js" data-subject="home" data-prefix=""></script>
+<script>
+(function(){
+var S=window.SOLIDS,$=function(i){return document.getElementById(i)},PI=Math.PI;
+function f1(x){return (Math.round(x*100)/100).toString()}
+function M(t){return '<span class="m">'+t+'</span>'}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+/* ---------- טאבים ---------- */
+var tabs=document.querySelectorAll('.tabs button');
+function showTab(t){tabs.forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});['learn','build','recall','calc'].forEach(function(x){$('t-'+x).style.display=x===t?'block':'none'});if(t==='build')buildList();if(t==='recall')recallStat();if(t==='calc')calcStat();try{history.replaceState(null,'','#'+t)}catch(e){}}
+tabs.forEach(function(b){b.onclick=function(){showTab(b.dataset.t);window.scrollTo(0,0)}});
+function bind(ids,fn){ids.forEach(function(i){$(i).addEventListener('input',function(){$(i+'o')&&($(i+'o').textContent=$(i).value);fn()})});fn()}
+function syncOut(ids){ids.forEach(function(i){var o=$(i+'o');if(o)o.textContent=$(i).value})}
+/* ---------- 1 מלבן ומשולש ---------- */
+function d1(){var a=+$('a1').value,b=+$('b1').value,s=Math.min(240/a,130/b),W=a*s,H=b*s,x=(300-W)/2,y=(170-H)/2;
+ $('v1').innerHTML='<rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2"/><path d="M'+x+' '+(y+H)+' L'+(x+W)+' '+y+' L'+(x+W)+' '+(y+H)+' Z" fill="#087f78" fill-opacity=".35" stroke="#087f78" stroke-width="2"/><text x="150" y="'+(y+H+13)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#17302e">a = '+a+'</text><text x="'+(x-6)+'" y="'+(y+H/2)+'" text-anchor="end" font-size="12" font-weight="700" fill="#17302e">b = '+b+'</text>';
+ $('r1').innerHTML='שטח המלבן: '+M('a·b = '+a*b)+'<br>שטח המשולש (חצי): '+M('a·b/2 = '+a*b/2)}
+/* ---------- 2 מעגל ---------- */
+function d2(){var r=+$('r2').value,s=Math.min(70/r,16),R=r*s;
+ $('v2').innerHTML='<circle cx="85" cy="85" r="'+R+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5"/><line x1="85" y1="85" x2="'+(85+R)+'" y2="85" stroke="#e87d41" stroke-width="2.5"/><text x="'+(85+R/2)+'" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#e87d41">r</text><rect x="180" y="'+(85-R)+'" width="'+R+'" height="'+R+'" fill="#e87d41" fill-opacity=".25" stroke="#e87d41" stroke-width="2"/><text x="'+(180+R/2)+'" y="'+(85-R/2+4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#8a4a22">r·r</text><text x="180" y="'+(85+14)+'" font-size="11" fill="#617371">ריבוע שצלעו r</text><text x="180" y="'+(85+28)+'" font-size="11" fill="#617371">במעגל נכנסים בערך 3.14 כאלה</text>';
+ $('r2r').innerHTML='היקף: '+M('2·π·r ≈ '+f1(2*PI*r))+'<br>שטח: '+M('π·r² ≈ '+f1(PI*r*r))+' &nbsp;(בערך '+f1(PI)+' × '+r*r+')'}
+/* ---------- 3 מעטפת ---------- */
+var unrolled=false;
+function cylSvg(r,h,cx,cy,maxW,maxH,fill){var rx=Math.max(20,Math.min(maxW,r*10)),H=Math.max(30,Math.min(maxH,h*10)),ry=rx*.3;
+ return '<path d="M'+(cx-rx)+' '+cy+' L'+(cx-rx)+' '+(cy+H)+' A'+rx+' '+ry+' 0 0 0 '+(cx+rx)+' '+(cy+H)+' L'+(cx+rx)+' '+cy+'" fill="'+fill+'" stroke="#087f78" stroke-width="2.5"/><ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#bfe6dc" stroke="#087f78" stroke-width="2.5"/><line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+rx)+'" y2="'+cy+'" stroke="#e87d41" stroke-width="2.5"/><text x="'+(cx+rx/2)+'" y="'+(cy-4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#e87d41">r</text><text x="'+(cx+rx+8)+'" y="'+(cy+H/2)+'" font-size="12" font-weight="700" fill="#17302e">h</text>'}
+function d3(){var r=+$('r3').value,h=+$('h3').value;
+ if(!unrolled){$('v3').innerHTML=cylSvg(r,h,150,40,80,130,'#d9f0ea')}
+ else{var w=2*PI*r,s=Math.min(260/w,130/h),W=w*s,H=h*s,x=(300-W)/2,y=30;
+  $('v3').innerHTML='<rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5" stroke-dasharray="6 3"/><text x="150" y="'+(y+H+16)+'" text-anchor="middle" font-size="12.5" font-weight="700" fill="#e87d41">רוחב = היקף הבסיס = 2πr ≈ '+f1(w)+'</text><text x="'+(x-6)+'" y="'+(y+H/2+4)+'" text-anchor="end" font-size="12.5" font-weight="700" fill="#17302e">h = '+h+'</text>'}
+ var lat=2*PI*r*h,base=PI*r*r;
+ $('r3r').innerHTML='מעטפת: '+M('2πrh = '+2*r*h+'π ≈ '+f1(lat))+'<br>שני בסיסים: '+M('2πr² = '+2*r*r+'π ≈ '+f1(2*base))+'<br>שטח כולל: '+M((2*r*h+2*r*r)+'π ≈ '+f1(lat+2*base))}
+/* ---------- 4 נפח ---------- */
+var coneMode=false;
+function d4(){var r=+$('r4').value,h=+$('h4').value,L=Math.min(h,10),V=PI*r*r*h;
+ var rx=Math.max(20,r*9),lh=Math.min(16,150/h),ry=rx*.3,cx=150,top=190-L*lh-ry-8,s='';
+ for(var i=0;i<h;i++){var y=190-ry-(i+1)*lh;s+='<ellipse cx="'+cx+'" cy="'+(y+lh)+'" rx="'+rx+'" ry="'+ry+'" fill="'+(i%2?'#bfe6dc':'#d9f0ea')+'" stroke="#087f78" stroke-width="1.2"/>'}
+ if(coneMode){$('v4').innerHTML='<path d="M'+(cx-rx)+' 170 L'+cx+' 20 L'+(cx+rx)+' 170" fill="#f4c95d" fill-opacity=".5" stroke="#8a6d1f" stroke-width="2.5"/><ellipse cx="'+cx+'" cy="170" rx="'+rx+'" ry="'+ry+'" fill="#f4c95d" fill-opacity=".6" stroke="#8a6d1f" stroke-width="2"/><text x="150" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#8a6d1f">3 חרוטים כאלה = גליל אחד באותו בסיס וגובה</text>'}
+ else $('v4').innerHTML=s+'<text x="'+(cx+rx+10)+'" y="100" font-size="12.5" font-weight="700" fill="#17302e">'+h+' שכבות</text><text x="150" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#087f78">כל שכבה = שטח הבסיס πr² = '+r*r+'π</text>';
+ $('r4r').innerHTML='גליל: '+M('πr²h = '+r*r*h+'π ≈ '+f1(V))+'<br>חרוט: '+M('⅓πr²h = '+f1(r*r*h/3)+'π ≈ '+f1(V/3))}
+/* ---------- 5 חרוט ---------- */
+function d5(){var r=+$('r5').value,h=+$('h5').value,l=Math.sqrt(r*r+h*h),s=Math.min(120/r,150/h),R=r*s,H=h*s,cx=150,y0=20,y1=y0+H;
+ $('v5').innerHTML='<path d="M'+cx+' '+y0+' L'+(cx-R)+' '+y1+' L'+(cx+R)+' '+y1+' Z" fill="#f4c95d" fill-opacity=".4" stroke="#8a6d1f" stroke-width="2.5"/><line x1="'+cx+'" y1="'+y0+'" x2="'+cx+'" y2="'+y1+'" stroke="#087f78" stroke-width="2.5" stroke-dasharray="5 3"/><line x1="'+cx+'" y1="'+y1+'" x2="'+(cx+R)+'" y2="'+y1+'" stroke="#e87d41" stroke-width="3"/><text x="'+(cx+4)+'" y="'+(y0+H/2)+'" font-size="12.5" font-weight="700" fill="#087f78">h = '+h+'</text><text x="'+(cx+R/2)+'" y="'+(y1+15)+'" text-anchor="middle" font-size="12.5" font-weight="700" fill="#e87d41">r = '+r+'</text><text x="'+(cx+R/2+8)+'" y="'+(y0+H/2-6)+'" font-size="12.5" font-weight="700" fill="#8a6d1f">l</text><text x="'+(cx-R)+'" y="'+(y1+15)+'" font-size="11" fill="#617371">2r = '+2*r+'</text>';
+ $('r5r').innerHTML='קו צדדי: '+M('l² = '+r+'² + '+h+'² = '+(r*r+h*h)+' ⇒ l ≈ '+f1(l))+'<br>שטח משולש החתך: '+M('2r·h/2 = r·h = '+r*h)+'<br>מלבן החתך בגליל באותם r,h: '+M('2r·h = '+2*r*h)}
+/* ---------- 6 שינוי מידות ---------- */
+var k6='r';
+function d6(){var k=+$('k6').value,r=3,h=4,V=r*r*h,r2=k6==='h'?r:r*k,h2=k6==='r'?h:h*k,V2=r2*r2*h2,f=V2/V,expl=k6==='r'?k+'²':k6==='h'?'k':k+'³';
+ $('r6').innerHTML='גליל לדוגמה r = 3, h = 4: נפח '+M(V+'π')+'<br>אחרי: r = '+r2+', h = '+h2+': נפח '+M(V2+'π')+'<br>הנפח גדל פי '+M(V2+' ÷ '+V+' = '+f)+' &nbsp;(זה '+M(expl)+')'}
+/* ---------- 7 גלילה ---------- */
+var c7=30;
+function d7(){var c=c7,hh=c===30?21:30,r=c/(2*3.14),V=3.14*r*r*hh,r0=30/(2*3.14),V0=3.14*r0*r0*21,r1=21/(2*3.14),V1=3.14*r1*r1*30;
+ var rx=Math.max(20,r*8),H=Math.min(110,hh*3.5),ry=rx*.3;
+ $('v7').innerHTML='<path d="M'+(150-rx)+' 25 L'+(150-rx)+' '+(25+H)+' A'+rx+' '+ry+' 0 0 0 '+(150+rx)+' '+(25+H)+' L'+(150+rx)+' 25" fill="#d9f0ea" stroke="#087f78" stroke-width="2.5"/><ellipse cx="150" cy="25" rx="'+rx+'" ry="'+ry+'" fill="#bfe6dc" stroke="#087f78" stroke-width="2.5"/><text x="'+(150+rx+8)+'" y="'+(25+H/2)+'" font-size="12" font-weight="700">h = '+hh+'</text><text x="150" y="'+(25+H+ry+16)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#e87d41">2πr = '+c+' ⇒ r ≈ '+f1(r)+'</text>';
+ $('r7').innerHTML='נפח כשהמקיף הוא '+c+': '+M('π·r²·h ≈ '+Math.round(V))+' סמ״ק<br>לעומת הדרך השנייה: '+M('≈ '+Math.round(c===30?V1:V0))+' סמ״ק'}
+/* ---------- חיבור ---------- */
+bind(['a1','b1'],d1);bind(['r2'],d2);bind(['r3','h3'],d3);bind(['r4','h4'],d4);bind(['r5','h5'],d5);bind(['k6'],d6);d7();
+$('p3a').onclick=function(){unrolled=false;$('p3a').classList.add('on');$('p3b').classList.remove('on');d3()};
+$('p3b').onclick=function(){unrolled=true;$('p3b').classList.add('on');$('p3a').classList.remove('on');d3()};
+$('p4a').onclick=function(){coneMode=false;$('p4a').classList.add('on');$('p4b').classList.remove('on');d4()};
+$('p4b').onclick=function(){coneMode=true;$('p4b').classList.add('on');$('p4a').classList.remove('on');d4()};
+document.querySelectorAll('#p6 .pill').forEach(function(b){b.onclick=function(){k6=b.dataset.k;document.querySelectorAll('#p6 .pill').forEach(function(x){x.classList.toggle('on',x===b)});d6()}});
+document.querySelectorAll('#p7 .pill').forEach(function(b){b.onclick=function(){c7=+b.dataset.c;document.querySelectorAll('#p7 .pill').forEach(function(x){x.classList.toggle('on',x===b)});d7()}});
+syncOut(['a1','b1','r2','r3','h3','r4','h4','r5','h5','k6']);
+/* ---------- לבנות ---------- */
+var curB=null;
+function doneIds(){var o=S.read().leitner;return o}
+function buildList(){var box=$('bList');box.textContent='';var L=doneIds();S.TARGETS.forEach(function(t){var b=el('button','pill'+(curB&&curB.id===t.id?' on':''),t.name+(L[t.id]&&L[t.id].b>1?' ✓':''));b.onclick=function(){openBuild(t)};box.appendChild(b)})}
+function openBuild(t){curB={id:t.id,t:t,step:0,toks:[],pool:S.pool(t),used:[],tries:0,help:true,stepOk:0,done:false};buildList();renderBuild()}
+function renderBuild(){var b=curB,t=b.t,box=$('bBox');box.style.display='block';box.textContent='';
+ box.appendChild(el('h3',null,t.name));
+ var mode=el('div','mode');var bh=el('button','pill'+(b.help?' on':''),'עם הכוונה'),bn=el('button','pill'+(b.help?'':' on'),'בלי עזרה (כמו במבחן)');
+ bh.onclick=function(){b.help=true;b.step=0;b.toks=[];b.used=[];b.tries=0;b.done=false;renderBuild()};bn.onclick=function(){b.help=false;b.step=t.steps.length;b.toks=[];b.used=[];b.tries=0;b.done=false;renderBuild()};
+ mode.appendChild(bh);mode.appendChild(bn);box.appendChild(mode);
+ if(b.help&&b.step<t.steps.length){var st=t.steps[b.step];
+  box.appendChild(el('div','mode','שאלת הכוונה '+(b.step+1)+' מתוך '+t.steps.length));
+  var pr=el('div','pr','<i style="width:'+(b.step/t.steps.length*100)+'%"></i>');box.appendChild(pr);
+  box.appendChild(el('div','qtext',st.q));
+  var idx=S.shuffle(st.o.map(function(_,i){return i}));
+  idx.forEach(function(i){var o=el('button','opt',st.o[i]);o.type='button';o.onclick=function(){
+    if(i===st.ok){o.classList.add('good');setTimeout(function(){b.step++;renderBuild()},450)}else{o.classList.add('no');o.disabled=true}};box.appendChild(o)});
+  return}
+ box.appendChild(el('div','qtext',b.help?'עכשיו מרכיבים: '+t.name+'.':'מרכיבים בלי עזרה: '+t.name+'.'));
+ var ex=el('div','expr');if(!b.toks.length)ex.appendChild(el('span','ph','בחרו אסימונים לפי הסדר'));else ex.textContent=S.show(b.toks);
+ var sym=el('span',null,t.sym+' =&nbsp;');ex.insertBefore(sym,ex.firstChild);box.appendChild(ex);
+ var pool=el('div','pills');pool.style.direction='ltr';
+ b.pool.forEach(function(tk,i){var p=el('button','pill tok',tk);p.type='button';p.disabled=b.used.indexOf(i)>=0;p.onclick=function(){b.used.push(i);b.toks.push(tk);renderBuild()};pool.appendChild(p)});box.appendChild(pool);
+ var nav=el('div','nav');
+ var undo=el('button','btn ghost','מחיקה אחורה');undo.onclick=function(){b.used.pop();b.toks.pop();renderBuild()};
+ var clr=el('button','btn ghost','ניקוי');clr.onclick=function(){b.used=[];b.toks=[];renderBuild()};
+ var chk=el('button','btn','בדיקה');
+ var msg=el('div','say');
+ chk.onclick=function(){
+  if(!b.toks.length)return;
+  if(S.check(t,b.toks)){msg.innerHTML='<span class="ok">נכון!</span> '+M(t.sym+' = '+S.show(b.toks))+' ('+t.unit+')';S.leitnerSet(t.id,true);buildList();chk.disabled=true;
+   var nx=S.TARGETS[(S.TARGETS.indexOf(t)+1)%S.TARGETS.length];var n=el('button','btn','לנוסחה הבאה: '+nx.name);n.onclick=function(){openBuild(nx)};nav.appendChild(n)}
+  else{b.tries++;S.leitnerSet(t.id,false);
+   if(b.help&&b.tries>=2){msg.innerHTML='<span class="bad">עדיין לא.</span> חזרו להכוונה ונסו שוב.';var rb=el('button','btn ghost','חזרה לשאלות ההכוונה');rb.onclick=function(){b.step=0;b.toks=[];b.used=[];b.tries=0;renderBuild()};nav.appendChild(rb)}
+   else msg.innerHTML='<span class="bad">לא מדויק.</span> נסו שוב.'}};
+ nav.appendChild(chk);nav.appendChild(undo);nav.appendChild(clr);box.appendChild(nav);box.appendChild(msg)}
+/* ---------- לשלוף ---------- */
+var RS=null;
+function recallStat(){var L=S.read().leitner,due=S.TARGETS.filter(function(t){return S.isDue(t.id)}).length,known=S.TARGETS.filter(function(t){return L[t.id]&&L[t.id].b>=3}).length;
+ $('rStat').innerHTML='<span>נוסחאות יציבות: '+known+' מתוך '+S.TARGETS.length+'</span><span>לחזרה עכשיו: '+due+'</span>'}
+function recallItems(){
+ var all=S.TARGETS.map(function(t){return{k:'f',t:t,id:t.id}}).concat(S.CONCEPTS.map(function(c){return{k:'c',c:c,id:c.id}}));
+ var due=S.shuffle(all.filter(function(x){return S.isDue(x.id)})),rest=S.shuffle(all.filter(function(x){return !S.isDue(x.id)}));
+ var fs=due.filter(function(x){return x.k==='f'}),cs=due.filter(function(x){return x.k==='c'});
+ var out=fs.concat(cs).slice(0,8);
+ out=out.concat(rest).slice(0,8);
+ return S.shuffle(out)}
+$('rGo').onclick=function(){RS={items:recallItems(),i:0,res:[]};$('rStart').style.display='none';rStep()};
+function rStep(){var box=$('rBox');box.style.display='block';box.textContent='';
+ if(RS.i>=RS.items.length){var ok=RS.res.filter(function(r){return r.ok}).length;S.sessionAdd('recall',ok,RS.items.length);
+  box.appendChild(el('h3',null,'סיימתם: '+ok+' מתוך '+RS.items.length));
+  box.appendChild(el('p',null,ok===RS.items.length?'שליפה מלאה בלי עזרה. מחר ננסה שוב.':'אלה השאלות שפספסתם, עם התשובה. הן יחזרו מוקדם יותר.'));
+  RS.res.filter(function(r){return !r.ok}).forEach(function(r){var w=el('div','wrongbox');
+   if(r.it.k==='f')w.innerHTML='<b>'+r.it.t.name+'</b><br>התשובה: '+M(r.it.t.sym+' = '+S.show(r.it.t.ans))+(r.given?'<br>הרכבתם: '+M(S.show(r.given)):'');
+   else w.innerHTML='<b>'+r.it.c.q+'</b><br>התשובה: '+r.it.c.o[r.it.c.ok];box.appendChild(w)});
+  var again=el('button','btn','סבב נוסף');again.onclick=function(){RS={items:recallItems(),i:0,res:[]};rStep()};box.appendChild(again);
+  var tb=el('button','btn ghost','לתרגול חישובים');tb.style.marginInlineStart='8px';tb.onclick=function(){showTab('calc')};box.appendChild(tb);recallStat();return}
+ var it=RS.items[RS.i];
+ box.appendChild(el('div','mode','שאלה '+(RS.i+1)+' מתוך '+RS.items.length));
+ box.appendChild(el('div','pr','<i style="width:'+(RS.i/RS.items.length*100)+'%"></i>'));
+ function next(ok,given){S.leitnerSet(it.id,ok);RS.res.push({it:it,ok:ok,given:given});RS.i++;rStep()}
+ if(it.k==='c'){box.appendChild(el('div','qtext',it.c.q));S.shuffle(it.c.o.map(function(_,i){return i})).forEach(function(i){var o=el('button','opt',it.c.o[i]);o.type='button';o.onclick=function(){next(i===it.c.ok)};box.appendChild(o)});return}
+ var t=it.t,toks=[],used=[],pool=S.pool(t);
+ box.appendChild(el('div','qtext','כתבו את הנוסחה: <b>'+t.name+'</b>'));
+ var ex=el('div','expr');box.appendChild(ex);var pl=el('div','pills');pl.style.direction='ltr';box.appendChild(pl);
+ function draw(){ex.textContent='';ex.appendChild(el('span',null,t.sym+' =&nbsp;'));if(!toks.length)ex.appendChild(el('span','ph','בחרו אסימונים'));else ex.appendChild(document.createTextNode(S.show(toks)));
+  pl.textContent='';pool.forEach(function(tk,i){var p=el('button','pill tok',tk);p.type='button';p.disabled=used.indexOf(i)>=0;p.onclick=function(){used.push(i);toks.push(tk);draw()};pl.appendChild(p)})}
+ draw();
+ var nav=el('div','nav'),u=el('button','btn ghost','מחיקה אחורה');u.onclick=function(){used.pop();toks.pop();draw()};
+ var c=el('button','btn','הבא');c.onclick=function(){if(!toks.length)return;next(S.check(t,toks),toks.slice())};
+ nav.appendChild(c);nav.appendChild(u);box.appendChild(nav)}
+/* ---------- לחשב ---------- */
+var CS=null,calcTest=false,calcTypes=[];
+function calcStat(){var o=S.read().calc,keys=Object.keys(o),tot=0,ok=0;keys.forEach(function(k){tot+=o[k].n;ok+=o[k].ok});
+ var weak=keys.filter(function(k){return o[k].n>=3}).sort(function(a,b){return o[a].ok/o[a].n-o[b].ok/o[b].n})[0];
+ $('cStat').innerHTML=tot?'<span>נענו '+tot+', נכון '+Math.round(ok/tot*100)+'%</span>'+(weak&&o[weak].ok/o[weak].n<.8?'<span>כדאי לחזק: '+S.TYPE_NAMES[weak]+'</span>':''):'<span>עדיין לא תורגל</span>';
+ var box=$('cTypes');if(!box.children.length){Object.keys(S.TYPE_NAMES).forEach(function(k){var b=el('button','pill',S.TYPE_NAMES[k]);b.onclick=function(){var i=calcTypes.indexOf(k);if(i>=0)calcTypes.splice(i,1);else calcTypes.push(k);b.classList.toggle('on')};box.appendChild(b)})}}
+$('mStudy').onclick=function(){calcTest=false;$('mStudy').classList.add('on');$('mTest').classList.remove('on')};
+$('mTest').onclick=function(){calcTest=true;$('mTest').classList.add('on');$('mStudy').classList.remove('on')};
+$('cGo').onclick=function(){var n=calcTest?10:8;var types=calcTypes.map(function(k){return k});CS={qs:S.genSet(n,types),i:0,res:[],test:calcTest,fb:false};$('cStart').style.display='none';cStep()};
+function cStep(){var box=$('cBox');box.style.display='block';box.textContent='';
+ if(CS.i>=CS.qs.length){var ok=CS.res.filter(function(r){return r.ok}).length;S.sessionAdd(CS.test?'calc-test':'calc-study',ok,CS.qs.length);
+  CS.res.forEach(function(r){S.calcSet(r.q.type,r.ok)});
+  box.appendChild(el('h3',null,(CS.test?'מבחן: ':'סיכום: ')+ok+' מתוך '+CS.qs.length));
+  var wr=CS.res.filter(function(r){return !r.ok});
+  box.appendChild(el('p',null,wr.length?'אלה השאלות שטעיתם בהן, עם הפתרון המלא:':'הכל נכון.'));
+  wr.forEach(function(r){var w=el('div','wrongbox');w.innerHTML='<div>'+r.q.text+'</div><div>תשובתכם: '+(r.given===''?'ריק':r.given)+'</div><div class="ok">פתרון: '+M(r.q.sol)+'</div>';box.appendChild(w)});
+  var a=el('button','btn','סבב נוסף');a.onclick=function(){$('cBox').style.display='none';$('cStart').style.display='block';calcStat()};box.appendChild(a);return}
+ var q=CS.qs[CS.i];box.appendChild(el('div','mode',(CS.test?'מצב מבחן: ':'מצב לימוד: ')+'שאלה '+(CS.i+1)+' מתוך '+CS.qs.length));
+ box.appendChild(el('div','pr','<i style="width:'+(CS.i/CS.qs.length*100)+'%"></i>'));
+ box.appendChild(el('div','qtext',q.text));
+ var fb=el('div','say'),nav=el('div','nav');
+ function advance(ok,given){CS.res.push({q:q,ok:ok,given:given});
+  if(CS.test){CS.i++;cStep();return}
+  fb.innerHTML=(ok?'<span class="ok">נכון!</span> ':'<span class="bad">לא נכון.</span> ')+'<div class="res">'+M(q.sol)+'</div>';
+  var n=el('button','btn',CS.i+1>=CS.qs.length?'לסיכום':'לשאלה הבאה');n.onclick=function(){CS.i++;cStep()};nav.appendChild(n)}
+ if(q.mc){q.opts.forEach(function(o,i){var b=el('button','opt',o);b.type='button';b.onclick=function(){box.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add(i===q.ok?'good':(CS.test?'':'no'));advance(i===q.ok,o)};box.appendChild(b)})}
+ else{var row=el('div',null);row.style.cssText='display:flex;align-items:center;gap:8px;direction:ltr;justify-content:flex-end';
+  var inp=el('input','numin');inp.type='text';inp.setAttribute('inputmode','decimal');inp.setAttribute('autocomplete','off');inp.setAttribute('aria-label','תשובה');
+  row.appendChild(el('span',null,(q.pi?'π':'')+' '+q.unit));row.insertBefore(inp,row.firstChild);box.appendChild(row);
+  var ck=el('button','btn','בדיקה');ck.onclick=function(){if(inp.value.trim()===''){inp.focus();return}inp.disabled=true;ck.disabled=true;advance(S.checkNum(q,inp.value),inp.value)};
+  inp.onkeydown=function(e){if(e.key==='Enter')ck.click()};nav.appendChild(ck);setTimeout(function(){try{inp.focus()}catch(e){}},50)}
+ box.appendChild(nav);box.appendChild(fb)}
+/* ---------- הוספה למסך הבית ---------- */
+var deferred=null,a2=$('a2hs');
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;a2.style.display='block'});
+var ios=/iP(hone|ad|od)/.test(navigator.userAgent),standalone=window.navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;
+if(ios&&!standalone){a2.style.display='block';$('a2hsText').textContent='בספארי: תפריט השיתוף › "הוסף למסך הבית"';$('a2hsBtn').style.display='none'}
+$('a2hsBtn').onclick=function(){if(deferred)deferred.prompt()};
+var h0=(location.hash||'').slice(1);if(['build','recall','calc'].indexOf(h0)>=0)showTab(h0);
+window.__solids={RSget:function(){return RS},CSget:function(){return CS}};
+})();
+</script>
+</body></html>
