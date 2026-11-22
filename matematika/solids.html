@@ -159,6 +159,7 @@
 var S=window.SOLIDS,$=function(i){return document.getElementById(i)},PI=Math.PI;
 function f1(x){return (Math.round(x*100)/100).toString()}
 function M(t){return '<span class="m">'+t+'</span>'}
+function SOL(t){return t.replace(/[A-Za-z\u03c0\u2153\d][^\u0590-\u05FF]*[A-Za-z\u03c0\u2153\d\u00b2\u00b3)]|[A-Za-z\u03c0\u2153\d]/g,function(m){return '<span class="m" style="font-weight:600">'+m+'</span>'})}
 function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
 /* ---------- טאבים ---------- */
 var tabs=document.querySelectorAll('.tabs button');
@@ -301,7 +302,7 @@ function cStep(){var box=$('cBox');box.style.display='block';box.textContent='';
   box.appendChild(el('h3',null,(CS.test?'מבחן: ':'סיכום: ')+ok+' מתוך '+CS.qs.length));
   var wr=CS.res.filter(function(r){return !r.ok});
   box.appendChild(el('p',null,wr.length?'אלה השאלות שטעיתם בהן, עם הפתרון המלא:':'הכל נכון.'));
-  wr.forEach(function(r){var w=el('div','wrongbox');w.innerHTML='<div>'+r.q.text+'</div><div>תשובתכם: '+(r.given===''?'ריק':r.given)+'</div><div class="ok">פתרון: '+M(r.q.sol)+'</div>';box.appendChild(w)});
+  wr.forEach(function(r){var w=el('div','wrongbox');w.innerHTML='<div>'+r.q.text+'</div><div>תשובתכם: '+(r.given===''?'ריק':r.given)+'</div><div class="ok">פתרון: '+SOL(r.q.sol)+'</div>';box.appendChild(w)});
   var a=el('button','btn','סבב נוסף');a.onclick=function(){$('cBox').style.display='none';$('cStart').style.display='block';calcStat()};box.appendChild(a);return}
  var q=CS.qs[CS.i];box.appendChild(el('div','mode',(CS.test?'מצב מבחן: ':'מצב לימוד: ')+'שאלה '+(CS.i+1)+' מתוך '+CS.qs.length));
  box.appendChild(el('div','pr','<i style="width:'+(CS.i/CS.qs.length*100)+'%"></i>'));
@@ -309,7 +310,7 @@ function cStep(){var box=$('cBox');box.style.display='block';box.textContent='';
  var fb=el('div','say'),nav=el('div','nav');
  function advance(ok,given){CS.res.push({q:q,ok:ok,given:given});
   if(CS.test){CS.i++;cStep();return}
-  fb.innerHTML=(ok?'<span class="ok">נכון!</span> ':'<span class="bad">לא נכון.</span> ')+'<div class="res">'+M(q.sol)+'</div>';
+  fb.innerHTML=(ok?'<span class="ok">נכון!</span> ':'<span class="bad">לא נכון.</span> ')+'<div class="res">'+SOL(q.sol)+'</div>';
   var n=el('button','btn',CS.i+1>=CS.qs.length?'לסיכום':'לשאלה הבאה');n.onclick=function(){CS.i++;cStep()};nav.appendChild(n)}
  if(q.mc){q.opts.forEach(function(o,i){var b=el('button','opt',o);b.type='button';b.onclick=function(){box.querySelectorAll('.opt').forEach(function(x){x.disabled=true});b.classList.add(i===q.ok?'good':(CS.test?'':'no'));advance(i===q.ok,o)};box.appendChild(b)})}
  else{var row=el('div',null);row.style.cssText='display:flex;align-items:center;gap:8px;direction:ltr;justify-content:flex-end';
