@@ -438,7 +438,7 @@ function recordAnswer(q,good){
   if(!good)P.wrong[q.id]=(P.wrong[q.id]||0)+1;else if(P.wrong[q.id])P.wrong[q.id]=Math.max(0,P.wrong[q.id]-1);
   touchDay(1);
  }
- trackMilestone('practice_answer',{correct:good?1:0,topic:q.topic});
+ if(trackOn()){S.byT=S.byT||{};const b=S.byT[q.topic]=S.byT[q.topic]||[0,0];b[1]++;if(good)b[0]++}
 }
 function drawQ(){
  const q=S.qs[S.i],tot=S.qs.length;
@@ -563,7 +563,7 @@ function endSession(){
  +'<div class="res-big '+cls+'">'+S.ok+'/'+tot+'</div>'
  +'<p>'+(pct>=80?'כל הכבוד! 👏':pct>=60?'יפה — עוד תרגול קטן וזה יושב 💪':'שווה לחזור על הלימוד ולנסות שוב 📖')+'</p></div>'
  +'<div class="row"><button class="btn btn-pri2" onclick="nav(\'\')">🏠 בית</button><button class="btn btn-pri" onclick="nav(LAST_ROUTE)">עוד סיבוב</button></div>';
- trackMilestone('practice_complete',{title:S.title,correct:S.ok,total:tot});
+ Object.keys(S.byT||{}).forEach(function(k){const b=S.byT[k];if(b[1]>0)trackMilestone('practice_complete',{mode:'practice',topic:tName(k),correct:b[0],total:b[1]})});
 }
 /* --- מבחן לדוגמה: 20 שאלות · 30 דקות · בלי רמזים --- */
 const EXAM_Q=20,EXAM_MIN=30;
@@ -652,7 +652,7 @@ function finishExam(timedOut){
  +(weakT.length?'<button class="btn btn-pri" onclick="nav(\'#/practice/'+weakT[0].id+'\')">✏️ תרגול: '+weakT[0].name+'</button>':'')
  +'<button class="btn btn-pri2" onclick="nav(\'#/exam\')">🔄 מבחן נוסף</button>'
  +'<button class="btn btn-ghost" onclick="nav(\'\')">🏠 בית</button></div>';
- trackMilestone('exam_complete',{score:ok,total:S.qs.length});
+ if(trackOn()){const wb={};TOPICS.forEach(function(t){const p=per[t.id];if(p[1]>0){trackMilestone('practice_complete',{mode:'quiz',topic:t.name,correct:p[0],total:p[1]});if(p[1]-p[0]>0)wb[t.name]=p[1]-p[0]}});trackMilestone('quiz_complete',{mode:'quiz',topic:'מבחן לדוגמה',correct:ok,total:S.qs.length,wrongByTopic:wb})}
  window.scrollTo(0,0);
 }
 /* --- התקדמות, ייצוא/ייבוא, גיבוי --- */
@@ -724,8 +724,11 @@ async function cbRestore(){
 /* --- מעקב לימוד (רק אם קוד ההסכמה כבר פעיל במכשיר — אותו גיליון פרטי, בלי הרחבת גילוי) --- */
 const TRACK_URL='https://script.google.com/macros/s/AKfycbwlq3_queCzhjr_tVXN7BlsHR1_IK94c3BKra-G2mbI2TbJMhqNYXwZFSPj-kiNpT1NdQ/exec';
 const TRACK_APP='אקולוגיקה';
-function trackCode(){return localStorage.getItem(TKEY_TRACK)||''}
-function trackOn(){return /^[a-f0-9]{32}$/i.test(trackCode())}
+const TKEY_ECO='ecologica-track-v1',TKEY_ANG='anglika-track-v1';/* מפתח מכשיר מזווג (לא קוד הסכמה של אביחי) — אותו זיווג של אנגליקה תקף גם כאן */
+function trackCode(){try{const a=localStorage.getItem(TKEY_ECO)||'';if(/^[0-9a-f]{32}$/.test(a))return a;const b=localStorage.getItem(TKEY_ANG)||'';return /^[0-9a-f]{32}$/.test(b)?b:''}catch(e){return''}}
+function trackOn(){return /^[0-9a-f]{32}$/.test(trackCode())}
+const T_MODE={learn:'study',practice:'practice',exam:'quiz'};
+function tName(id){const t=topicById(id);return t?t.name:String(id||'')}
 function trackPost(e){
  if(!trackOn())return;
  const payload=JSON.stringify({v:1,code:trackCode(),app:TRACK_APP,at:new Date().toISOString(),id:Date.now().toString(36)+Math.random().toString(36).slice(2,10),...e});
@@ -733,7 +736,7 @@ function trackPost(e){
  fetch(TRACK_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:payload}).catch(function(){})}catch(_){}
 }
 let _tmode={mode:'other',topic:'',since:Date.now(),started:false};
-function trackFlush(){if(!trackOn())return;const now=Date.now();const sec=Math.min(300,Math.max(0,Math.round((now-_tmode.since)/1000)));if(sec>0&&_tmode.started)trackPost({type:'time',mode:_tmode.mode,topic:_tmode.topic,seconds:sec});_tmode.since=now}
+function trackFlush(){if(!trackOn())return;const now=Date.now();const sec=Math.min(300,Math.max(0,Math.round((now-_tmode.since)/1000)));if(sec>0&&_tmode.started)trackPost({type:'time',mode:(T_MODE[_tmode.mode]||'other'),topic:_tmode.topic,seconds:sec});_tmode.since=now}
 function trackMode(m,t){if(!trackOn())return;if(!_tmode.started){_tmode.started=true;trackPost({type:'session_open'})}trackFlush();_tmode.mode=m;_tmode.topic=t||'';_tmode.since=Date.now()}
 function trackMilestone(type,detail){if(!trackOn())return;if(!_tmode.started){_tmode.started=true;trackPost({type:'session_open'})}trackPost({type:type,...(detail||{})})}
 document.addEventListener('visibilitychange',function(){
@@ -742,19 +745,26 @@ document.addEventListener('visibilitychange',function(){
 });
 window.addEventListener('pagehide',function(){if(_tmode.started){trackFlush();trackPost({type:'session_close'});_tmode.started=false}});
 setInterval(function(){if(!document.hidden&&_tmode.started)trackFlush()},60000);
+async function trackFetch(o){const r=await fetch(TRACK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(o)});return r.json()}
+function hex16(){return[...crypto.getRandomValues(new Uint8Array(16))].map(function(x){return x.toString(16).padStart(2,'0')}).join('')}
+let _pairTimer=null;
+function pairBoxEl(){return document.getElementById('pairBox')}
+async function pairStart(){
+ if(trackOn())return;
+ const dk=hex16(),p6=String(Math.floor(100000+Math.random()*900000));
+ let box=pairBoxEl();if(box)box.innerHTML='<p class="small">שולח בקשת חיבור...</p>';
+ try{const r=await trackFetch({action:'pair_request',deviceKey:dk,pair:p6});if(!r||!r.ok)throw Error()}catch(e){box=pairBoxEl();if(box)box.innerHTML='<p class="small">לא הצלחתי לפנות לשרת. בודקים אינטרנט ומנסים שוב.</p>';return}
+ box=pairBoxEl();if(box)box.innerHTML='<p>הקוד לחיבור: <b style="font-size:1.5em;letter-spacing:3px">'+p6+'</b></p><p class="small">מיקי מאשר את הקוד, והמסך מתעדכן לבד. הקוד תקף לחצי שעה.</p>';
+ clearInterval(_pairTimer);
+ _pairTimer=setInterval(async function(){try{const s=await trackFetch({action:'pair_status',deviceKey:dk});if(s&&s.approved){clearInterval(_pairTimer);try{localStorage.setItem(TKEY_ECO,dk)}catch(e){}_tmode.started=false;trackMode(_tmode.mode,_tmode.topic);const b=pairBoxEl();if(b)b.innerHTML='<p>✅ מעקב פעיל</p>';const t=document.getElementById('trackingToggle');if(t)t.remove();alert('המעקב חובר. תודה!')}}catch(e){}},5000);
+}
 function mountTrackToggle(){
- var btn=document.createElement('button');btn.type='button';btn.id='trackingToggle';
- btn.textContent=trackOn()?'מעקב לגלעד: פעיל · לחצו לכיבוי':'הפעלת מעקב לימוד לגלעד';
- btn.style.cssText='display:block;margin:14px auto 0;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink2);font:600 12px Heebo,Arial;opacity:.92;cursor:pointer';
- btn.title='הנתונים על שימוש, זמן וציונים נשלחים לגיליון הפרטי של מיקי בחשבון Google שלו';
- btn.onclick=function(){
-  if(trackOn()){if(confirm('לכבות מעקב במכשיר זה?')){if(_tmode.started){trackPost({type:'session_close'});_tmode.started=false}localStorage.removeItem(TKEY_TRACK);btn.textContent='הפעלת מעקב לימוד לגלעד'}}
-  else if(confirm('להפעיל מעקב במכשיר של גלעד? זמני שימוש לפי מצב, נושאים וציונים יישלחו לגיליון הפרטי של מיקי ב-Google. אין להפעיל במכשיר אחר.')){
-   var entered=prompt('קוד ההפעלה מופיע בלשונית הסבר בגיליון הפרטי של מיקי:');
-   if(!entered||!/^[a-f0-9]{32}$/i.test(entered.trim()))return;
-   localStorage.setItem(TKEY_TRACK,entered.trim());btn.textContent='מעקב לגלעד: פעיל · לחצו לכיבוי';
-  }};
- app.appendChild(btn);
+ if(trackOn()){
+  const d=document.createElement('div');d.id='trackingToggle';d.className='small';d.style.cssText='text-align:center;margin:14px 0 0;opacity:.8';d.textContent='מעקב פעיל במכשיר הזה';app.appendChild(d);return;
+ }
+ const wrap=document.createElement('div');wrap.id='trackingToggle';wrap.style.cssText='text-align:center;margin:14px 0 0';
+ wrap.innerHTML='<button type="button" class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="pairStart()">חיבור מעקב להורה</button><div id="pairBox" style="margin-top:8px"></div>';
+ app.appendChild(wrap);
 }
 /* --- הוספה למסך הבית (PWA) --- */
 let deferredInstall=null;
@@ -771,6 +781,7 @@ async function doInstall(){if(!deferredInstall)return;deferredInstall.prompt();t
 /* --- שחזור דרך #restore --- */
 if(location.hash==='#restore'){location.hash='';setTimeout(cbRestore,400)}
 render();
+if(location.hash==='#pair'){location.hash='#/progress';setTimeout(pairStart,500)}
 </script>
 </body>
 </html>
