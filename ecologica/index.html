@@ -316,7 +316,7 @@ function toggleTheme(){const cur=document.documentElement.getAttribute('data-the
 applyTheme();
 
 /* --- תאריך מבחן (מוזן במכשיר) --- */
-const EXAM_DEFAULT='2026-12-03'; /* מבחן מדעים ו2 — יום חמישי 3.12.2026, מהלוח הרשמי בכיתה */
+const EXAM_DEFAULT='2026-11-30'; /* מבחן מדעים ו2 — הוקדם ליום שני 30.11.2026 (מייל המורה מ-13.11); תאריך ידני שמור ב-DKEY גובר */
 function examDate(){return localStorage.getItem(DKEY)||EXAM_DEFAULT}
 function setExamDate(d){if(d)localStorage.setItem(DKEY,d);else localStorage.removeItem(DKEY);render()}
 function daysToExam(){const ed=examDate();if(!ed)return null;const now=new Date();now.setHours(0,0,0,0);const ex=new Date(ed+'T00:00:00');return Math.round((ex-now)/86400000)}
