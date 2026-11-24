@@ -79,10 +79,13 @@ function dayKey(){return new Date().toISOString().slice(0,10)}
 function noteAnswer(topic,ok,key){if(ok)P.xp=(P.xp||0)+10;const t=P.topics[topic]||(P.topics[topic]={a:0,c:0});t.a++;if(ok)t.c++;const d=P.days[dayKey()]||(P.days[dayKey()]={q:0});d.q++;if(!ok)P.wrong[key]=(P.wrong[key]||0)+1;else if(P.wrong[key]>0)P.wrong[key]--;saveP()}
 function topicName(id){return id==='b'?'בונוס איות':topicById(id).name}
 /* ===== יצירת שאלות ===== */
-function pool(topic){return topicById(topic).items}
+function expand(items){const out=[];items.forEach(function(it){const f=it[0].split(' / '),h=it[1].split(' / ');
+ if(f.length===1)out.push(it);else if(h.length===f.length)f.forEach(function(x,i){out.push([x,h[i]])});else f.forEach(function(x){out.push([x,it[1]])})});return out}
+const EXP={};
+function pool(topic){if(topic==='g'||topic==='s'){return EXP[topic]||(EXP[topic]=expand(topicById(topic).items))}return topicById(topic).items}
 function distract(topic,idx,col,n){/* מסיחים מאותו נושא, שונים בטקסט */
- const cor=pool(topic)[idx][col];let others=shuffle(pool(topic).map(function(x){return x[col]}).filter(function(v,i,a){return v!==cor&&a.indexOf(v)===i}));
- if(others.length<n){const extra=shuffle([].concat.apply([],TOPICS.map(function(t){return t.items.map(function(x){return x[col]})})).filter(function(v){return v!==cor&&others.indexOf(v)<0}));others=others.concat(extra)}
+ const cor=pool(topic)[idx][col];const me=pool(topic)[idx][1-col];let others=shuffle(pool(topic).filter(function(x){return x[1-col]!==me}).map(function(x){return x[col]}).filter(function(v,i,a){return v!==cor&&a.indexOf(v)===i}));
+ if(others.length<n){const extra=shuffle([].concat.apply([],['g','s','q','n'].map(function(t){return pool(t).filter(function(x){return x[1-col]!==me}).map(function(x){return x[col]})})).filter(function(v){return v!==cor&&others.indexOf(v)<0}));others=others.concat(extra)}
  return others.slice(0,n)}
 function mc(topic,key,prompt,correct,wrongs,explain,frOpts){
  const opts=shuffle([correct].concat(wrongs));return{kind:'mc',topic:topic,key:key,prompt:prompt,opts:opts,ans:opts.indexOf(correct),explain:explain,frOpts:!!frOpts}}
@@ -90,11 +93,11 @@ function qFr2He(topic,i){const it=pool(topic)[i];if(topic==='n'){return mc(topic
  return mc(topic,'f2h'+topic+i,'מה פירוש: '+F(it[0])+' ?',it[1],distract(topic,i,1,3),F(it[0])+' = '+it[1])}
 function qHe2Fr(topic,i){const it=pool(topic)[i];
  if(topic==='n')return mc(topic,'d2n'+i,'איך אומרים בצרפתית את המספר '+it[1]+'?',it[0],distract(topic,i,0,3),it[1]+' = '+F(it[0]),true);
- return mc(topic,'h2f'+topic+i,'איך אומרים בצרפתית: '+it[1].replace(/\?$/,'')+'?',it[0],distract(topic,i,0,3),it[1]+' = '+F(it[0]),true)}
+ return mc(topic,'h2f'+topic+i,'איך אומרים בצרפתית: '+it[1],it[0],distract(topic,i,0,3),it[1]+' = '+F(it[0]),true)}
 function qQA(i){const it=pool('q')[i];const wr=shuffle(pool('q').filter(function(x,j){return j!==i}).map(function(x){return x[2]})).slice(0,3);
  return mc('q','qa'+i,'בחרו את התשובה המתאימה לשאלה: '+F(it[0]),it[2],wr,F(it[0])+' → '+F(it[2]),true)}
 function qOrder(i,ans){const it=pool('q')[i];const s=ans?it[2].split(' / ')[0]:it[0];return{kind:'order',topic:'q',key:'ord'+(ans?'a':'q')+i,prompt:ans?'סדרו את התשובה לשאלה:<br>'+F(it[0]):'סדרו את השאלה לפי המשמעות:<br>'+it[1].split(' / ')[0],tokens:s.split(' '),target:s,explain:F(s)}}
-function qType(topic,i){const it=pool(topic)[i];const fr=it[0];return{kind:'type',topic:'b',key:'typ'+topic+i,prompt:topic==='n'?'כתבו בצרפתית את המספר '+it[1]+' :':'כתבו בצרפתית: '+it[1].split(' / ')[0],variants:fr.split(' / '),explain:F(fr)}}
+function qType(topic,i){const it=pool(topic)[i];const fr=it[0];return{kind:'type',topic:'b',key:'typ'+topic+i,prompt:topic==='n'?'כתבו בצרפתית את המספר '+it[1]+' :':'כתבו בצרפתית: '+it[1].split(' / ')[0],variants:pool(topic).filter(function(x){return x[1]===it[1]}).map(function(x){return x[0]}),explain:F(fr)}}
 function builtFor(topic){const out=[];
  if(topic==='n'){pool('n').forEach(function(x,i){out.push(qFr2He('n',i));out.push(qHe2Fr('n',i))});return out}
  pool(topic).forEach(function(x,i){out.push(qFr2He(topic,i));out.push(qHe2Fr(topic,i))});
@@ -109,12 +112,15 @@ let S=null;
 function bar(){return'<div class="bar"><i style="width:'+Math.round(100*S.i/S.qs.length)+'%"></i></div>'}
 function streak(){let n=0;const d=new Date();for(;;){const k=d.toISOString().slice(0,10);if(P.days[k]&&P.days[k].q>0)n++;else if(n>0||k!==dayKey())break;d.setDate(d.getDate()-1);if(n>60)break}return n}
 function level(){const x=P.xp||0;return x>=800?'מאסטר 🏆':x>=400?'מתקדם 🚀':x>=150?'לומד 📚':'מתחיל 🌱'}
+function examCard(){const t=new Date();const d0=new Date(t.getFullYear(),t.getMonth(),t.getDate()),d1=new Date(2026,10,26);const n=Math.round((d1-d0)/86400000);
+ const when=n>0?'עוד '+(n===1?'יום אחד':n+' ימים'):n===0?'היום!':'';
+ return'<div class="card" style="border-color:var(--pri)"><b>📅 הבוחן בצרפתית: יום חמישי, 26.11</b> '+(when?'<span class="chip">'+when+'</span>':'')+'<div class="small">לפי הודעת המורה סילבי (נשלחה ב-20.11): אוצר מילים ומספרים עד 20, בלי חלק בעל פה. כתיבה נכונה היא בונוס.</div></div>'}
 function pct(t){return t.a?Math.round(100*t.c/t.a)+'%':'—'}
 function home(){
  trackMode('other','בית');
  let h='<h1>🇫🇷 צרפתית — תרגול לבוחן</h1><div class="small">לפי דף המורה סילבי: אוצר מילים, ברכות ונימוס, הצגה עצמית, שאלות ותשובות ומספרים 0 עד 20.</div>';
  h+='<div class="card"><h2>מה בבוחן?</h2><div class="small">זיהוי והבנה של אוצר המילים שנלמד בכיתה ושל המספרים 0 עד 20: סידור משפט, התאמת שאלה לתשובה ותרגום מילים וביטויים קצרים. איות צרפתי נכון הוא <b>בונוס בלבד</b>.</div></div>';
- h+='<div class="card" style="display:flex;justify-content:space-around;text-align:center"><div><b>'+(P.xp||0)+'</b><div class="small">⚡ נקודות</div></div><div><b>'+streak()+'</b><div class="small">🔥 ימים ברצף</div></div><div><b>'+level()+'</b><div class="small">רמה</div></div></div>';h+=installBox();
+ h+='<div class="card" style="display:flex;justify-content:space-around;text-align:center"><div><b>'+(P.xp||0)+'</b><div class="small">⚡ נקודות</div></div><div><b>'+streak()+'</b><div class="small">🔥 ימים ברצף</div></div><div><b>'+level()+'</b><div class="small">רמה</div></div></div>';h+=examCard();h+=installBox();
  h+='<h2>למידה</h2>';
  TOPICS.forEach(function(t){h+='<button class="btn sec" onclick="location.hash=\'#/learn/'+t.id+'\'">📖 '+t.name+'</button>'});
  h+='<h2>תרגול לפי נושא</h2>';
