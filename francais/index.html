@@ -62,7 +62,7 @@ const TIPS={
 g:['Bonjour משמש ביום, Bonsoir בערב. Salut ו-Coucou הן דרכים חברתיות, בין חברים.','Au revoir היא הפרידה הרגילה. À bientôt = נתראה בקרוב, À plus = נתראה אחר כך (קיצור של À plus tard).','Pardon ו-Excuse-moi = סליחה. Je suis désolé(e) = אני מצטער/ת: בסוף יש e כשמי שמדבר היא בת.','Cher לזכר ו-Chère לנקבה, למשל בראש מכתב.'],
 s:['Le prénom = השם הפרטי, Le nom = שם המשפחה.','סולם "מה שלומך" מהטוב לרע: Super bien, Ça va bien, Ça va moyen / Comme ci, comme ça / Bof, Pas tellement, Ça va mal, Ça va très mal.','כלל זיכרון: "très" = מאוד. Ça va très bien חזק מ-Ça va bien, Ça va très mal חזק מ-Ça va mal.'],
 q:['כל שאלה כאן נענית במשפט שלם. אחרי התשובה אפשר להחזיר את השאלה: et toi ? = ואתה/ואת?','Je m’appelle = קוראים לי. J’habite à = אני גר/ה ב... J’étudie = אני לומד/ת.','Qui est-ce ? נענית ב-C’est ... = זה/זאת ... Tu parles français ? נענית ב-Oui, je parle... או Non, ...','Tu es professeur ? תשובה לדוגמה: Non, je suis élève (תלמיד/ה).'],
-n:['11 עד 16 נגמרים ב-ze: onze, douze, treize, quatorze, quinze, seize.','17, 18, 19 בנויים כמו עשר ועוד מספר: dix-sept, dix-huit, dix-neuf.','זכרו את הקבוצות: 0 עד 10 אחד אחד, 11 עד 16 בנפרד, 17 עד 19 עשר ועוד, 20 = vingt.','שימו לב לשני מספרים שדומים באנגלית ובעברית בצליל: six ו-dix נשמעות כמו "סיס" ו"דיס".']
+n:['11 עד 16 נגמרים ב-ze: onze, douze, treize, quatorze, quinze, seize.','17, 18, 19 בנויים כמו עשר ועוד מספר: dix-sept, dix-huit, dix-neuf.','זכרו את הקבוצות: 0 עד 10 אחד אחד, 11 עד 16 בנפרד, 17 עד 19 עשר ועוד, 20 = vingt.']
 };
 const PKEY='francais-progress-v1',IKEY='francais-install-hint-v1';
 const $=function(s){return document.querySelector(s)};const app=$('#app');
@@ -114,7 +114,7 @@ function streak(){let n=0;const d=new Date();for(;;){const k=d.toISOString().sli
 function level(){const x=P.xp||0;return x>=800?'מאסטר 🏆':x>=400?'מתקדם 🚀':x>=150?'לומד 📚':'מתחיל 🌱'}
 function examCard(){const t=new Date();const d0=new Date(t.getFullYear(),t.getMonth(),t.getDate()),d1=new Date(2026,10,26);const n=Math.round((d1-d0)/86400000);
  const when=n>0?'עוד '+(n===1?'יום אחד':n+' ימים'):n===0?'היום!':'';
- return'<div class="card" style="border-color:var(--pri)"><b>📅 הבוחן בצרפתית: יום חמישי, 26.11</b> '+(when?'<span class="chip">'+when+'</span>':'')+'<div class="small">לפי הודעת המורה סילבי (נשלחה ב-20.11): אוצר מילים ומספרים עד 20, בלי חלק בעל פה. כתיבה נכונה היא בונוס.</div></div>'}
+ return'<div class="card" style="border-color:var(--pri)"><b>📅 הבוחן בצרפתית: יום חמישי, 26.11</b> '+(when?'<span class="chip">'+when+'</span>':'')+'<div class="small">לפי הודעת המורה סילבי (נשלחה ב-20.11): אוצר מילים ומספרים עד 20: סידור משפט, התאמת שאלה לתשובה ותרגום. כתיבה נכונה היא בונוס.</div></div>'}
 function pct(t){return t.a?Math.round(100*t.c/t.a)+'%':'—'}
 function home(){
  trackMode('other','בית');
